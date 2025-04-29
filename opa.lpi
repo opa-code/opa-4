@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectOptions>
+    <Version Value="12"/>
+    <PathDelim Value="\"/>
+    <General>
+      <Flags>
+        <CompatibilityMode Value="True"/>
+      </Flags>
+      <SessionStorage Value="InProjectDir"/>
+      <Title Value="opa"/>
+      <Scaled Value="True"/>
+      <UseAppBundle Value="False"/>
+      <ResourceType Value="res"/>
+      <Icon Value="0"/>
+    </General>
+    <BuildModes Count="1">
+      <Item1 Name="Default" Default="True"/>
+    </BuildModes>
+    <PublishOptions>
+      <Version Value="2"/>
+      <DestinationDirectory Value="C:\Users\streun\Delphi\pub"/>
+    </PublishOptions>
+    <RunParams>
+      <FormatVersion Value="2"/>
+    </RunParams>
+    <RequiredPackages Count="1">
+      <Item1>
+        <PackageName Value="LCL"/>
+      </Item1>
+    </RequiredPackages>
+    <Units Count="38">
+      <Unit0>
+        <Filename Value="opa.lpr"/>
+        <IsPartOfProject Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="opamenu.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="MenuForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="EdElCreate.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="EdElSet.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="texteditor.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormTxtEdt"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="EdSgSet.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="EditSegSet"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="opticview.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="optic"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="OpticView"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="opticplot.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="OpticPlot"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="Opticstart.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="startsel"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="OpticEnvel.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="setEnvel"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="OpticMatchScan.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="OpticMatch.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="OpticWOMK.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="CHamLine.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="CHam"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="OPAChroma.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Chroma"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="chromlib.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ChromLib"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="OPAtrackP.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="trackp"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="tracklib.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="OPACurrents.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="OpticTune.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="OPAmomentum.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="momentum"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="OPAGeometry.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Geometry"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="OPAtune.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="tuneplot"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="OPAtrackT.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="trackT"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="OPAtrackDA.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="trackDA"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="OPAChromaSVector.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="ChromGUILib1.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="ChromGUILib2.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit27>
+      <Unit28>
+        <Filename Value="OPAorbit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Orbit"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit28>
+      <Unit29>
+        <Filename Value="..\com\asaux.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit29>
+      <Unit30>
+        <Filename Value="..\com\asfigure.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Figure"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+      </Unit30>
+      <Unit31>
+        <Filename Value="..\com\Vgraph.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit31>
+      <Unit32>
+        <Filename Value="opatest.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit32>
+      <Unit33>
+        <Filename Value="LGBeditorLib.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit33>
+      <Unit34>
+        <Filename Value="LGBeditor.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+      </Unit34>
+      <Unit35>
+        <Filename Value="Bucket.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="BucketView"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit35>
+      <Unit36>
+        <Filename Value="..\com\conrect.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit36>
+      <Unit37>
+        <Filename Value="opalatticefiles.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="OPALatticeFiles"/>
+      </Unit37>
+    </Units>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="11"/>
+    <PathDelim Value="\"/>
+    <SearchPaths>
+      <IncludeFiles Value="..\com;$(ProjOutDir)"/>
+      <OtherUnitFiles Value="..\com"/>
+      <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+    </SearchPaths>
+    <Parsing>
+      <SyntaxOptions>
+        <SyntaxMode Value="Delphi"/>
+      </SyntaxOptions>
+    </Parsing>
+    <Linking>
+      <Debugging>
+        <GenerateDebugInfo Value="False"/>
+        <DebugInfoType Value="dsDwarf2Set"/>
+      </Debugging>
+      <Options>
+        <Win32>
+          <GraphicApplication Value="True"/>
+        </Win32>
+      </Options>
+    </Linking>
+    <Other>
+      <CompilerMessages>
+        <IgnoredMessages idx5057="True"/>
+      </CompilerMessages>
+    </Other>
+  </CompilerOptions>
+</CONFIG>

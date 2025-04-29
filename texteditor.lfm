@@ -1,0 +1,115 @@
+object FormTxtEdt: TFormTxtEdt
+  Left = 1071
+  Height = 668
+  Top = 340
+  Width = 750
+  Caption = 'Text Editor'
+  ClientHeight = 668
+  ClientWidth = 750
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  LCLVersion = '2.2.0.4'
+  object EdtWin: TMemo
+    Left = 8
+    Height = 441
+    Top = 8
+    Width = 725
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clBlue
+    Font.Height = -15
+    Font.Name = 'Courier New'
+    Font.Pitch = fpFixed
+    Font.Quality = fqDraft
+    Lines.Strings = (
+      ''
+      ''
+      ''
+      ''
+      ''
+      ''
+      ''
+      ''
+      ''
+      ''
+      ''
+      ''
+      ''
+      ''
+      ''
+      ''
+      ''
+      ''
+      ''
+      ''
+      ''
+      ''
+      ''
+      ''
+      ''
+      ''
+    )
+    OnChange = disableOKBut
+    ParentFont = False
+    ScrollBars = ssVertical
+    TabOrder = 0
+  end
+  object ButChk: TButton
+    Left = 8
+    Height = 23
+    Top = 456
+    Width = 75
+    Caption = 'Test'
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    OnClick = filetest
+    ParentFont = False
+    TabOrder = 1
+  end
+  object ButOK: TButton
+    Left = 8
+    Height = 23
+    Top = 488
+    Width = 75
+    Caption = 'OK'
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    OnClick = fileGet
+    ParentFont = False
+    TabOrder = 2
+  end
+  object ButCnc: TButton
+    Left = 8
+    Height = 23
+    Top = 520
+    Width = 75
+    Caption = 'Cancel'
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    OnClick = fileRestore
+    ParentFont = False
+    TabOrder = 3
+  end
+  object myerrlog: TMemo
+    Left = 88
+    Height = 113
+    Top = 456
+    Width = 638
+    Font.Color = clMaroon
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Lines.Strings = (
+      ''
+    )
+    ParentFont = False
+    ScrollBars = ssVertical
+    TabOrder = 4
+  end
+end

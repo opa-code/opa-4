@@ -1,0 +1,910 @@
+object Orbit: TOrbit
+  Left = 896
+  Height = 695
+  Top = 229
+  Width = 806
+  Caption = 'Orbit'
+  ClientHeight = 695
+  ClientWidth = 806
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  OnClose = FormClose
+  OnPaint = FormPaint
+  OnResize = FormResize
+  LCLVersion = '2.2.0.4'
+  object LabCName: TLabel
+    Left = 16
+    Height = 1
+    Top = 560
+    Width = 1
+  end
+  inline plotox: TFigure
+    Left = 40
+    Top = 8
+    Width = 697
+    ClientWidth = 697
+    inherited p: TPaintBox
+      Width = 657
+      OnPaint = plotoxpPaint
+    end
+  end
+  inline plotoy: TFigure
+    Tag = 1
+    Left = 40
+    Top = 120
+    Width = 697
+    ClientWidth = 697
+    TabOrder = 1
+    inherited p: TPaintBox
+      Width = 657
+      OnPaint = plotoypPaint
+    end
+  end
+  object panbpm: TPanel
+    Left = 24
+    Height = 100
+    Top = 280
+    Width = 241
+    ClientHeight = 100
+    ClientWidth = 241
+    TabOrder = 2
+    object labx: TLabel
+      Left = 6
+      Height = 14
+      Top = 38
+      Width = 43
+      Caption = 'x  [mm]'
+    end
+    object labxp: TLabel
+      Left = 118
+      Height = 14
+      Top = 38
+      Width = 51
+      Caption = 'x'' [mrad]'
+    end
+    object laby: TLabel
+      Left = 6
+      Height = 14
+      Top = 62
+      Width = 43
+      Caption = 'y  [mm]'
+    end
+    object labyp: TLabel
+      Left = 118
+      Height = 14
+      Top = 62
+      Width = 51
+      Caption = 'y'' [mrad]'
+    end
+    object labbpm: TLabel
+      Left = 118
+      Height = 17
+      Top = 10
+      Width = 45
+      Caption = '(BPM)'
+      Color = clMenu
+      Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+      Transparent = False
+    end
+    object Edbpmx: TEdit
+      Left = 46
+      Height = 23
+      Top = 38
+      Width = 57
+      TabOrder = 0
+    end
+    object Edbpmxp: TEdit
+      Left = 166
+      Height = 23
+      Top = 38
+      Width = 57
+      TabOrder = 1
+    end
+    object Edbpmy: TEdit
+      Left = 46
+      Height = 23
+      Top = 62
+      Width = 57
+      TabOrder = 2
+    end
+    object Edbpmyp: TEdit
+      Left = 166
+      Height = 23
+      Top = 62
+      Width = 57
+      TabOrder = 3
+    end
+    object butbpmref: TButton
+      Left = 6
+      Height = 25
+      Top = 6
+      Width = 33
+      Caption = 'set'
+      Enabled = False
+      OnClick = butbpmrefClick
+      TabOrder = 4
+    end
+    object butbpmmode: TButton
+      Left = 46
+      Height = 25
+      Top = 6
+      Width = 57
+      Caption = 'actual'
+      OnClick = butbpmmodeClick
+      TabOrder = 5
+    end
+  end
+  object panmis: TPanel
+    Left = 192
+    Height = 161
+    Top = 480
+    Width = 465
+    BevelOuter = bvLowered
+    ClientHeight = 161
+    ClientWidth = 465
+    TabOrder = 3
+    object Label1: TLabel
+      Left = 4
+      Height = 14
+      Top = 30
+      Width = 11
+      Caption = 'X '
+    end
+    object Labdy: TLabel
+      Left = 4
+      Height = 14
+      Top = 62
+      Width = 7
+      Caption = 'Y'
+    end
+    object Labdt: TLabel
+      Left = 4
+      Height = 14
+      Top = 74
+      Width = 20
+      Caption = 'Roll'
+    end
+    object Labseed: TLabel
+      Left = 103
+      Height = 14
+      Top = 86
+      Width = 28
+      Caption = 'Seed'
+    end
+    object LabNcut: TLabel
+      Left = 82
+      Height = 20
+      Top = 124
+      Width = 11
+      Caption = 's'
+      Font.CharSet = SYMBOL_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -19
+      Font.Name = 'Symbol'
+      ParentFont = False
+    end
+    object laborbstat: TLabel
+      Left = 142
+      Height = 14
+      Top = 80
+      Width = 49
+      Caption = 'orb stat'
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object labcortitle: TLabel
+      Left = 6
+      Height = 14
+      Top = 0
+      Width = 114
+      Caption = 'misalign + correct'
+      Font.Color = clNavy
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object labmicron: TLabel
+      Left = 4
+      Height = 14
+      Top = 46
+      Width = 28
+      Caption = '[mic]'
+    end
+    object labmicrad: TLabel
+      Left = 4
+      Height = 14
+      Top = 86
+      Width = 39
+      Caption = '[micrd]'
+    end
+    object Label4: TLabel
+      Left = 38
+      Height = 14
+      Top = 14
+      Width = 102
+      Caption = 'Elem.  Girder  Joint'
+    end
+    object labgelatt: TLabel
+      Left = 4
+      Height = 14
+      Top = 105
+      Width = 64
+      Caption = 'El./Gird. [%]'
+    end
+    object EdEldx: TEdit
+      Left = 38
+      Height = 23
+      Top = 30
+      Width = 30
+      OnExit = EdElExit
+      OnKeyPress = EdElKeyPress
+      TabOrder = 0
+      Text = '0'
+    end
+    object EdEldy: TEdit
+      Left = 38
+      Height = 23
+      Top = 54
+      Width = 30
+      OnExit = EdElExit
+      OnKeyPress = EdElKeyPress
+      TabOrder = 1
+      Text = '0'
+    end
+    object EdEldT: TEdit
+      Left = 38
+      Height = 23
+      Top = 78
+      Width = 30
+      OnExit = EdElExit
+      OnKeyPress = EdElKeyPress
+      TabOrder = 2
+      Text = '0'
+    end
+    object EdSeed: TEdit
+      Left = 102
+      Height = 23
+      Top = 102
+      Width = 30
+      OnExit = EdElExit
+      OnKeyPress = EdElKeyPress
+      TabOrder = 3
+      Text = '0'
+    end
+    object butmis: TButton
+      Left = 142
+      Height = 17
+      Top = 6
+      Width = 49
+      Caption = 'Set!'
+      OnClick = butmisClick
+      TabOrder = 4
+    end
+    object Edncut: TEdit
+      Left = 102
+      Height = 23
+      Top = 126
+      Width = 30
+      OnExit = EdNcutExit
+      OnKeyPress = EdNcutKeyPress
+      TabOrder = 5
+      Text = '2'
+    end
+    object butzero: TButton
+      Left = 142
+      Height = 17
+      Top = 22
+      Width = 49
+      Caption = 'zero'
+      OnClick = butzeroClick
+      TabOrder = 6
+    end
+    object butcor: TButton
+      Left = 142
+      Height = 25
+      Top = 55
+      Width = 49
+      Caption = 'correct'
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      OnClick = butcorClick
+      ParentFont = False
+      TabOrder = 7
+    end
+    object butcorzero: TButton
+      Left = 142
+      Height = 17
+      Top = 118
+      Width = 49
+      Caption = 'Corr = 0'
+      OnClick = butcorzeroClick
+      TabOrder = 8
+    end
+    object butsetagain: TButton
+      Left = 142
+      Height = 17
+      Top = 38
+      Width = 49
+      Caption = 're-set'
+      OnClick = butsetagainClick
+      TabOrder = 9
+    end
+    object butbpmzero: TButton
+      Left = 142
+      Height = 17
+      Top = 134
+      Width = 49
+      Caption = 'BPM = 0'
+      OnClick = butbpmzeroClick
+      TabOrder = 10
+    end
+    inline plotw: TFigure
+      Left = 246
+      Height = 121
+      Top = 14
+      Width = 121
+      ClientHeight = 121
+      ClientWidth = 121
+      TabOrder = 11
+      inherited p: TPaintBox
+        OnPaint = plotwpPaint
+      end
+    end
+    object butocowplot: TButton
+      Left = 246
+      Height = 17
+      Top = 134
+      Width = 17
+      Caption = ' '
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      OnClick = butocowplotClick
+      ParentFont = False
+      TabOrder = 12
+    end
+    object sliderw: TScrollBar
+      Left = 270
+      Height = 15
+      Top = 134
+      Width = 129
+      PageSize = 0
+      TabOrder = 13
+      OnChange = sliderwChange
+    end
+    object EdGidx: TEdit
+      Left = 70
+      Height = 23
+      Top = 30
+      Width = 30
+      OnExit = EdElExit
+      OnKeyPress = EdElKeyPress
+      TabOrder = 14
+      Text = '0'
+    end
+    object EdGidy: TEdit
+      Left = 70
+      Height = 23
+      Top = 54
+      Width = 30
+      OnExit = EdElExit
+      OnKeyPress = EdElKeyPress
+      TabOrder = 15
+      Text = '0'
+    end
+    object EdGidt: TEdit
+      Left = 70
+      Height = 23
+      Top = 78
+      Width = 30
+      OnExit = EdElExit
+      OnKeyPress = EdElKeyPress
+      TabOrder = 16
+      Text = '0'
+    end
+    object EdJodx: TEdit
+      Left = 102
+      Height = 23
+      Top = 30
+      Width = 30
+      OnExit = EdElExit
+      OnKeyPress = EdElKeyPress
+      TabOrder = 17
+      Text = '0'
+    end
+    object EdJody: TEdit
+      Left = 102
+      Height = 23
+      Top = 54
+      Width = 30
+      OnExit = EdElExit
+      OnKeyPress = EdElKeyPress
+      TabOrder = 18
+      Text = '0'
+    end
+    object Edgelatt: TEdit
+      Left = 70
+      Height = 23
+      Top = 102
+      Width = 30
+      TabOrder = 19
+      Text = '100'
+    end
+    object ButMonAbs: TButton
+      Left = 4
+      Height = 20
+      Top = 126
+      Width = 63
+      Caption = 'include BPM'
+      OnClick = ButMonAbsClick
+      TabOrder = 20
+    end
+    object butloop: TButton
+      Left = 142
+      Height = 25
+      Top = 93
+      Width = 49
+      Caption = 'Loop'
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      OnClick = butloopClick
+      ParentFont = False
+      TabOrder = 21
+    end
+    object butcopy: TButton
+      Left = 30
+      Height = 33
+      Top = 38
+      Width = 9
+      Caption = '|'
+      OnClick = butcopyClick
+      TabOrder = 22
+    end
+    object butreadcor: TButton
+      Left = 118
+      Height = 17
+      Top = 6
+      Width = 17
+      Caption = 'R'
+      OnClick = butreadcorClick
+      TabOrder = 23
+    end
+  end
+  object panctr: TPanel
+    Left = 16
+    Height = 161
+    Top = 480
+    Width = 161
+    BevelOuter = bvLowered
+    ClientHeight = 161
+    ClientWidth = 161
+    TabOrder = 4
+    object LabLost: TLabel
+      Left = 62
+      Height = 14
+      Top = 38
+      Width = 70
+      Caption = 'Beam lost !'
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object LabPer: TLabel
+      Left = 62
+      Height = 14
+      Top = 22
+      Width = 51
+      Caption = 'Periodic'
+      Font.Color = clGreen
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object labtitctrl: TLabel
+      Left = 6
+      Height = 14
+      Top = 0
+      Width = 114
+      Caption = 'status + statistics'
+      Font.Color = clNavy
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object butsta: TButton
+      Left = 6
+      Height = 33
+      Top = 22
+      Width = 49
+      Caption = 'Start'
+      OnClick = butstaClick
+      TabOrder = 0
+    end
+    object chkSext: TCheckBox
+      Left = 6
+      Height = 21
+      Top = 54
+      Width = 174
+      Caption = 'include nonlinear elements'
+      OnClick = chkSextClick
+      TabOrder = 1
+    end
+    object panstat: TPanel
+      Left = 2
+      Height = 73
+      Top = 80
+      Width = 145
+      BevelOuter = bvNone
+      ClientHeight = 73
+      ClientWidth = 145
+      TabOrder = 2
+      object labstatx: TLabel
+        Left = 48
+        Height = 14
+        Top = 6
+        Width = 48
+        Caption = 'dX [mm]'
+      end
+      object labstaty: TLabel
+        Left = 98
+        Height = 14
+        Top = 6
+        Width = 47
+        Caption = 'dY [mm]'
+      end
+      object labmean: TLabel
+        Left = 6
+        Height = 14
+        Top = 26
+        Width = 32
+        Caption = 'mean'
+      end
+      object labrms: TLabel
+        Left = 6
+        Height = 14
+        Top = 40
+        Width = 21
+        Caption = 'rms'
+      end
+      object labmax: TLabel
+        Left = 6
+        Height = 14
+        Top = 54
+        Width = 25
+        Caption = 'max'
+      end
+      object labymax: TLabel
+        Left = 98
+        Height = 14
+        Top = 54
+        Width = 32
+        Caption = 'ymax'
+      end
+      object labxmax: TLabel
+        Left = 48
+        Height = 14
+        Top = 54
+        Width = 32
+        Caption = 'xmax'
+      end
+      object Labxrms: TLabel
+        Left = 48
+        Height = 14
+        Top = 40
+        Width = 28
+        Caption = 'xrms'
+      end
+      object labxmean: TLabel
+        Left = 48
+        Height = 14
+        Top = 26
+        Width = 39
+        Caption = 'xmean'
+      end
+      object labymean: TLabel
+        Left = 98
+        Height = 14
+        Top = 26
+        Width = 39
+        Caption = 'ymean'
+      end
+      object labyrms: TLabel
+        Left = 98
+        Height = 14
+        Top = 40
+        Width = 28
+        Caption = 'yrms'
+      end
+      object butcodstat: TButton
+        Left = 2
+        Height = 21
+        Top = 2
+        Width = 37
+        Caption = 'BPM'
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        OnClick = butcodstatClick
+        ParentFont = False
+        TabOrder = 0
+      end
+    end
+  end
+  object panplo: TPanel
+    Left = 680
+    Height = 105
+    Top = 480
+    Width = 113
+    BevelOuter = bvLowered
+    ClientHeight = 105
+    ClientWidth = 113
+    TabOrder = 5
+    object labplottitle: TLabel
+      Left = 6
+      Height = 14
+      Top = 0
+      Width = 33
+      Caption = 'show'
+      Font.Color = clNavy
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object ButplotOC: TButton
+      Left = 6
+      Height = 25
+      Top = 22
+      Width = 81
+      Caption = 'Orbit+BPMs'
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      OnClick = ButplotOCClick
+      ParentFont = False
+      TabOrder = 0
+    end
+    object chkKeepMax: TCheckBox
+      Left = 6
+      Height = 21
+      Top = 54
+      Width = 81
+      Caption = 'keep max.'
+      OnClick = chkKeepMaxClick
+      TabOrder = 1
+    end
+    object ButPrint: TButton
+      Left = 6
+      Height = 19
+      Top = 83
+      Width = 34
+      Caption = '->txt'
+      OnClick = ButPrintClick
+      TabOrder = 2
+    end
+    object butps: TButton
+      Left = 52
+      Height = 19
+      Top = 83
+      Width = 34
+      Caption = '-> PS'
+      OnClick = butpsClick
+      TabOrder = 3
+    end
+  end
+  object butex: TButton
+    Left = 680
+    Height = 25
+    Top = 600
+    Width = 97
+    Caption = 'Exit'
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    OnClick = butexClick
+    ParentFont = False
+    TabOrder = 6
+  end
+  object panzoo: TPanel
+    Left = 272
+    Height = 100
+    Top = 280
+    Width = 57
+    ClientHeight = 100
+    ClientWidth = 57
+    TabOrder = 7
+    object butzoi: TButton
+      Tag = 1
+      Left = 8
+      Height = 19
+      Top = 6
+      Width = 37
+      Caption = '<->'
+      Font.CharSet = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Pitch = fpFixed
+      Font.Quality = fqDraft
+      Font.Style = [fsBold]
+      OnClick = butzooClick
+      ParentFont = False
+      TabOrder = 0
+    end
+    object butzot: TButton
+      Tag = 2
+      Left = 8
+      Height = 19
+      Top = 30
+      Width = 37
+      Caption = '>-<'
+      Font.CharSet = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Pitch = fpFixed
+      Font.Quality = fqDraft
+      Font.Style = [fsBold]
+      OnClick = butzooClick
+      ParentFont = False
+      TabOrder = 1
+    end
+    object butzor: TButton
+      Tag = 3
+      Left = 8
+      Height = 19
+      Top = 54
+      Width = 37
+      Caption = '-->'
+      Font.CharSet = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Pitch = fpFixed
+      Font.Quality = fqDraft
+      Font.Style = [fsBold]
+      OnClick = butzooClick
+      ParentFont = False
+      TabOrder = 2
+    end
+    object butzol: TButton
+      Tag = 4
+      Left = 9
+      Height = 19
+      Top = 78
+      Width = 37
+      Caption = '<--'
+      Font.CharSet = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Pitch = fpFixed
+      Font.Quality = fqDraft
+      Font.Style = [fsBold]
+      OnClick = butzooClick
+      ParentFont = False
+      TabOrder = 3
+    end
+  end
+  object pankick: TPanel
+    Left = 336
+    Height = 124
+    Top = 256
+    Width = 353
+    BevelOuter = bvLowered
+    ClientHeight = 124
+    ClientWidth = 353
+    TabOrder = 8
+    Visible = False
+    object Label5: TLabel
+      Left = 5
+      Height = 17
+      Top = 5
+      Width = 117
+      Caption = 'pulsed magnets'
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label6: TLabel
+      Left = 22
+      Height = 17
+      Top = 50
+      Width = 34
+      Caption = 'Turns'
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      ParentFont = False
+    end
+    object butkick: TButton
+      Left = 6
+      Height = 25
+      Top = 24
+      Width = 43
+      Caption = 'OFF'
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      OnClick = butkickClick
+      ParentFont = False
+      TabOrder = 0
+    end
+    object Edkickturns: TEdit
+      Left = 24
+      Height = 23
+      Top = 68
+      Width = 25
+      Enabled = False
+      OnExit = EdkickturnsExit
+      OnKeyPress = EdkickturnsKeyPress
+      TabOrder = 1
+      Text = 'Edkickturns'
+    end
+    object butkicktp: TButton
+      Left = 3
+      Height = 16
+      Top = 78
+      Width = 16
+      Caption = '+'
+      Enabled = False
+      Font.CharSet = SYMBOL_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'SymbolMono BT'
+      OnClick = butkicktpClick
+      ParentFont = False
+      TabOrder = 2
+    end
+    object butkicktm: TButton
+      Left = 3
+      Height = 16
+      Top = 62
+      Width = 16
+      Caption = '-'
+      Enabled = False
+      Font.CharSet = SYMBOL_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'SymbolMono BT'
+      OnClick = butkicktmClick
+      ParentFont = False
+      TabOrder = 3
+    end
+    object ButSync: TButton
+      Left = 55
+      Height = 21
+      Top = 26
+      Width = 48
+      Caption = 'Sync'
+      Enabled = False
+      OnClick = ButSyncClick
+      TabOrder = 4
+    end
+  end
+end

@@ -1,0 +1,152 @@
+object EditSegSet: TEditSegSet
+  Left = 1197
+  Height = 336
+  Top = 150
+  Width = 546
+  Caption = 'Segment Editor'
+  ClientHeight = 336
+  ClientWidth = 546
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Position = poDesktopCenter
+  LCLVersion = '2.2.0.4'
+  object LabMod: TLabel
+    Left = 8
+    Height = 25
+    Top = 8
+    Width = 190
+    Caption = 'Modify Segment   '
+    Font.Color = clWindowText
+    Font.Height = -21
+    Font.Name = 'MS Sans Serif'
+    ParentFont = False
+  end
+  object LabPer: TLabel
+    Left = 16
+    Height = 19
+    Top = 304
+    Width = 82
+    Caption = 'Periodicity'
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'MS Sans Serif'
+    ParentFont = False
+  end
+  object grid: TStringGrid
+    Left = 8
+    Height = 249
+    Top = 48
+    Width = 521
+    ColCount = 6
+    DefaultColWidth = 80
+    FixedCols = 0
+    FixedRows = 0
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Courier New'
+    Font.Style = [fsBold]
+    GridLineWidth = 3
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goDrawFocusSelected, goEditing]
+    ParentFont = False
+    ScrollBars = ssVertical
+    TabOrder = 0
+    OnDrawCell = drawCell
+    OnKeyDown = gridKeyDown
+  end
+  object butok: TButton
+    Left = 280
+    Height = 25
+    Top = 7
+    Width = 57
+    Caption = 'update'
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    OnClick = butokClick
+    ParentFont = False
+    TabOrder = 1
+  end
+  object ButCan: TButton
+    Left = 472
+    Height = 25
+    Top = 8
+    Width = 57
+    Caption = 'cancel'
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    OnClick = ButCanClick
+    ParentFont = False
+    TabOrder = 2
+  end
+  object EditSegName: TEdit
+    Left = 152
+    Height = 28
+    Top = 8
+    Width = 121
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clBlue
+    Font.Height = -16
+    Font.Name = 'Courier New'
+    OnChange = EditSegNameChange
+    OnKeyPress = EditSegNameKeyPress
+    ParentFont = False
+    TabOrder = 3
+  end
+  object butcre: TButton
+    Left = 344
+    Height = 25
+    Top = 8
+    Width = 57
+    Caption = 'create'
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    OnClick = butcreClick
+    ParentFont = False
+    TabOrder = 4
+  end
+  object butdel: TButton
+    Left = 408
+    Height = 25
+    Top = 8
+    Width = 57
+    Caption = 'delete'
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    OnClick = butdelClick
+    ParentFont = False
+    TabOrder = 5
+  end
+  object edper: TEdit
+    Left = 104
+    Height = 25
+    Top = 304
+    Width = 41
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Courier New'
+    Font.Style = [fsBold]
+    OnExit = edperExit
+    OnKeyPress = edperKeyPress
+    ParentFont = False
+    TabOrder = 6
+    Text = '1'
+  end
+  object lab_hint: TLabel
+    Left = 202
+    Height = 14
+    Top = 304
+    Width = 315
+    Caption = 'use CTRL + DELETE / INSERT to delete or insert elements'
+  end
+end

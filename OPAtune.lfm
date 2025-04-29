@@ -1,0 +1,207 @@
+object tuneplot: Ttuneplot
+  Left = 1043
+  Height = 314
+  Top = 270
+  Width = 297
+  Caption = 'Tune Diagram'
+  ClientHeight = 314
+  ClientWidth = 297
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnPaint = FormPaint
+  OnResize = FormResize
+  LCLVersion = '2.2.0.4'
+  object LabOrd: TLabel
+    Left = 8
+    Height = 14
+    Top = 8
+    Width = 32
+    Caption = 'Order'
+  end
+  object Lab1: TLabel
+    Left = 0
+    Height = 15
+    Top = 24
+    Width = 16
+    Caption = ' 1'
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Courier New'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object LabPer: TLabel
+    Left = 224
+    Height = 14
+    Top = 0
+    Width = 27
+    Caption = 'Per='
+  end
+  inline diag: TFigure
+    Left = 17
+    Height = 233
+    Top = 24
+    Width = 256
+    ClientHeight = 233
+    ClientWidth = 256
+    inherited p: TPaintBox
+      OnPaint = diagpPaint
+    end
+  end
+  object butmore: TButton
+    Left = 48
+    Height = 17
+    Top = 8
+    Width = 25
+    Caption = '+'
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Courier New'
+    Font.Style = [fsBold]
+    OnClick = butmoreClick
+    ParentFont = False
+    TabOrder = 1
+  end
+  object ButLess: TButton
+    Left = 80
+    Height = 17
+    Top = 8
+    Width = 25
+    Caption = '-'
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Courier New'
+    Font.Style = [fsBold]
+    OnClick = ButLessClick
+    ParentFont = False
+    TabOrder = 2
+  end
+  object ChkNsys: TCheckBox
+    Left = 112
+    Height = 21
+    Top = 8
+    Width = 49
+    Caption = 'nsys'
+    OnClick = ChkNsysClick
+    TabOrder = 3
+  end
+  object ChkSkew: TCheckBox
+    Left = 160
+    Height = 21
+    Top = 8
+    Width = 51
+    Caption = 'skew'
+    OnClick = ChkSkewClick
+    TabOrder = 4
+  end
+  object ButZin: TButton
+    Left = 24
+    Height = 17
+    Top = 264
+    Width = 33
+    Caption = '<->'
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Courier New'
+    Font.Style = [fsBold]
+    OnClick = ButZinClick
+    ParentFont = False
+    TabOrder = 5
+  end
+  object ButZot: TButton
+    Left = 64
+    Height = 17
+    Top = 264
+    Width = 33
+    Caption = '>-<'
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Courier New'
+    Font.Style = [fsBold]
+    OnClick = ButZotClick
+    ParentFont = False
+    TabOrder = 6
+  end
+  object Buteps: TButton
+    Left = 224
+    Height = 17
+    Top = 264
+    Width = 49
+    Caption = 'EPS'
+    OnClick = ButepsClick
+    TabOrder = 7
+  end
+  object butshl: TButton
+    Left = 104
+    Height = 17
+    Top = 264
+    Width = 17
+    Caption = '<'
+    OnClick = butshlClick
+    TabOrder = 8
+  end
+  object Butshr: TButton
+    Left = 128
+    Height = 17
+    Top = 264
+    Width = 17
+    Caption = '>'
+    OnClick = ButshrClick
+    TabOrder = 9
+  end
+  object Butshu: TButton
+    Left = 152
+    Height = 17
+    Top = 264
+    Width = 17
+    Caption = 'L'
+    Font.CharSet = SYMBOL_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Symbol'
+    OnClick = ButshuClick
+    ParentFont = False
+    TabOrder = 10
+  end
+  object butshd: TButton
+    Left = 176
+    Height = 17
+    Top = 264
+    Width = 17
+    Caption = 'V'
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Times New Roman'
+    OnClick = butshdClick
+    ParentFont = False
+    TabOrder = 11
+  end
+  object butcen: TButton
+    Left = 200
+    Height = 17
+    Top = 264
+    Width = 17
+    Caption = 'O'
+    OnClick = butcenClick
+    TabOrder = 12
+  end
+  object edper: TEdit
+    Left = 248
+    Height = 23
+    Top = 0
+    Width = 25
+    OnKeyPress = edperKeyPress
+    TabOrder = 13
+    Text = 'edper'
+  end
+end

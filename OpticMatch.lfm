@@ -1,0 +1,1407 @@
+object Match: TMatch
+  Left = 785
+  Height = 730
+  Top = 191
+  Width = 1117
+  Caption = 'Match'
+  ClientHeight = 730
+  ClientWidth = 1117
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -16
+  Font.Name = 'MS Sans Serif'
+  OnPaint = FormPaint
+  LCLVersion = '2.0.6.0'
+  object Label1: TLabel
+    Left = 8
+    Height = 20
+    Top = 16
+    Width = 110
+    Caption = 'Starting point'
+    Font.Color = clNavy
+    Font.Height = -16
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label2: TLabel
+    Left = 8
+    Height = 20
+    Top = 56
+    Width = 120
+    Caption = 'Matching Point'
+    Font.Color = clNavy
+    Font.Height = -16
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label3: TLabel
+    Left = 8
+    Height = 20
+    Top = 416
+    Width = 103
+    Caption = 'Intermediate'
+    Font.Color = clNavy
+    Font.Height = -16
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label4: TLabel
+    Left = 8
+    Height = 20
+    Top = 304
+    Width = 72
+    Caption = 'Integrals'
+    Font.Color = clNavy
+    Font.Height = -16
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object slabini: TLabel
+    Left = 288
+    Height = 20
+    Top = 16
+    Width = 44
+    Caption = 'slabini'
+    ParentColor = False
+  end
+  object slabmat: TLabel
+    Left = 288
+    Height = 20
+    Top = 56
+    Width = 56
+    Caption = 'slabmat'
+    ParentColor = False
+  end
+  object slabmid: TLabel
+    Left = 288
+    Height = 20
+    Top = 416
+    Width = 54
+    Caption = 'slabmid'
+    Font.Color = clBlack
+    Font.Height = -16
+    Font.Name = 'MS Sans Serif'
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label8: TLabel
+    Left = 600
+    Height = 16
+    Top = 16
+    Width = 71
+    Caption = 'Fraction [%]'
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label9: TLabel
+    Left = 440
+    Height = 16
+    Top = 16
+    Width = 85
+    Caption = 'max. Iterations'
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    ParentColor = False
+    ParentFont = False
+  end
+  object labprec: TLabel
+    Left = 440
+    Height = 16
+    Top = 48
+    Width = 86
+    Caption = 'Precision  = 10'
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label10: TLabel
+    Left = 528
+    Height = 16
+    Top = 40
+    Width = 4
+    Caption = '-'
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    ParentColor = False
+    ParentFont = False
+  end
+  object inipoint: TComboBox
+    Left = 136
+    Height = 28
+    Top = 8
+    Width = 145
+    ItemHeight = 20
+    Items.Strings = (
+      'initial'
+      'final'
+      'periodic'
+      '[symmetric]'
+    )
+    OnChange = inipointChange
+    TabOrder = 29
+    Text = 'inipoint'
+  end
+  object matpoint: TComboBox
+    Left = 136
+    Height = 28
+    Top = 48
+    Width = 145
+    ItemHeight = 20
+    Items.Strings = (
+      'initial'
+      'final'
+    )
+    OnChange = matpointChange
+    TabOrder = 1
+    Text = 'matpoint'
+  end
+  object midpoint: TComboBox
+    Left = 136
+    Height = 24
+    Top = 416
+    Width = 145
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    ItemHeight = 16
+    Items.Strings = (
+      '-- none --'
+    )
+    OnChange = midpointChange
+    ParentFont = False
+    TabOrder = 10
+    Text = 'midpoint'
+  end
+  object csel_1: TCheckBox
+    Tag = 1
+    Left = 8
+    Height = 20
+    Top = 96
+    Width = 59
+    Caption = 'Beta X'
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    OnClick = cselClick
+    ParentFont = False
+    TabOrder = 2
+  end
+  object csel_2: TCheckBox
+    Tag = 2
+    Left = 8
+    Height = 20
+    Top = 120
+    Width = 66
+    Caption = 'Alpha X'
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    OnClick = cselClick
+    ParentFont = False
+    TabOrder = 3
+  end
+  object csel_3: TCheckBox
+    Tag = 3
+    Left = 8
+    Height = 20
+    Top = 144
+    Width = 60
+    Caption = 'Beta Y'
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    OnClick = cselClick
+    ParentFont = False
+    TabOrder = 4
+  end
+  object csel_4: TCheckBox
+    Tag = 4
+    Left = 8
+    Height = 20
+    Top = 168
+    Width = 67
+    Caption = 'Alpha Y'
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    OnClick = cselClick
+    ParentFont = False
+    TabOrder = 5
+  end
+  object csel_5: TCheckBox
+    Tag = 5
+    Left = 8
+    Height = 20
+    Top = 192
+    Width = 85
+    Caption = 'Dispersion'
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    OnClick = cselClick
+    ParentFont = False
+    TabOrder = 6
+  end
+  object csel_6: TCheckBox
+    Tag = 6
+    Left = 8
+    Height = 20
+    Top = 216
+    Width = 87
+    Caption = 'd Disp. / ds'
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    OnClick = cselClick
+    ParentFont = False
+    TabOrder = 7
+  end
+  object csel_11: TCheckBox
+    Tag = 11
+    Left = 8
+    Height = 20
+    Top = 457
+    Width = 84
+    Caption = 'mid Beta X'
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    OnClick = cselClick
+    ParentFont = False
+    TabOrder = 11
+    Visible = False
+  end
+  object csel_12: TCheckBox
+    Tag = 12
+    Left = 8
+    Height = 20
+    Top = 488
+    Width = 91
+    Caption = 'mid Alpha X'
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    OnClick = cselClick
+    ParentFont = False
+    TabOrder = 12
+    Visible = False
+  end
+  object csel_13: TCheckBox
+    Tag = 13
+    Left = 8
+    Height = 20
+    Top = 512
+    Width = 85
+    Caption = 'mid Beta Y'
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    OnClick = cselClick
+    ParentFont = False
+    TabOrder = 13
+    Visible = False
+  end
+  object csel_14: TCheckBox
+    Tag = 14
+    Left = 8
+    Height = 20
+    Top = 536
+    Width = 92
+    Caption = 'mid Alpha Y'
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    OnClick = cselClick
+    ParentFont = False
+    TabOrder = 14
+    Visible = False
+  end
+  object csel_15: TCheckBox
+    Tag = 15
+    Left = 8
+    Height = 20
+    Top = 560
+    Width = 110
+    Caption = 'mid Dispersion'
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    OnClick = cselClick
+    ParentFont = False
+    TabOrder = 15
+    Visible = False
+  end
+  object csel_16: TCheckBox
+    Tag = 16
+    Left = 8
+    Height = 20
+    Top = 584
+    Width = 112
+    Caption = 'mid d Disp. / ds'
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    OnClick = cselClick
+    ParentFont = False
+    TabOrder = 16
+    Visible = False
+  end
+  object panvalacm: TPanel
+    Left = 136
+    Height = 225
+    Top = 88
+    Width = 129
+    BevelOuter = bvLowered
+    BevelWidth = 2
+    ClientHeight = 225
+    ClientWidth = 129
+    Color = clLime
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'Courier New'
+    ParentColor = False
+    ParentFont = False
+    TabOrder = 21
+    object lab_1: TLabel
+      Left = 6
+      Height = 16
+      Top = 6
+      Width = 40
+      Caption = 'lab_1'
+      Color = clWhite
+      ParentColor = False
+      Transparent = False
+    end
+    object lab_2: TLabel
+      Left = 6
+      Height = 16
+      Top = 30
+      Width = 40
+      Caption = 'lab_2'
+      Color = clWhite
+      ParentColor = False
+      Transparent = False
+    end
+    object lab_3: TLabel
+      Left = 6
+      Height = 16
+      Top = 54
+      Width = 40
+      Caption = 'lab_3'
+      Color = clWhite
+      ParentColor = False
+      Transparent = False
+    end
+    object lab_4: TLabel
+      Left = 6
+      Height = 16
+      Top = 78
+      Width = 40
+      Caption = 'lab_4'
+      Color = clWhite
+      ParentColor = False
+      Transparent = False
+    end
+    object lab_5: TLabel
+      Left = 6
+      Height = 16
+      Top = 102
+      Width = 40
+      Caption = 'lab_5'
+      Color = clWhite
+      ParentColor = False
+      Transparent = False
+    end
+    object lab_6: TLabel
+      Left = 6
+      Height = 16
+      Top = 126
+      Width = 40
+      Caption = 'lab_6'
+      Color = clWhite
+      ParentColor = False
+      Transparent = False
+    end
+    object Label5: TLabel
+      Left = 6
+      Height = 13
+      Top = 206
+      Width = 83
+      Caption = 'Current values'
+      Font.Color = clWhite
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+    end
+    object lab_7: TLabel
+      Left = 6
+      Height = 16
+      Top = 150
+      Width = 40
+      Caption = 'lab_7'
+      Color = clWhite
+      ParentColor = False
+      Transparent = False
+    end
+    object lab_8: TLabel
+      Left = 6
+      Height = 16
+      Top = 174
+      Width = 40
+      Caption = 'lab_8'
+      Color = clWhite
+      ParentColor = False
+      Transparent = False
+    end
+  end
+  object panvaltgm: TPanel
+    Left = 272
+    Height = 225
+    Top = 88
+    Width = 129
+    BevelOuter = bvLowered
+    BevelWidth = 2
+    ClientHeight = 225
+    ClientWidth = 129
+    Color = clRed
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clNavy
+    Font.Height = -13
+    Font.Name = 'Courier New'
+    ParentColor = False
+    ParentFont = False
+    TabOrder = 17
+    object Label6: TLabel
+      Left = 6
+      Height = 13
+      Top = 206
+      Width = 79
+      Caption = 'Target values'
+      Font.Color = clWhite
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+    end
+    object ed_1: TEdit
+      Left = 6
+      Height = 24
+      Top = 6
+      Width = 113
+      Enabled = False
+      OnExit = edExit
+      OnKeyPress = edKeyPress
+      TabOrder = 0
+      Text = 'ed_1'
+      Visible = False
+    end
+    object ed_2: TEdit
+      Left = 6
+      Height = 24
+      Top = 30
+      Width = 113
+      Enabled = False
+      OnExit = edExit
+      OnKeyPress = edKeyPress
+      TabOrder = 1
+      Text = 'ed_2'
+      Visible = False
+    end
+    object ed_3: TEdit
+      Left = 6
+      Height = 24
+      Top = 54
+      Width = 113
+      Enabled = False
+      OnExit = edExit
+      OnKeyPress = edKeyPress
+      TabOrder = 2
+      Text = 'ed_3'
+      Visible = False
+    end
+    object ed_4: TEdit
+      Left = 6
+      Height = 24
+      Top = 78
+      Width = 113
+      Enabled = False
+      OnExit = edExit
+      OnKeyPress = edKeyPress
+      TabOrder = 3
+      Text = 'ed_4'
+      Visible = False
+    end
+    object ed_5: TEdit
+      Left = 6
+      Height = 24
+      Top = 102
+      Width = 113
+      Enabled = False
+      OnExit = edExit
+      OnKeyPress = edKeyPress
+      TabOrder = 4
+      Text = 'ed_5'
+      Visible = False
+    end
+    object ed_6: TEdit
+      Left = 6
+      Height = 24
+      Top = 126
+      Width = 113
+      Enabled = False
+      OnExit = edExit
+      OnKeyPress = edKeyPress
+      TabOrder = 5
+      Text = 'ed_6'
+      Visible = False
+    end
+    object ed_7: TEdit
+      Left = 6
+      Height = 24
+      Top = 150
+      Width = 113
+      Enabled = False
+      OnExit = edExit
+      OnKeyPress = edKeyPress
+      TabOrder = 6
+      Text = 'ed_7'
+      Visible = False
+    end
+    object ed_8: TEdit
+      Left = 6
+      Height = 24
+      Top = 174
+      Width = 113
+      Enabled = False
+      OnExit = edExit
+      OnKeyPress = edKeyPress
+      TabOrder = 7
+      Text = 'ed_8'
+      Visible = False
+    end
+  end
+  object panvalaci: TPanel
+    Left = 136
+    Height = 217
+    Top = 456
+    Width = 129
+    BevelOuter = bvLowered
+    BevelWidth = 2
+    ClientHeight = 217
+    ClientWidth = 129
+    Color = clLime
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'Courier New'
+    ParentColor = False
+    ParentFont = False
+    TabOrder = 20
+    Visible = False
+    object lab_11: TLabel
+      Left = 6
+      Height = 16
+      Top = 6
+      Width = 48
+      Caption = 'lab_11'
+      Color = clWhite
+      ParentColor = False
+      Transparent = False
+    end
+    object lab_12: TLabel
+      Left = 6
+      Height = 16
+      Top = 30
+      Width = 48
+      Caption = 'lab_12'
+      Color = clWhite
+      ParentColor = False
+      Transparent = False
+    end
+    object lab_13: TLabel
+      Left = 6
+      Height = 16
+      Top = 54
+      Width = 48
+      Caption = 'lab_13'
+      Color = clWhite
+      ParentColor = False
+      Transparent = False
+    end
+    object lab_14: TLabel
+      Left = 6
+      Height = 16
+      Top = 78
+      Width = 48
+      Caption = 'lab_14'
+      Color = clWhite
+      ParentColor = False
+      Transparent = False
+    end
+    object lab_15: TLabel
+      Left = 6
+      Height = 16
+      Top = 102
+      Width = 48
+      Caption = 'lab_15'
+      Color = clWhite
+      ParentColor = False
+      Transparent = False
+    end
+    object lab_16: TLabel
+      Left = 6
+      Height = 16
+      Top = 126
+      Width = 48
+      Caption = 'lab_16'
+      Color = clWhite
+      ParentColor = False
+      Transparent = False
+    end
+    object lab_17: TLabel
+      Left = 6
+      Height = 16
+      Top = 150
+      Width = 48
+      Caption = 'lab_17'
+      Color = clWhite
+      ParentColor = False
+      Transparent = False
+    end
+    object lab_18: TLabel
+      Left = 6
+      Height = 16
+      Top = 174
+      Width = 48
+      Caption = 'lab_18'
+      Color = clWhite
+      ParentColor = False
+      Transparent = False
+    end
+  end
+  object panvaltgi: TPanel
+    Left = 272
+    Height = 217
+    Top = 456
+    Width = 129
+    BevelOuter = bvLowered
+    BevelWidth = 2
+    ClientHeight = 217
+    ClientWidth = 129
+    Color = clRed
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clNavy
+    Font.Height = -13
+    Font.Name = 'Courier New'
+    ParentColor = False
+    ParentFont = False
+    TabOrder = 19
+    Visible = False
+    object ed_11: TEdit
+      Left = 6
+      Height = 24
+      Top = 6
+      Width = 113
+      Enabled = False
+      OnExit = edExit
+      OnKeyPress = edKeyPress
+      TabOrder = 0
+      Text = 'ed_11'
+      Visible = False
+    end
+    object ed_12: TEdit
+      Left = 6
+      Height = 24
+      Top = 30
+      Width = 113
+      Enabled = False
+      OnExit = edExit
+      OnKeyPress = edKeyPress
+      TabOrder = 1
+      Text = 'ed_12'
+      Visible = False
+    end
+    object ed_13: TEdit
+      Left = 6
+      Height = 24
+      Top = 54
+      Width = 113
+      Enabled = False
+      OnExit = edExit
+      OnKeyPress = edKeyPress
+      TabOrder = 2
+      Text = 'ed_13'
+      Visible = False
+    end
+    object ed_14: TEdit
+      Left = 6
+      Height = 24
+      Top = 78
+      Width = 113
+      Enabled = False
+      OnExit = edExit
+      OnKeyPress = edKeyPress
+      TabOrder = 3
+      Text = 'ed_14'
+      Visible = False
+    end
+    object ed_15: TEdit
+      Left = 6
+      Height = 24
+      Top = 102
+      Width = 113
+      Enabled = False
+      OnExit = edExit
+      OnKeyPress = edKeyPress
+      TabOrder = 4
+      Text = 'ed_15'
+      Visible = False
+    end
+    object ed_16: TEdit
+      Left = 6
+      Height = 24
+      Top = 126
+      Width = 113
+      Enabled = False
+      OnExit = edExit
+      OnKeyPress = edKeyPress
+      TabOrder = 5
+      Text = 'ed_16'
+      Visible = False
+    end
+    object ed_17: TEdit
+      Left = 6
+      Height = 24
+      Top = 150
+      Width = 113
+      Enabled = False
+      OnExit = edExit
+      OnKeyPress = edKeyPress
+      TabOrder = 6
+      Text = 'ed_17'
+      Visible = False
+    end
+    object ed_18: TEdit
+      Left = 6
+      Height = 24
+      Top = 174
+      Width = 113
+      Enabled = False
+      OnExit = edExit
+      OnKeyPress = edKeyPress
+      TabOrder = 7
+      Text = 'ed_18'
+      Visible = False
+    end
+  end
+  object csel_9: TCheckBox
+    Tag = 9
+    Left = 8
+    Height = 20
+    Top = 336
+    Width = 62
+    Caption = 'Tune X'
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    OnClick = cselClick
+    ParentFont = False
+    TabOrder = 8
+  end
+  object csel_10: TCheckBox
+    Tag = 10
+    Left = 8
+    Height = 20
+    Top = 360
+    Width = 63
+    Caption = 'Tune Y'
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    OnClick = cselClick
+    ParentFont = False
+    ParentBidiMode = False
+    TabOrder = 9
+  end
+  object pantuac: TPanel
+    Left = 136
+    Height = 73
+    Top = 328
+    Width = 129
+    BevelOuter = bvLowered
+    BevelWidth = 2
+    ClientHeight = 73
+    ClientWidth = 129
+    Color = clLime
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'Courier New'
+    ParentColor = False
+    ParentFont = False
+    TabOrder = 22
+    object lab_9: TLabel
+      Left = 6
+      Height = 16
+      Top = 6
+      Width = 40
+      Caption = 'lab_9'
+      Color = clWhite
+      ParentColor = False
+      Transparent = False
+    end
+    object lab_10: TLabel
+      Left = 6
+      Height = 16
+      Top = 30
+      Width = 48
+      Caption = 'lab_10'
+      Color = clWhite
+      ParentColor = False
+      Transparent = False
+    end
+  end
+  object pantutg: TPanel
+    Left = 272
+    Height = 73
+    Top = 328
+    Width = 129
+    BevelOuter = bvLowered
+    BevelWidth = 2
+    ClientHeight = 73
+    ClientWidth = 129
+    Color = clRed
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clNavy
+    Font.Height = -13
+    Font.Name = 'Courier New'
+    ParentColor = False
+    ParentFont = False
+    TabOrder = 18
+    object ed_9: TEdit
+      Left = 6
+      Height = 24
+      Top = 6
+      Width = 113
+      Enabled = False
+      OnExit = edExit
+      OnKeyPress = edKeyPress
+      TabOrder = 0
+      Text = 'ed_9'
+      Visible = False
+    end
+    object ed_10: TEdit
+      Left = 6
+      Height = 24
+      Top = 30
+      Width = 113
+      Enabled = False
+      OnExit = edExit
+      OnKeyPress = edKeyPress
+      TabOrder = 1
+      Text = 'ed_10'
+      Visible = False
+    end
+  end
+  object gobut: TButton
+    Left = 592
+    Height = 25
+    Top = 640
+    Width = 64
+    Caption = 'Go!'
+    Enabled = False
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    OnClick = gobutClick
+    ParentFont = False
+    TabOrder = 25
+  end
+  object canbut: TButton
+    Left = 512
+    Height = 25
+    Top = 640
+    Width = 64
+    Caption = 'Cancel'
+    OnClick = canbutClick
+    TabOrder = 26
+  end
+  object edfrac: TEdit
+    Left = 688
+    Height = 24
+    Top = 8
+    Width = 57
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Courier New'
+    OnExit = edfracExit
+    OnKeyPress = edfracKeyPress
+    ParentFont = False
+    TabOrder = 24
+    Text = 'edfrac'
+  end
+  object edsteps: TEdit
+    Left = 536
+    Height = 24
+    Top = 8
+    Width = 49
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Courier New'
+    OnExit = edstepsExit
+    OnKeyPress = edstepsKeyPress
+    ParentFont = False
+    TabOrder = 23
+    Text = 'edsteps'
+  end
+  object panknobs: TPanel
+    Left = 408
+    Height = 529
+    Top = 88
+    Width = 689
+    BevelOuter = bvLowered
+    BevelWidth = 2
+    ClientHeight = 529
+    ClientWidth = 689
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    ParentFont = False
+    TabOrder = 27
+    object Label7: TLabel
+      Left = 14
+      Height = 20
+      Top = 6
+      Width = 231
+      Caption = 'Knobs available for matching'
+      Font.Color = clNavy
+      Font.Height = -16
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+    end
+    object cbxIncBends: TCheckBox
+      Left = 270
+      Height = 19
+      Top = 6
+      Width = 71
+      Caption = 'incl. bends'
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      OnClick = cbxIncBendsClick
+      ParentFont = False
+      TabOrder = 0
+    end
+  end
+  object edprec: TEdit
+    Left = 536
+    Height = 24
+    Top = 40
+    Width = 33
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Courier New'
+    OnExit = edprecExit
+    OnKeyPress = edprecKeyPress
+    ParentFont = False
+    TabOrder = 28
+    Text = 'edprec'
+  end
+  object panmat: TPanel
+    Left = 408
+    Height = 529
+    Top = 88
+    Width = 689
+    BevelOuter = bvLowered
+    BevelWidth = 2
+    ClientHeight = 529
+    ClientWidth = 689
+    Color = clMenu
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    ParentColor = False
+    ParentFont = False
+    TabOrder = 0
+    Visible = False
+    object labit0: TLabel
+      Left = 6
+      Height = 20
+      Top = 38
+      Width = 69
+      Caption = 'Iteration'
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+    end
+    object labit: TLabel
+      Left = 86
+      Height = 20
+      Top = 38
+      Width = 11
+      Caption = '0'
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+    end
+    object labdk0: TLabel
+      Left = 150
+      Height = 20
+      Top = 38
+      Width = 42
+      Caption = 'dK = '
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+    end
+    object labdk: TLabel
+      Left = 198
+      Height = 20
+      Top = 38
+      Width = 26
+      Caption = '1.0'
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+    end
+    object labresult: TLabel
+      Left = 14
+      Height = 1
+      Top = 6
+      Width = 1
+      Font.Color = clWindowText
+      Font.Height = -19
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+    end
+    object bustop: TButton
+      Left = 286
+      Height = 25
+      Top = 38
+      Width = 65
+      Caption = 'Abort'
+      OnClick = bustopClick
+      TabOrder = 0
+    end
+    object gridmat: TStringGrid
+      Left = 6
+      Height = 193
+      Top = 78
+      Width = 345
+      ColCount = 4
+      FixedCols = 3
+      FixedRows = 0
+      RowCount = 1
+      TabOrder = 1
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -13
+      TitleFont.Name = 'MS Sans Serif'
+    end
+    object butshow: TButton
+      Left = 6
+      Height = 25
+      Top = 494
+      Width = 81
+      Caption = 'Show'
+      Font.Color = clWindowText
+      Font.Height = -19
+      Font.Name = 'MS Sans Serif'
+      OnClick = butshowClick
+      ParentFont = False
+      TabOrder = 2
+    end
+    object butacc: TButton
+      Left = 94
+      Height = 25
+      Top = 494
+      Width = 81
+      Caption = 'Accept'
+      Font.Color = clWindowText
+      Font.Height = -19
+      Font.Name = 'MS Sans Serif'
+      OnClick = butaccClick
+      ParentFont = False
+      TabOrder = 3
+    end
+    object butres: TButton
+      Left = 182
+      Height = 25
+      Top = 494
+      Width = 81
+      Caption = 'Reset'
+      Font.Color = clWindowText
+      Font.Height = -19
+      Font.Name = 'MS Sans Serif'
+      OnClick = butresClick
+      ParentFont = False
+      TabOrder = 4
+    end
+    object butrty: TButton
+      Left = 270
+      Height = 25
+      Top = 494
+      Width = 83
+      Caption = 'Retry'
+      Font.Color = clWindowText
+      Font.Height = -19
+      Font.Name = 'MS Sans Serif'
+      OnClick = butrtyClick
+      ParentFont = False
+      TabOrder = 5
+    end
+  end
+  object clearbut: TButton
+    Left = 416
+    Height = 25
+    Top = 640
+    Width = 80
+    Caption = 'Clear'
+    OnClick = clearbutClick
+    TabOrder = 30
+  end
+  object csel_7: TCheckBox
+    Tag = 7
+    Left = 8
+    Height = 20
+    Top = 240
+    Width = 59
+    Caption = 'Orbit X'
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    OnClick = cselClick
+    ParentFont = False
+    TabOrder = 31
+  end
+  object csel_8: TCheckBox
+    Tag = 8
+    Left = 8
+    Height = 20
+    Top = 264
+    Width = 62
+    Caption = 'Orbit X'''
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    OnClick = cselClick
+    ParentFont = False
+    TabOrder = 32
+  end
+  object csel_17: TCheckBox
+    Tag = 17
+    Left = 8
+    Height = 20
+    Top = 608
+    Width = 97
+    Caption = 'Delta Tune X'
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    OnClick = cselClick
+    ParentFont = False
+    TabOrder = 33
+  end
+  object csel_18: TCheckBox
+    Tag = 18
+    Left = 8
+    Height = 20
+    Top = 632
+    Width = 98
+    Caption = 'Delta Tune Y'
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    OnClick = cselClick
+    ParentFont = False
+    TabOrder = 34
+  end
+  object Scan: TButton
+    Left = 672
+    Height = 25
+    Top = 640
+    Width = 65
+    Caption = 'Scan'
+    OnClick = ScanClick
+    TabOrder = 35
+  end
+  object panfig: TPanel
+    Left = 408
+    Height = 529
+    Top = 88
+    Width = 361
+    BevelOuter = bvLowered
+    BevelWidth = 2
+    Caption = 'panfig'
+    ClientHeight = 529
+    ClientWidth = 361
+    TabOrder = 36
+    Visible = False
+    object labkno: TLabel
+      Left = 6
+      Height = 20
+      Top = 366
+      Width = 76
+      Caption = 'show knob'
+      ParentColor = False
+    end
+    object labfun: TLabel
+      Left = 6
+      Height = 20
+      Top = 334
+      Width = 98
+      Caption = 'show function'
+      ParentColor = False
+    end
+    object labknonam: TLabel
+      Left = 158
+      Height = 20
+      Top = 366
+      Width = 78
+      Caption = 'labknonam'
+      ParentColor = False
+    end
+    object labfunnam: TLabel
+      Left = 158
+      Height = 20
+      Top = 334
+      Width = 75
+      Caption = 'labfunnam'
+      ParentColor = False
+    end
+    object butknodo: TButton
+      Left = 126
+      Height = 25
+      Top = 366
+      Width = 25
+      Caption = '<'
+      OnClick = butknodoClick
+      TabOrder = 0
+    end
+    object butknoup: TButton
+      Left = 246
+      Height = 25
+      Top = 366
+      Width = 25
+      Caption = '>'
+      OnClick = butknoupClick
+      TabOrder = 1
+    end
+    object butfundo: TButton
+      Left = 126
+      Height = 25
+      Top = 334
+      Width = 25
+      Caption = '<'
+      OnClick = butfundoClick
+      TabOrder = 2
+    end
+    object butfunup: TButton
+      Left = 246
+      Height = 25
+      Top = 334
+      Width = 25
+      Caption = '>'
+      OnClick = butfunupClick
+      TabOrder = 3
+    end
+    object butscaclo: TButton
+      Left = 238
+      Height = 25
+      Top = 486
+      Width = 105
+      Caption = 'close'
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      OnClick = butscacloClick
+      ParentFont = False
+      TabOrder = 4
+    end
+    object butscawri: TButton
+      Left = 6
+      Height = 25
+      Top = 486
+      Width = 129
+      Caption = 'write data to file'
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      OnClick = butscawriClick
+      ParentFont = False
+      TabOrder = 5
+    end
+    object edfnam: TEdit
+      Left = 134
+      Height = 24
+      Top = 486
+      Width = 73
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      ParentFont = False
+      TabOrder = 6
+      Text = '(suffix)'
+    end
+  end
+  inline Scanfig: TFigure
+    Left = 416
+    Height = 313
+    Top = 96
+    Width = 345
+    ClientHeight = 313
+    ClientWidth = 345
+    TabOrder = 37
+  end
+  object perbut: TButton
+    Left = 96
+    Height = 25
+    Top = 344
+    Width = 33
+    Caption = 'x1'
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    OnClick = perbutClick
+    ParentFont = False
+    TabOrder = 38
+  end
+end

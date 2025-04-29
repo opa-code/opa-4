@@ -1,0 +1,123 @@
+object EditElemSet: TEditElemSet
+  Left = 934
+  Height = 474
+  Top = 484
+  Width = 977
+  Caption = 'Element Setup'
+  ClientHeight = 474
+  ClientWidth = 977
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Position = poDefaultPosOnly
+  LCLVersion = '2.0.6.0'
+  object Label1: TLabel
+    Left = 8
+    Height = 25
+    Top = 8
+    Width = 58
+    Caption = 'Modify'
+    Font.Color = clWindowText
+    Font.Height = -21
+    Font.Name = 'MS Sans Serif'
+    ParentColor = False
+    ParentFont = False
+  end
+  object LabType: TLabel
+    Left = 80
+    Height = 25
+    Top = 8
+    Width = 78
+    Caption = 'LabType'
+    Font.Color = clWindowText
+    Font.Height = -21
+    Font.Name = 'MS Sans Serif'
+    ParentColor = False
+    ParentFont = False
+  end
+  object tab: TStringGrid
+    Left = 8
+    Height = 377
+    Top = 40
+    Width = 505
+    ColCount = 2
+    FixedRows = 0
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    ParentFont = False
+    RowCount = 1
+    TabOrder = 0
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -13
+    TitleFont.Name = 'MS Sans Serif'
+    OnDrawCell = tabDrawCell
+  end
+  object ButOK: TButton
+    Left = 112
+    Height = 25
+    Top = 424
+    Width = 90
+    Caption = 'Done'
+    OnClick = ButOKClick
+    TabOrder = 1
+  end
+  object Butcancel: TButton
+    Left = 216
+    Height = 25
+    Top = 424
+    Width = 90
+    Caption = 'Cancel'
+    OnClick = ButcancelClick
+    TabOrder = 2
+  end
+  object EditName: TEdit
+    Left = 200
+    Height = 24
+    Top = 8
+    Width = 129
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clBlue
+    Font.Height = -16
+    Font.Name = 'Courier New'
+    OnKeyPress = EditNameKeyPress
+    ParentFont = False
+    TabOrder = 3
+  end
+  object butApply: TButton
+    Left = 8
+    Height = 25
+    Top = 424
+    Width = 90
+    Caption = 'Apply'
+    OnClick = butApplyClick
+    TabOrder = 4
+  end
+  object panpro: TPanel
+    Left = 528
+    Height = 457
+    Top = 8
+    Width = 433
+    Caption = 'panpro'
+    ClientHeight = 457
+    ClientWidth = 433
+    TabOrder = 5
+    Visible = False
+    inline figpro: TFigure
+      Left = 6
+      Height = 273
+      Top = 30
+      Width = 289
+      ClientHeight = 273
+      ClientWidth = 289
+      inherited p: TPaintBox
+        Left = 8
+        Height = 249
+        Top = 8
+        Width = 265
+        OnPaint = pPaint
+      end
+    end
+  end
+end
