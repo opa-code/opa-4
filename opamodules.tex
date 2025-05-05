@@ -1,0 +1,621 @@
+\documentclass[12pt]{article}
+\usepackage{xcolor,graphicx}
+\usepackage{hyperref}
+\usepackage{wasysym}
+\textwidth 17cm
+\oddsidemargin -0.54cm  %2cm Rand links
+\topmargin 0.46cm %3cm Rand oben
+\headheight 0cm % no header
+\headsep 0cm
+\textheight 22cm
+\parskip 6pt
+\parindent 0pt
+
+\definecolor{cadmiumgreen}{rgb}{0.0, 0.42, 0.24}
+\definecolor{burntorange}{rgb}{0.8, 0.33, 0.0}
+
+\newcommand\code[1]{{\tt #1}}
+\newcommand{\ofld}[1]{\colorbox{black!15}{{\bf #1}}}
+\newcommand{\ofldx}[1]{\colorbox{black!15}{(#1)}}
+\newcommand\guico[1]{{\color{blue}\code{#1}}}
+\newcommand{\unico}[1]{{\color{burntorange}\code{#1}}}
+\newcommand{\evcod}[2]{\ofld{#1}~$\rightarrow$~\guico{#2}}
+\newcommand{\evcodx}[2]{\ofldx{#1}~$\rightarrow$~\guico{#2}}
+\newcommand{\prcod}[2]{\opauni{#1}$>$\unico{#2}}
+
+\newcommand{\opagui}[1]{\colorbox{blue!20}{\code{#1}}}
+%\newcommand{\opagui}[1]{\fbox{\code{#1}}}
+%\newcommand{\oguih}[1]{{\Huge ~\\ \label{#1}{\opagui{#1}}}\\}
+\newcommand{\oguih}[1]{\subsection{\Huge\label{#1}{\opagui{#1}}}}
+\newcommand{\ogui}[1]{\hyperref[#1]{\opagui{#1}}}
+
+\newcommand{\opaguif}[1]{\colorbox{violet!30}{\code{#1}}}
+\newcommand{\oguifh}[1]{\subsection{\Huge\label{#1}{\opaguif{#1}}}}
+\newcommand{\oguif}[1]{\hyperref[#1]{\opaguif{#1}}}
+
+
+\newcommand{\opauni}[1]{\colorbox{orange!30}{\code{#1}}}
+%\newcommand{\opauni}[1]{\underline{\code{#1}}}
+\newcommand{\ounih}[1]{\subsection{\Huge\label{#1}{\opauni{#1}}}}
+\newcommand{\ouni}[1]{\hyperref[#1]{\opauni{#1}}}
+
+
+\newcommand{\uses}[1]{\subsubsection{Uses} #1}
+\newcommand{\desc}[1]{\subsubsection{Description} #1}
+\newcommand{\act}[1]{\subsubsection{Actions} #1}
+\newcommand{\pvar}[1]{\subsubsection{Public constants, types and variables} #1}
+\newcommand{\ppro}[1]{\subsubsection{Public procedures} #1}
+
+\newcommand{\todo}[1]{{\color{red}\em #1}}
+\newcommand{\feature}[1]{{\color{cadmiumgreen}\em #1}}
+
+\newcommand{\biburl}[1]{{\small{\tt #1}}}
+
+\newenvironment{mylist}
+  {\begin{list}{$\bullet$}{\parsep 0pt}}
+  {\end{list}}
+\newenvironment{mysublist}
+  {\begin{list}{$-$}{\parsep 0pt \topsep 0pt \leftmargin 2cm}}
+  {\end{list}}
+\newcommand{\degree}{\mbox{$^{\circ}$}}
+\newcommand{\see}{\mbox{$\rightarrow$}}
+\newcommand\beq{\begin{equation}}
+\newcommand\eeq{\end{equation}}
+\newcommand{\uvec}[1]{\mbox{$\hat{\vec{#1}}$}}
+\newcommand{\cvec}[1]{\mbox{$\underline{\vec{#1}}$}}
+\newcommand{\csca}[1]{\mbox{$\underline{#1}$}}
+\newcommand{\Tr}{{\rm Tr}}
+\newcommand{\sign}{{\rm sign}}
+\newcommand\pt{\partial}
+\newcommand{\tilvec}[1]{\vec{\tilde{#1}}}
+
+
+
+
+\newcommand\opamodule[3]{{\bf \tt #1} #2\\  \rule[3pt]{\textwidth}{0.2pt} \\ {\scriptsize uses \tt  #3}\\[1ex]}
+\newcommand\opamoduleN[2]{{\bf \tt #1} #2\\  \rule[3pt]{\textwidth}{0.2pt} \\}
+
+
+
+\begin{document}\noindent
+\fboxsep1pt
+
+\parbox[t]{0.7\hsize}{
+  {\Huge\bf inside OPA code} version {\bf 4.1.0}\\
+  Andreas Streun, \today
+} \hfill  \includegraphics{opalogo_small.jpg}
+\rule{\hsize}{1pt}
+
+
+\section{Introduction}
+An overview of OPA 4.1.0 ($=$4.063) modules and actions is provided as help for programmers working on a new version. 
+
+OPA 4.1.0 includes 44 Pascal units \code{.pas}, 28 of them are \opagui{GUIs} which are accompanied by a Lazarus form \code{.lfm} (created by the Lazarus IDE), and 16 of them are Pascal \opauni{units}. Four of the GUIs are \opaguif{frames}, i.e. self-defined GUI components embedded in other GUIs. Four units are located in a parallel folder, here called \code{../com} since they are not OPA specific but used with other programs too.
+
+Table~\ref{tabover} gives a list, approximately "in order of appearance" during a typical OPA session. In addition OPA includes a couple of image files \code{.ico, .bmp} to draw symbols on buttons, which are not listed here. The column "Size" lists the lines of code as a rough estimate for the complexity of the unit.
+
+A GUI unit defines a class, and the actual GUI is an instance of this class, i.e. a public variable, given in table~\ref{tabover} in the column "self". A GUI has a list of \guico{actions} corresponding to the event handler of its components, e.g. a button to be pressed. The pure Pascal units are passive, they contain a set of public \unico{procedures} which are called from the GUIs. Thus in this documentation, action lists are given for the GUIs, and lists of public variables and procedures for the Pascal units.
+
+The GUIs handle the user interactions while the Pascal units contain all the calculations. This separation was largely done in OPA, however not strictly. Some minor calculatoins are done in the GUI in some places.
+
+OPA was developed over more than 30 years along the design of SLS, SLS 2.0 and other machines, and features were implemented as needed for design work. The program code reflects this history and may not present the most logical structure. Also the names of the units (including use of capitals) are historical and could be changed to more meaningful descriptors.
+
+Like other beam dynamics programs OPA works on a lattice file. It contains {\em elements}, mainly magnets of different type, and {\em segments}, which are line-ups of elements and segments. One of the segements is selected and expanded to become {\em the lattice} to work with. Element parameters, e.g. quadrupole strength in the lattice file can be numbers or arithmetic expressions using {\em variables}, which are part of the lattice file too.
+
+
+
+%Documentation of each unit includes
+%\begin{mylist}
+%\item Name: this is the name of the source file. The format \opagui{GUI} identifies a %GUI component, \opaguif{frame} is an embedded GUI component, and \opauni{unit} is a plain Pascal unit. 
+%\item Uses: a list of units used by this one
+%\item Task: a brief description of functionality
+%\item Action: a list of actions corresponding to the event handlers.
+%\item Public: a list of public procedures provided. Private procedures are not listed %since they are only relevant inside the unit.
+%\item To do: suggestion for improvements in a future version.
+%\end{mylist}
+
+
+\begin{table}
+\caption{OPA units overview}
+\label{tabover}
+{\small
+\begin{tabular}{lllr}
+Name & self & Purpose & Size \\ \hline
+\ogui{opamenu} & \guico{MenuForm} & the main menu & 901 \\
+\ouni{OPAglobal} & & global variables and procedures & 2986 \\
+\ouni{mathlib} & & mathematical library & 2075 \\
+\ouni{../com/Vgraph} & & real number graphics library & 1276 \\
+\oguif{../com/asfigure} & \guico{} & general plot procedure & 314 \\
+\ouni{../com/conrect} & & contour plot calculation & 332 \\
+\ouni{../com/asaux} & & little helpers & 349 \\
+\ouni{opalatticefiles} & & file reading and writing & 1839 \\
+\ogui{OPAEditor} & \guico{} & interactive lattice editor  & 346 \\
+\ogui{EdElCreate} & \guico{} & creation of an element & 144 \\
+\ogui{EdElSet} & \guico{} & edit element parameters & 861 \\
+\ogui{EdSgSet} & \guico{} & edit segment parameters & 444 \\
+\ogui{texteditor} & \guico{} & text editor for lattice file & 190 \\
+\ogui{opticview} & \guico{} & linear optics design & 1143 \\
+\oguif{knobframe} & \guico{} & slider to set element property & 421 \\
+\ogui{Opticstart} & \guico{} & setting for start parameters & 615 \\
+\ogui{OpticTune} & \guico{} & adjustment of lattice tune & 251 \\
+\ogui{OpticWOMK} & \guico{} & write optics markers & 125 \\
+\ogui{OpticEnvel} & \guico{} & setting for optical functions plot & 372 \\
+\ogui{OpticMatch} & \guico{} & linear optics matching & 1457 \\
+\ogui{OpticMatchScan} & \guico{} & parameter scan & 119 \\
+\ouni{opticplot} & & linear beam dynamics calculations & 2840 \\
+\ouni{OPAElements} & & element propagation calculations & 2387 \\
+\ogui{OPAtune} & \guico{} & show the tune diagram & 634 \\
+\ogui{OPAmomentum} & \guico{} & momentum dependence and optimization & 949 \\
+\ouni{MomentumLib} & \guico{} & momentum dependent calculations & 480 \\
+\ogui{OPAChroma} & \guico{} & nonlinear optimization & 1413 \\
+\oguif{CSexLine} & \guico{} & controller for nonlinear element & 454 \\
+\oguif{CHamLine} & \guico{} & bar indicator for nonlinear Hamiltonian mode & 416 \\
+\ouni{ChromGUILib1} & & ? & 79 \\
+\ouni{ChromGUILib2} & & ? & 93 \\
+\ogui{OPAChromaSVector} & \guico{} & show Hamiltonian as complex vector & 145 \\
+\ouni{chromlib} & & nonlinear dynamics calculations & 1813 \\
+\ogui{OPAorbit} & \guico{} & orbit correction and injection & 2353 \\
+\ogui{Bucket} & \guico{} & plot RF bucket & 640 \\
+\ogui{LGBeditor} & \guico{} & longitudinal gradient bend editor & 702 \\
+\ouni{LGBeditorLib} & & longitudinal gradient bend calculations & 471 \\
+\ogui{OPAGeometry} & \guico{} & geometric machine layout and matching & 2010 \\
+\ogui{OPAtrackP} & \guico{} & phase space tracking & 1422 \\
+\ogui{OPAtrackDA} & \guico{} & dynamic aperture tracking & 1666 \\
+\ogui{OPAtrackT} & \guico{} & Touschek tracking & 1726 \\
+\ouni{tracklib} & & particle tracking calculations & 1502 \\
+\ogui{OPACurrents} & \guico{} & export magnet currents to machine control & 303 \\
+\ouni{opatest} & & test of new features & 472 
+\end{tabular}
+}
+\end{table}
+
+\pagebreak
+
+\section{Main programs and in general}
+
+\ounih{opa.lpr}
+
+\desc{The main program file which allocates the units as described below and creates some of the forms. It is created more or less automatically by the Lazarus IDE.}
+
+
+\oguih{opamenu}
+
+\desc{The main GUI for reading and writing files and to launch the other GUIs. It includes message (log) and status windows. It is always open in the background. Closing it exits OPA.
+}
+
+\uses{\ouni{OPAglobal}, \ogui{OPAEditor}, \ogui{TextEditor}, \ouni{OPALatticeFiles},\ \ogui{OpticView}, \ogui{OPAtune}, 
+  \ogui{OPAmomentum}, \ogui{OPAChroma}, \ogui{OPAtrackP},  \ogui{OPAtrackDA}, \ogui{OPAtrackT}, \ogui{OPAorbit},
+  \ogui{OPAGeometry}, \ogui{LGBeditor}, \ogui{Bucket}, \ogui{OPACurrents}, \ouni{opatest}}
+  
+
+
+\act{
+
+\guico{FormCreate} called at start creates the GUI and fills the menu items with data: the list of last used files is established and the status labels are set. Then handles to most components are passed to \ouni{OPAglobal} to make them available to all GUIs, in order to send messages to the log window, update the status in the status window and enable or disable options depending on the result of calculations.
+Note, that the initialization of \ouni{OPAglobal} is executed first to provide the required information. 
+
+\underline{\ofld{File} Menu}
+
+\evcod{New}{fi\_new} delete all data to start new lattice from scratch.
+
+\evcod{Open\dots}{fi\_open} read OPA lattice file or try to read a lattice  file from Tracy2, Tracy3, MAD-X, elegant or BMAD. The file name is displayed as "active file".
+
+\evcod{Last Used $\RHD$}{fi\_last} select file from list of last used files
+
+\evcod{Save, Save as\dots}{fi\_[save,svas]} save OPA lattice file with old or new name.
+
+\evcod{Export to $\RHD$}{ex\_[tracy2,tracy,madx,elegant,bmad,opanovar]} save as file for other programs. Last option expands all arithmetic expressions in lattice and saves as OPA file.
+
+\evcod{Exit}{fi\_exit} save all settings from session and exit OPA (just closing the GUI will exit OPA without saving settings).\\
+
+\underline{\ofld{Edit} Menu}
+
+
+\evcod{Text Editor}{ed\_text} launch lattice file text editor \ogui{texteditor}.
+
+\evcod{OPA Editor}{ed\_oped} launch interactive "LEGO block" editor \ogui{OPAEditor}.\\
+
+\underline{\ofld{Design} Menu}
+
+\evcod{Linear Optics}{ds\_opti} launch interactive linear design \ogui{opticview}.
+
+\evcod{Off-momentum Optics}{ds\_dppo}  launch momentum dependent optics \ogui{OPAmomentum}
+
+\evcod{Non-linear Dynamics}{ds\_sext} launch non-linear optimizer \ogui{OPAChroma}
+
+\evcod{Orbit Correction}{ds\_orbc} launch orbit \&\ injection panel \ogui{OPAorbit}
+
+\evcod{Injection Bumps}{ds\_injc } launch orbit \&\ injection panel  \ogui{OPAorbit}
+
+\evcod{RF Bucket Viewer}{ds\_rfbu} launch RF bucket visualization \ogui{Bucket}
+
+\evcod{Geometry Layout}{ds\_geo } launch geometry layout and matching \ogui{OPAgeometry}
+
+\evcod{LGB Optimizer}{ds\_lgbo } launch editor for longitudinal gradient bends \ogui{LGBeditor}\\
+
+
+\underline{\ofld{Tracking} Menu}
+
+\evcod{Phase Sapce}{tr\_phsp} launch phase space tracking \ogui{OPAtrackP}
+
+\evcod{Dynamic Aperture}{tr\_dyna} launch dynamic aperture tracking \ogui{OPAtrackDA}
+
+\evcod{Touschek Lifetime}{tr\_ttau} launch Touschek lifetime tracking \ogui{OPAtrackT}\\
+
+\underline{\ofld{Extra} Menu}
+
+\evcod{Output $\RHD$}{tm\_di} select the amount of output provided in the log window.\\ \todo{The implementation is incomplete and inconsistent: some output goes to the log window, some to a terminal console (only visible if it is open) and some to a file \code{diagopa.txt}, which is created (but never closed\dots).}
+
+\evcod{Magnet Currents}{tm\_cur} launch panel to calculate magnet currents \ogui{OPACurrents}
+
+The other menu items in this group are temporary tests calling procedures from unit \ouni{opatest} and not relevant to be documented here.\\
+
+\evcodx{Segment name}{ComboSeg} is a drop-down list of the available segments. The one selected is expanded to become the lattice, calling \prcod{OPAglobal}{MakeLattice}.
+
+\evcod{Show lattice expansion}{butlatsh} displays the expanded lattice in the log window.
+
+\evcod{Print}{ButLogPrt} prints the content of the log file to \code{LogPrint.txt} in the working directory.
+
+\evcod{Clear}{ButLogClr} clears the log window.
+}
+
+\ounih{OPAglobal}
+
+\desc{
+This unit defines global constants, types and variables and thus is OPA's "database". It also provides many public procedures for different non-physics tasks. Only an overview can be given here, and the most important or complex things will be explained. Everything else should become clear from the code, hopefully.}
+
+\uses{\opauni{mathlib}, \opauni{../com/asaux}}
+
+
+\pvar{
+Constants include general settings, array sizes, color definitions, name strings and values of flags later to be referenced by name.\\
+
+Following type definitions may be considered as non-trivial:
+
+\unico{ElementType} is a case-record for defining element parameters such as length, quad focusing strength, dipole bending angle etc. Several (but not all) parameters may be arithmetic expressions instead of numbers. The "optics marker" element contains a pointer to a set of optical functions (normal mode betas and alfas, dispersions, orbit and coupling matrix) of type \unico{OmarkType}.
+
+\unico{variable\_type} is for variables defined by name and value or arithmetic expressions. Variables are referenced in arithmetic expressions of element parameters or in other variables.
+
+\unico{AbstractEleType} is for abstract elements which represent either an element or a segment and contain pointers to previous and next abstract elements. The abstract element may be inverted or repeated.
+
+\unico{SegmentType} is for segments, which are series of abstract elements, defined by pointers to its initial and final abstract element.
+
+\unico{LatticeType} is a lattice entry. The lattice is built by expaning a segment, so it contains only elements, and additional information on direction (if the element is inverted), and data relevant for orbit correction (misaligmnets and if the element sits on a girder). \\
+\feature{Unlike several other codes OPA handles correctly nested inversions of segments to obtain the correct orientation of the element in the lattice. This is relevant for bending magnets with unequal edge properties.}
+
+\unico{GirderType} describes a girder by first and last lattice entry of elements sitting on the girder, and by the type of connection to adjacent girders.
+
+Other types are mainly shortcut definitions to gather interrelated data.\\
+
+Only few of the global variables need an explation:
+
+\unico{Elem} and \unico{Ella} are arrays of \unico{Elementtype}, where the first one is read from file and manipulated in the editors, while the second one are a subset of elements used in the lattice and to be modified in the various calculations. After terminating a calculation the user is asked to save or cancel the changes, which causes the \unico{Ella}-data to be copied back to the \unico{Elem} array or not.
+
+\unico{Status} of \unico{StatusType} is a group of status flags to be set by the outcome of calculations in order to enable or disable buttons and to re-use data in other calculations.
+
+\unico{MainButtonHandles} of \unico{MainButtonHandlesType} provided global control of the various options in \ogui{opamenu} to enable or disable them.
+
+\unico{GlobDef} and \unico{Def} of \unico{DefaultType} are arrays of user-defined settings, which are read at start and when switching the working folder. 
+}
+
+\ppro{
+This listing of procedures is more or less inverse to the (historical and illogical) arrangement in the source file:
+
+\unico{Initialization} sets some global variables to reasonable initial values, sets all status flags to false, and sets default values for $\sim$250 user settings.
+Then it sets the OPA directory and tries to read the files \code{opa4\_path.ini} which contains a list of last used files. Then it reads \code{opa4\_glob\_ini} containing global user settings (at the moment this is only the amount of output). Finally, it takes the folder from the first entry in the list of last used files to set the working folder and reads the file \code{opa4\_set.ini} in this folder to restore the $\sim$250 user settings. If these files are missing, the default values are used.
+
+\unico{GlobDefWriteFile} and \unico{DefWriteFile} write the user settings back to these files if the session is regularly terminated by \evcod{opamenu}{ExitOPA}.
+
+\unico{MakeLattice} builds the lattice from elements and segments. Since a segment istelf contains elements and segments, the internal procedure \unico{SegLat} is called recursively to unpack the data. 
+%If a list of real names (from machine control system) is available, these names are 
+The elements, which are used in the lattice are copied from the \unico{Elem} to the \unico{Ella} array, and correctors and monitors with generic names \code{CH,CV,MON}
+are expanded into separate instances named \code{CH001,CH002...} to adress them individually in orbit correction in unit \ogui{OPAorbit}. Finally status flags are set.
+
+\unico{GirderSetup} evaluates the girder structure if contained in the lattice and allocates the lattice elements to the corresponding girders.
+
+\unico{IniElem} sets default values for new elements.
+
+\unico{AppendAE, ClearSeg, NAESeg} are procedures to handle segments, which are series of pointers to elements or other segments.
+
+\unico{AppendCurve, ClearCurve}  prepare data sets for plotting curves of optical functions. 
+
+\unico{AppendChar} builds a linked list of characters for \ogui{texteditor} \todo{(wrong place)}.
+
+\unico{getKfromI, getdKdIfac, getIfromK} convert  magnet strength in current and vice versa taking into account non-linear magnet saturation, only used in \ogui{OPACurrents} 
+\todo{(wrong place)}.
+
+\unico{putkval, getkval, putSexkval, getSexkval} functions are shortcuts to set or get the parameter which is considered the strength of a magnet.
+
+\unico{FillComboSeg} fills the list of last used files in \ogui{opamenu}.
+
+\unico{OPALog} writes a message to the log window in \ogui{opamenu}.
+
+\unico{MainButtonEnable} enables or disables the options in \ogui{opamenu} depending on the status flags. For example, tracking is only enabled if a periodic solution exists.
+
+\unico{PassMainButtonHandles} and \unico{passErrLogHandle} take handles to the GUI components of \ogui{opamenu} to enable other units using \ouni{OPAglobal} to enable/disable them.
+
+\unico{EllaSave} and \unico{Elcompare} check if elements in lattice (\unico{Ella}) have been changed with regard to the original elements (\unico{Elem}) and ask the user if the changes should be saved.
+
+The procedures and functions listed under "Calculator" are an arithmetic evaluator adapted from \cite{rosetta}. Other procedures not listed here include variable, element and segment to string conversion and other utilities which may be self-explanbatory.
+}
+
+\todo{The \ouni{OPAglobal} unit grew large large and heterogenous over the years and should be split into several units for the different functions to be performed. Several procedures should be moved to other units}\\
+
+
+\ounih{mathlib}
+\uses{standalone, no uses}
+\desc{
+A library of mathemical functions: definition of types and operations with vectors, matrices and complex numbers. It further contains some special functions, among them the Touschek integral function, and implementations of Powell's minimizer, LU decomposition and Singular Value Decomposition taken from \cite{numrec}, but extended to dynamic array size. OPA does not link external libraries but all algorithms needed are included in the code.
+}
+
+\pvar{
+Types define vectors and matrices for beam dynamics, geometry and for the Powell minimization procedure. The only public variables are the parameters for Powell. 
+}
+
+\ppro{
+Most procedures are elementary operations on vectors, matrices and complex numbers, or for special functions, and don't need to be explained.
+
+\unico{CTouschek} and \unico{CTouschek\_pol} solve the Touschek lifetime integral, see appendix C.1 in \cite{inside} for details. The first procedure solves the integral based on Simpson's rule, the second procedure uses a polynomial approximation for speed-up. 
+
+\unico{EulerAng} calculates rotation angles from a rotation matrix as explained in \cite{euler}.
+
+\unico{LUDCMP} and \unico{LUBKSB} peform LU-decomposition and backsubstitution to solve linear systems of equations as described in \cite{numrec}. This is used in particuar for matrix inversion, \unico{MatInv} and \unico{MatDet}. The procedures are set fix to 5 dimensions.
+
+
+\unico{svdcmp} and \unico{svbksb} perform singular value decomposition and backsubstitution to solver lineaer systems of equations as described in \cite{numrec}. SVD is superiour to LUD for non-square and degenerate systems. An packing/unpacking algorithms was added to use the procedures with arbitrary dimension. The procedure is used in orbit correction in \ogui{OPAorbit} and for setting octupole families in \ogui{OPAChroma}.
+
+\unico{Powell} is an implementation of Powell's minimizer for steepest gradient search in $N$ dimensions taken from \cite{numrec}. It is used for sextupole optimization in \ogui{OPAChroma}, for longitudinal gradient optimization in \ogui{LGBEditor}, and (test mode only) for non-linear optimization in \ogui{OPAmomentum}.
+
+}
+
+\ounih{../com/Vgraph}
+\desc{}
+\uses{}
+
+\oguifh{../com/asfigure}
+
+
+\section{Main GUIs}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\opamodule{OPAElements.pas}{(82.6k)}{OPAglobal, MathLib;}
+A beam as defined by its orbit, (normal mode) beta functions, dispersion and coupling matrix is propagated through an element \code{>Driftspace,Quadrupole...}
+
+Internally the procedures \code{>MCC\_prop} and \code{>MBD\_prop} perform the transfer for coupling and non-coupling eleements.
+
+Depending on flags set, Kickers, non-linearities, misalignments etc. are switched on or off,  and radiation integrals, path length etc. are calculated.
+
+For display OPA subdivides elements in slices, where the slice length corresponds to one pixel on the screen. This is handled by the procedures \code{>slice...} defining matrices for the slices and for the skipped parts (i.e. out of view range) of the element.
+
+Internal private procedures calculate phase advances and transform between physical, normal modes and normalized normal mode coordinates.\\
+
+
+
+\subsection{Editors}
+\opamodule{OPAEditor.pas/.lfm}{(9.7k)}{EdElCreate, EdElSet, EdSegSet, OPAGlobal, ASaux}
+The ``OPA Editor'' allows elements, variables and segments to be created and modified interactively. Global parameters like energy and default aperture can be set, and a comment may be added. Furthermore some convenience functions allow all dipoles to be inverted or undulators to be expanded into series of dipoles and drifts.\\
+
+\opamodule{EdElCreate.pas/.lfm}{(3.5k)}{EdElSet, EdSegSet, OPAGlobal}
+Create a new element from a dopdown list.\\
+
+\opamodule{EdElSet.pas/.lfm}{(28.4k)}{OPAglobal, OpticPlot, ASfigure, ASaux}
+Table to edit all parameters of an element or a variable. Some fields may contain algebraic expressions to calculate parameters from variables. This procedure is called in four different ways, for elements and for variables, and from editor or from optics design. For (iron dominated) magnets, a possible pole-profile is plotted \code{>PlotPro}.\\
+
+\opamodule{EdSgSet.pas/.lfm}{(11.9k)}{OPAglobal, ASaux}
+A table to set up or modify a segment, which is a line-up of elements and segments.\\
+
+\opamodule{texteditor.pas/.lfm}{(5.2k)}{OPAglobal}
+A simple Notepad-like text editor to edit the lattice file; used as an alternative to the interactive ``OPA Editor'' for the experienced user.\\
+
+\opamodule{LGBeditor.pas/.lfm}{(19.1k)}{OPAglobal,  MathLib, ASfigure, ASaux}
+\opamodule{LGBeditorLib.pas}{(13.9k)}{OPAglobal, ASfigure, ASaux}
+These two procedures optimize the field profile of a longitudinal gradient bend in order to minimize quantum excitation, i.e. the $I_5$ radiation integral. Magnet type, length, peak field and number of slices are set before starting a Powell minimizer. The first procedure is mainly the GUI and the minimizer, the second one contains physics and plotting.
+
+\subsection{Optics Design}
+
+\opamodule{OpticView.pas/.lfm}{(32.3k)}{OPAglobal, OpticPlot, Opticstart, OpticEnvel, OpticTune, OpticMatch, OpticWOMK, OPAtune, knobframe, EdElSet, Mathlib, VGraph, ASaux.}
+This is the main GUI for (linear) optics development. It contains procedures for initialization the form, for plotting, handlers for mouse events and GUI buttons.\\
+
+\opamodule{OpticPlot.pas}{(98.3k)}{OPAglobal, OPAElements, OPAtune, MathLib, ASfigure, VGraph, ASaux.}
+Linear beam optics includes closed orbit finder \code{>CloseOrbit}, periodic solution for coupled and uncoupled lattices \code{>NormalMode, FlatPeriodic}, propagation through elements \code{>Lattel} and full linear optics including integrals \code{>LinOp} with several options for periodic, symmetric, single pass forward, backward, from marker calculations \code{>OpticCalc}. Plot routines show beta functions and dispersions \code{>PlotBeta}, or orbit, envelopes and apertures \code{>PlotOrbit, PlotEnv, PlotApertures}, or magnetic fields \code{>PlotMag}. Lattice parameters are shown in a table \code{>FillBeamTab, FillBetaTab} and several output files can be printed \code{>Print...}\\
+
+\opamodule{Opticstart.pas/.lfm}{(17.3k)}{OPAglobal,  OpticPlot, MathLib, ASaux.}
+GUI to select the starting conditions for the optics solution, either periodic/symmetric, or from initial values for orbit, beta functions, dispersion and coupling given at the start or end of lattice or at an intermediate optics marker.\\
+
+\opamodule{OpticEnvel.pas/.lfm}{(9.9k)}{OPAglobal,  OpticPlot, ASaux.}
+Select the plot mode to show beta functions (normal mode and/or projected) and dispersions, envelopes with orbit and apertures or magnetic fields. Several parameters may be set, e.g. the reference radius to calculate magnetic fields etc.\\
+
+\opamodule{OpticTune.pas/.lfm}{(6.1k)}{OPAglobal,  OpticPlot, MathLib, ASaux.}
+Calculates a $2\times 2$ matrix how the tunes depend on a scaling factor applied to all focusing and defocusing quads and allows the working point to shifted this way.\\
+
+\opamodule{OpticWOMK.pas/.lfm}{(2.5k)}{OPAglobal,  OpticPlot.}
+Asks whether an optics solution should be stored in the optics markers.\\
+
+\opamodule{OpticMatch.pas/.lfm}{(42.0k)}{OPAglobal, OpticPlot, OpticMatchScan, Knobframe, ASfigure, ASaux.}
+Matching of linear optics using a Newton-Raphson minimizer: Optics parameters to be adjusted with target values and at least the same number of knobs (e.g. quadrupole strenght, variables etc.) are selected, then the minimizer proceeds using the square matrix of most sensitive knobs, which is recalculated after each steps to take into account non-linearities. Reduced step size can be set for better convergence. It is possible to run a scan over some range of a target value.\\
+\todo{The matching procedure is quit old and restricted to uncoupled lattices. A more elaborate minimizer also including limits for the knobs should be implemented.}\\
+
+\opamodule{OpticMatchScan.pas/.lfm}{(2.9k)}{OPAglobal,  OpticPlot, ASaux.}
+This is just a GUI to enter the range for a target function to run a scan.\\
+
+\opamodule{knobframe.pas}{(11.5k) [Frame] }{OPAglobal, OpticPlot, Mathlib, ASaux.}
+The frame provides a knob to control a parameter (quad strength, variable value etc.) including limits and a reset function. A numner of knob frames is embedded in the GUI \code{OpticView, OPAOrbit} as space permits. Knob actions trigger calculations and plots. Knobs may be passive, if the quantity is controlled by a variable connected to another knob. Therefore a knob has to know his fellow knobs and trigger their updates \code{>BrotherHandles}\\
+
+\opamodule{OPAtune.pas/.lfm}{(15.9k)}{OPAglobal, ASfigure, ASaux.}
+GUI window to show a tune diagram: resonances up to selected orders and the working point, a line or a group of tune points is shown in the diagram. This procedure is used in linear optics to show the working point or it variation with momentum, in non-lineare optics to show a predictions for the tune footprint and in tracking to show the tracked tune footprint.\\
+
+\opamodule{OPAorbit.pas/.lfm}{(73.0k)}{OPAglobal, OpticPlot,  OpticStart, Knobframe, MathLib, ASfigure, ASaux.}
+This unit calculates the beam orbit. It is used to either study orbit distortion and correction (usually in periodic mode) or to study injection (usually in forward mode)~-- a corresponding flag is set at start. Most procedureds in the unit are used to set up the rather complex GUI with knobs for correctors, kickers and BPMs and various panels for orbit correction, plotting or injection studies.
+
+In orbit mode, correlated misalignments are applied, the response matrix is calculated and pseudo-inverted using an SVD procedure in order to correct the orbit. A loop function may run several error seeds to obtain some statistics.
+
+In injection mode, kickers may be synchronized for correct timing, and the injected (and/or stored) beam trajectory is calculated for a few turns.
+
+In both modes, when leaving the unit, results for misalignments and corrector settings, or for kicker settings, are saved internally and will be used in subsequent linear optics calculations or tracking.
+
+\todo{There are problems with misalignments in tracking, not yet solved.}
+
+Note, that correctors and BPMs defined with reserved names {\tt CH,CV,MON} in the lattice file are internally expanded to a set of individual elements, e.g. {\tt CH001...} when unpacking the lattice \code{OPAGlobal>MakeLattice}.
+
+\subsection{Longitudinal optics}
+OPA does not contain true longitudinal dynamics, i.e. all calculations are for fixed momentum offset, and tracking proceeds only in 4-D, not in 6-D. There are no cavities and no acceleration.
+
+\opamodule{OPAmomentum.pas/.lfm}{(26.8k)}{OPAglobal, OpticPlot, ASfigure, OPAtune, MathLib, ASaux.}
+\opamodule{MomentumLib.pas}{(16.5k)}{OPAglobal, OpticPlot, ASfigure, OPAtune, MathLib, ASaux.}
+These two procedures calculate linear optics (periodic or forward) for some momentum range, show the results and apply a polynomial fit. The first procedure mainly controls the GUI, the second one is for calculation and plotting.
+Results to fit and show are selected in the GUI. Results for path length are saved internally to be used when plotting the bucket (see next unit). Tune results are shown in a tune diagram.
+
+\todo{A Powell minimizer was implemented once for a special purpose (non-linear bunch compressor study): it takes selected multipoles as knobs to adjust a momentum dependent function (e.g. $X(\delta)$) to a target function. However this implementation was ``quick and dirty'' and may be removed again.}\\
+
+
+\opamodule{Bucket.pas/.lfm}{(19.4k)}{OPAglobal, ASfigure, MathLib, Conrect, ASaux.}
+The RF bucket is calculated based on up to five orders of momentum compaction and RF harmonics as described in Appendix \ref{appbucket}, \code{>CalcBucket}, and a contour plot of equipotentials and the separatrix is shown.
+
+The coefficients for momentum compaction may be taken over from the previous unit on momentum dependent optics. The estimates for momentum acceptance and bunch length are saved for re-use in the Touschek tracking unit (see below).\\
+
+\subsection{Non-linear Optimization}
+Non-linear optimization uses a penalty function composed from a fixed set of Hamiltonian modes on one side, which are controlled by a variable set of sextupoles and octupoles on the other side.
+The dependencies are complicated, if the two minimizers are running (Powell for first and second order sextupole terms, SVD for first order octupole terms), or if chromaticity is automatically adjusted, or if target values for the (non-resonant) Hamiltonian modes are changed. This requires to pass handles from the GUI program \code{OPAChroma} to the frames for the Hamiltonian modes and the multipoles, \code{>CSexLine, CHamLIne} and between these. In order to avoid circular dependencies, two intermediate layers \code{>ChromGUILib1,2} were introduced.
+
+\todo{The nested handles are rather messy. It works, but could be entangled and simplified.}\\
+
+\opamodule{OPAChroma.pas/.lfm}{(40.2k)}{OPAglobal, ChromLib, ChromGUILib1, ChromGUILib2, CHamLine, CSexLine, OPAChromaSVector, OPAtune, MathLib, ASfigure, ASaux.}
+Initialization of the GUI, allocating the frames for Hamiltonians and multipoles and passing all the handles between, \code{>Start} and dimensioning of the GUI \code{>ResizeAll}.
+Set up (and start) the Powell minimizer for the sextupoles \code{>ButMinClick} and set up the SVD-minimizer for the octupoles \code{>ChkOctClick}.\\
+
+\opamodule{ChromLib.pas}{(60.2k)}{OPAglobal, OpticPlot, OPAElements, OPAtune,  MathLib, Vgraph, ASaux.}
+The physics part: at start, all kicks from sextupole, octupole, combined function bend (and decapole) families are collected, and matrices are set up to get the Hamiltonian modes from the $M_{\rm sx}$ sextupole and $M_{\rm oc}$ octupole families. These are a $10\times  M_{\rm sx}$ matrix for first order sextupole, a $11\times  M_{\rm sx}^2$ matrix for the second order sextupole, and a  $13\times  M_{\rm oc}$ for first order octupole. Matrix elements are sums over optical functions at all kicks (thick sextupoles contain several kicks). Quadrupoles contribute to chromatic modes and are included as a constant offset vector. These calculations are rather time consuming but only done once at start \code{>ChromInit, S\_Matrix}. Hamiltonian modes are calculated for the lattice structure considered as one period. In order to get the results for many periods, complex multiplication factors are required as described in Appendix \ref{appsexham} \code{>S\_Period}.
+
+Chromaticity up to third order is calculated from numerical differentiation \code{>ChromDiff}. Hamiltonian modes are calculated from multipole settings using the pre-calculated matrices and weight factors entered manually in order to visualize the results and combine them into a single, scalar penalty function, see Eq.\ref{eqpenal} \code{>Driveterms}. Chromaticity is corrected with two selected sextupole families using a simple $2\times 2$ matrix \code{>UpdateChromMatrix, GetLinChroma, ChromCorrect}.
+
+For the octupole matrix a SVD decomposition is performed for correction of the second order sextupole terms which are first order octupole terms. The SVD weight vector is provided for filtering, since usually a ``hard'' correction using all weights does not work well \code{>Oct\_SVDCMP}.
+Decapoles affect only the third order chromaticities. Other third order effects are not included.\\
+
+\opamodule{ChromGUILib1.pas}{(1.9k)}{ChromLib, CHamLine.}
+This small piece of code is mainly for passing handles to the\code{>CHamLine} frames.\\
+
+\opamodule{ChromGUILib2.pas}{(2.7k)}{ChromLib}
+Pass handles to the octupole SVD functions in order to enable automatic execution during minimization, and filters the SVD weight factors.\\
+
+\opamodule{CHamLine.pas/.lfm}{(10.7k) [Frame]}{OPAglobal, ChromLib, ChromGUILib2, CSexLine, ASaux.}
+25 of these frames are embedded in the GUI at start. They display the results for the 25 Hamiltionian modes and allow weight and target values to be set. A change of target or weight triggers an update of the calculations \code{>UpdateWeight, UpdateTarget}. Changing any multipole manually or by the minimizer of course changes these frames.\\
+
+\opamodule{CSexLine.pas/.lfm}{(11.9k) [Frame]}{OPAglobal, ChromLib, ChromGUILib1, ChromGUILib2, OPAChromaSVector, ASaux.}
+At start, one of these frames is embedded in the GUI for each family of sextupole, octupole, decapole and combined function bend. It provides a knob for the magnet strength. Changing it triggers a calculation of the Hamiltonian modes. If the minimizer is running, the strength field has to follow \code{>UpdateVal...}\\
+
+\opamodule{OPAChromaSVector.pas/.lfm}{(3.3k)}{OPAglobal, ChromLib, MathLib, ASfigure.}
+Opens a small window to visualize the first order sextupole modes in the complex plane.
+
+
+\subsection{Tracking}
+Tracking is performed in unit {\tt TrackLib}, used by the three GUIs for phase space, dynamic aperture and Touschek tracking:
+
+\opamodule{OPAtrackP.pas/.lfm}{(44.8k)}{OPAglobal,  OPAtune, TrackLib, MathLib, Vgraph, ASfigure, ASaux.}
+Phase space tracking: the GUI contains four plot windows for the transverse phase spaces and Fourier spectra, and several panels for different options. Single particles are started from coordinates entered manually in edit fields or passed from {\tt ASfigure} mouse events \code{>ButRunClick}. For amplitude dependent tune shifts (ADTS) particle start coordinates are stepped up to aperture limits \code{>ButTushClick}. For simulation of injection, a beam ellipse populated with many particles can be tracked \code{>StartEnsemble, ButBeamRunClick, TrackBeam}. Most of the unit contains event handlers and plot routines.\\
+
+\opamodule{OPAtrackDA.pas/.lfm}{(30.9k)}{OPAglobal,  OPAtune, TrackLib, MathLib, Vgraph, ASfigure, ASaux.}
+Dynamic aperture tracking: particles are started on a grid covering the area $(x,y)$, $(x,\delta)$ or $(y,\delta)$. The grid is successively refined to get an early impression \code{>gridSetup}. Physical apertures are calculate by projecting all apertures to the trackpoint \code{>Silhouette}. The other procedures are for event handling and plotting.\\
+
+\opamodule{OPAtrackT.pas/.lfm}{(45.7k)}{OPAglobal,  OPAtune, TrackLib, OpticPlot, MathLib, Vgraph, ASfigure,ASaux.}
+Touschek tracking: Lifetime is calculated as described in Appendix \ref{apptous} from bunch volume and momentum acceptance (MA). The MA is the minimum of the linear MA given by the beam pipe apertures \code{>CalcMALin}, of the RF-MA which is derived from input parameters or has been calculated previously by {\tt Bucket}, and of the dynamic MA obtained from tracking and binary search for min./max. stable momentum offset \code{>MADyn, Trackdbins, TrackLat}.
+
+The bunch volume is calculated from the periodic optics solution with its emittance and energy spread \code{>CalcSigma}.
+
+The GUI has two panels for several input values affecting lifetime and for derived values \code{>Output}.
+
+Coulomb lifetime is calculated from the effective acceptance, hower this includes only the physical, not the dynamic aperture limits \code{>CalcAccEL}. Bremsstrahlung lifetime uses the negative MA as used for Touschek lifetime too. Total lifetime is given as the inverse of the sum of the loss rates \code{>CalcLifetime}.\\
+
+\opamodule{TrackLib.pas}{(46.2k)}{OPAglobal, OpticPlot, OPAElements, MathLib;}
+At start, all linear elements are concatenated to matrices alternating with non-linear (or time dependent) kicks in order to speed up tracking \code{>TrackinMatrix}. Physical acceptances are calculated either from element apertures or from given apertures to estimate the maximum range for tracking \code{>Acceptances}. Both calculations have to be re-done when changing the reference momentum \code{>Init\_dpp}.
+The available aperture in the $(x,y)$-plane is calculated for a set of rays to obtain the silhouette, i.e. projection of beam pipe apertures to the trackpoint as described in Appendix \ref{appgeoa} \code{>AmpKappa}. Optics parameters at the Trackpoint are calculated, which may be located anywhere, even inside an element \code{>TrackPoint}.
+
+Tracking proceeds turn by turn at fixed momentum \code{>OneTurn} (or with changing momentum based on a simple model of synchtron oscillation \code{>OneTurn\_S}). Tracking one turn proceeds by repeated application of the matrix for a series of linear elements, followed by a non-linear (or time dependent) kick and a check for particle loss \code{>TMatKick}.
+
+The procedures in the last third of the unit (from {\tt SineWindow} to the end) are for signal processing, to calculate the FFT, interpolate frequencies and guess the related resonances.\\
+
+\subsection{Lattice Layout}
+\opamodule{OPAGeometry.pas/.lfm}{(63.2k)}{OPAglobal, OpticPlot, MathLib, ASaux.}
+This unit displays the lattice layout, peforms geometric matching and exports various files.
+The orbit is calculated in 3D-space from element lengths, deflection and rotation angles \code{>CalcOrbit}. The orbit as curve in space is rotated and translated depending on the initial conditions \code{>setDrawMode}.
+The elements are made from faces, i.e. polygons in 3D-space \code{>CalcFaces}, which become polygons when projected to 2D-space of the image plane \code{>CalcPoly}. Changing the initial conditions does not change the faces themselves but applies the same translationa and rotation to all of them \code{>TransPoly}.
+
+\todo{Up to now the elements are ``flat'', i.e. represented by a face of some length and width in the midplane. If changing the initial angle, they look ugly. It would be straightforward to define boxes made from several faces, however this would also require some rendering algorithm for 3D-display.}
+
+Several files can be exported, among them a \code{.geo} file of polygons \code{>butListClick}, which can also be read \code{>ReadFiles} in order to show several lattice structures in one plot.
+
+Geometric matching looks for lattice variables with names starting with ``G'', which control lengths and deflection or rotation angles of elements (in \code{>Start}) and runs an SVD minimizer to adjust the final (or initial) coordinates and angles of the lattice structure to a target value \code{>butMatchClick}.
+
+\todo{Geometric matching works but is not well implemented yet. More checks are required, and also an ``undo'' button should be added.}
+
+
+\subsection{Temporary}
+\opamodule{OPACurrents.pas/.lfm}{(10.3k)}{OPAglobal, ASaux.}
+This unit calculates magnet currents using two tables for allocation (i.e. hardware type of the magnet in the lattice) and magnet calibration, which may be read with the lattice in \code{OPAGlobal> ReadAllocation, ReadCalibration}. Calculating the current from the strength parameters and v.v. is done in \code{OPAGlobal> getIfromK, getKfromI}. Due to non-linearity of the calibration curve, a bisection root finder is used \cite{numrec}.
+
+The {\tt OPACurrents} unit provides a GUI and writes a {\tt .snap} file to be read by the storage ring control system. Among other data, this file also includes the matrices for tune change, if previously calculated by \code{OpticTune}, and for chromaticity change, calculated by \code{ChromLib> UpdateChromMatrix}.
+
+\todo{The current calculation should be done here, not in {\tt OPAGlobal}.}\\
+
+
+\opamodule{opatest.pas}{(37.3k)}{OPAglobal, OpticPlot, MathLib, ASaux.}
+This unit is for temporarily needed procedures or for testing new stuff, which then, if it works well, is moved to another place.
+
+In the present (\today) version the unit contains, among others, three procedures for reading MAD {\tt .mad}, MAD sequence {\tt .seq} and ELEGANT {\tt .lte} files. The procedures are yet incomplete but nevertheless facilitate reading these files.\\
+
+
+\subsection{Graphics and little helpers}
+
+%\opamoduleN{Fgraph.pas}{(10.8k)}
+%This unit for floating point graphics is only used by {\tt OpticView}. At start it is given a canvas handle for subsequent plot actions.
+%
+%\todo{All other OPA units use the more modern and powerful {\tt VGraph} and {\tt ASfigure} graphics units. {\tt FGraph} is only present for historical reasons, and because {\tt OpticView} uses some special plot and mouse actions. {\tt OpticView} should be adapted to {\tt VGraph}, and {\tt FGraph} should be eliminated.}\\
+
+These units are not in the OPA folder, because they are of more general use and part of other projects too:\\
+
+\opamodule{..ASfigure.pas/.lfm}{(9.9k) [Frame]}{Vgraph, ASAux.}
+This frame provides a paintbox (i.e. a plot window) to be embedded in a GUI and a {\tt Vplot}-object as defined in {\tt VGraph}. Added functionality includes handles to Edit fields in order to translate mouse actions to numbers (used in {\tt OPATrackP}) \code{>PassEditHandle..} \\
+
+\opamoduleN{..Vgraph.pas}{(25.1k)}
+This unit defines a canvas-based object with many public procedures for floating point graphics.
+On creation it receives a canvas handle (for example, the canvas of the {\tt ASfigure}-paintbox) \code{>Create}.
+Some plot procedures wrap standard methods from the Lazarus {\tt Graphics} unit but use floating point numbers instead of integers.
+Other plot procedures provide extended functionality, for example plotting a (phase space) ellipse \code{>Ellipse} or drawing ``nice'' axes \code{>Axis}.\\
+
+\opamoduleN{..Conrect.pas}{(14.4k)}
+Calculation of contour lines for a 2D-array of data \cite{CONRECT}.\\
+
+\opamoduleN{..ASaux.pas}{(7.9k)}
+A collection of ``little helpers'' for formatting, string operations, reading edit fields and dimming colors. It also includes an index sort algorithm.\\
+
+\hyperref[ChromLib]{\opagui{ChromLib}}
+
+\begin{thebibliography}{18}
+\bibitem{inside}A. Streun, Inside OPA, \url{https://andreas-streun.de/opa/inside.pdf} 
+\bibitem{euler}G. Slabaugh, Computing Euler angles from a rotation matrix, \url{https://eecs.qmul.ac.uk/~gslabaugh/publications/euler.pdf}.
+\bibitem{VZAS}V. Ziemann and A. Streun, Equilibrium parameters in coupled storage ring lattices and practical applications, Phys. Rev. Accel. Beams, 25, 050703, 2022. \biburl{https://link.aps.org/doi/10.1103/PhysRevAccelBeams.25.050703}.
+\bibitem{EDTENG} D. Edward and L.Teng, {\em Parametrization of linear coupled motion in periodic
+systems,} IEEE Trans.Nucl.Sci. 20, 885 (1973).
+\bibitem{SAGAN}D. Sagan, D. Rubin, {\em Linear Analysis of coupled lattices,} Physical Review Special
+Topics--Accelerators and Beams 2 (1999) 074001.
+\bibitem{jbsls}J. Bengtsson, The sextupole scheme for the SLS, SLS-Note 9/97,  \biburl{http://slsbd.psi.ch/pub/slsnotes/sls0997.pdf}
+\bibitem{WANG}Chun-xi Wang, Explicit formulas for 2nd-order driving terms due to sextupoles and chromatic effects of quadrupoles, ANL/APS/LS-330, 2012%, %    \url{https://www.aps.anl.gov/sites/www.aps.anl.gov/files/APS-sync/lsnotes/files/APS_1429490.pdf}
+\bibitem{SLAS}S. C. Leemann and A. Streun, Perspectives for future light source lattices incorporating yet uncommon magnets, Phys. ST Rev. Accel. Beams, 14, 030701, 2011.
+\bibitem{numrec}W. H. Press et al., Numerical Recipes in Pascal, Cambridge 1989.
+\bibitem{CONRECT}\biburl{http://paulbourke.net/papers/conrec/}
+\bibitem{rosetta}\biburl{http://rosettacode.org/wiki/Arithmetic\_Evaluator/Pascal}
+\end{thebibliography}
+
+
+\end{document} 
