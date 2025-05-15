@@ -8,43 +8,57 @@
 \headheight 0cm % no header
 \headsep 0cm
 \textheight 22cm
-\parskip 6pt
+\parskip 3pt
 \parindent 0pt
 
 \definecolor{cadmiumgreen}{rgb}{0.0, 0.42, 0.24}
 \definecolor{burntorange}{rgb}{0.8, 0.33, 0.0}
 
+
 \newcommand\code[1]{{\tt #1}}
+
 \newcommand{\ofld}[1]{\colorbox{black!15}{{\bf #1}}}
 \newcommand{\ofldx}[1]{\colorbox{black!15}{(#1)}}
+
 \newcommand\guico[1]{{\color{blue}\code{#1}}}
+\newcommand\guifco[1]{{\color{violet}\code{#1}}}
 \newcommand{\unico}[1]{{\color{burntorange}\code{#1}}}
-\newcommand{\evcod}[2]{\ofld{#1}~$\rightarrow$~\guico{#2}}
-\newcommand{\evcodx}[2]{\ofldx{#1}~$\rightarrow$~\guico{#2}}
+
+\newcommand{\evcod}[2]{\ofld{#1} $\rightarrow$ \guico{#2}}
+\newcommand{\evcodx}[2]{\ofldx{#1} $\rightarrow$ \guico{#2}}
+\newcommand{\evcodf}[2]{\ofld{#1} $\rightarrow$ \guifco{#2}}
+\newcommand{\evcodxf}[2]{\ofldx{#1}~$\rightarrow$ \guifco{#2}}
 \newcommand{\prcod}[2]{\opauni{#1}$>$\unico{#2}}
+\newcommand{\grcod}[2]{\opagui{#1}$>$\guico{#2}}
 
 \newcommand{\opagui}[1]{\colorbox{blue!20}{\code{#1}}}
 %\newcommand{\opagui}[1]{\fbox{\code{#1}}}
 %\newcommand{\oguih}[1]{{\Huge ~\\ \label{#1}{\opagui{#1}}}\\}
-\newcommand{\oguih}[1]{\subsection{\Huge\label{#1}{\opagui{#1}}}}
+\newcommand{\oguih}[2]{\subsection{\label{#2}#1}{\Huge\opagui{#2}}\\}
 \newcommand{\ogui}[1]{\hyperref[#1]{\opagui{#1}}}
 
 \newcommand{\opaguif}[1]{\colorbox{violet!30}{\code{#1}}}
-\newcommand{\oguifh}[1]{\subsection{\Huge\label{#1}{\opaguif{#1}}}}
+%\newcommand{\oguifh}[1]{\subsection{\Huge\label{#1}{\opaguif{#1}}}}
+\newcommand{\oguifh}[2]{\subsection{\label{#2}#1}{\Huge\opaguif{#2}}\\}
 \newcommand{\oguif}[1]{\hyperref[#1]{\opaguif{#1}}}
 
 
 \newcommand{\opauni}[1]{\colorbox{orange!30}{\code{#1}}}
 %\newcommand{\opauni}[1]{\underline{\code{#1}}}
-\newcommand{\ounih}[1]{\subsection{\Huge\label{#1}{\opauni{#1}}}}
+%\newcommand{\ounih}[1]{\subsection{\Huge\label{#1}{\opauni{#1}}}}
+\newcommand{\ounih}[2]{\subsection{\label{#2}#1}{\Huge\opauni{#2}}\\}
 \newcommand{\ouni}[1]{\hyperref[#1]{\opauni{#1}}}
 
 
-\newcommand{\uses}[1]{\subsubsection{Uses} #1}
-\newcommand{\desc}[1]{\subsubsection{Description} #1}
-\newcommand{\act}[1]{\subsubsection{Actions} #1}
-\newcommand{\pvar}[1]{\subsubsection{Public constants, types and variables} #1}
-\newcommand{\ppro}[1]{\subsubsection{Public procedures} #1}
+%\newcommand{\uses}[1]{\subsubsection{Uses} #1}
+%\newcommand{\uses}[1]{\rule[3pt]{\textwidth}{0.2pt} \\ {\bf Uses: } #1}
+\newcommand{\uses}[1]{{\bf Uses: } #1}
+
+%\newcommand{\desc}[1]{\subsubsection*{Description} #1}
+\newcommand{\desc}[1]{#1}
+\newcommand{\act}[1]{\subsubsection*{Actions} #1}
+\newcommand{\pvar}[1]{\subsubsection*{Public constants, types and variables} #1}
+\newcommand{\ppro}[1]{\subsubsection*{Public procedures} #1}
 
 \newcommand{\todo}[1]{{\color{red}\em #1}}
 \newcommand{\feature}[1]{{\color{cadmiumgreen}\em #1}}
@@ -81,38 +95,35 @@
 \fboxsep1pt
 
 \parbox[t]{0.7\hsize}{
-  {\Huge\bf inside OPA code} version {\bf 4.1.0}\\
+  {\Huge\bf OPA documentation} version {\bf 4.1.0}\\
   Andreas Streun, \today
 } \hfill  \includegraphics{opalogo_small.jpg}
 \rule{\hsize}{1pt}
 
 
+
 \section{Introduction}
+
 An overview of OPA 4.1.0 ($=$4.063) modules and actions is provided as help for programmers working on a new version. 
 
-OPA 4.1.0 includes 44 Pascal units \code{.pas}, 28 of them are \opagui{GUIs} which are accompanied by a Lazarus form \code{.lfm} (created by the Lazarus IDE), and 16 of them are Pascal \opauni{units}. Four of the GUIs are \opaguif{frames}, i.e. self-defined GUI components embedded in other GUIs. Four units are located in a parallel folder, here called \code{../com} since they are not OPA specific but used with other programs too.
 
-Table~\ref{tabover} gives a list, approximately "in order of appearance" during a typical OPA session. In addition OPA includes a couple of image files \code{.ico, .bmp} to draw symbols on buttons, which are not listed here. The column "Size" lists the lines of code as a rough estimate for the complexity of the unit.
+OPA 4.1.0 includes 44 Pascal units \code{.pas}, 28 of them are \opagui{GUIs} which are accompanied by a Lazarus form \code{.lfm} (created by the Lazarus IDE), and 16 of them are Pascal \opauni{units}. Four of the GUIs are \opaguif{frames}, i.e. self-defined GUI components embedded in other GUIs. Four units are located in a parallel folder, here called \code{../com/} since they are not OPA specific but used with other programs too.
+Table~\ref{tabover} lists the units. The column "Size" lists the lines of code as a rough estimate for the complexity of the unit. Furthermore, OPA includes a couple of image files \code{.ico, .bmp} to draw symbols on buttons. 
 
-A GUI unit defines a class, and the actual GUI is an instance of this class, i.e. a public variable, given in table~\ref{tabover} in the column "self". A GUI has a list of \guico{actions} corresponding to the event handler of its components, e.g. a button to be pressed. The pure Pascal units are passive, they contain a set of public \unico{procedures} which are called from the GUIs. Thus in this documentation, action lists are given for the GUIs, and lists of public variables and procedures for the Pascal units.
+A GUI unit defines a class, and the actual GUI is an instance of this class, i.e. a public variable, given in table~\ref{tabover} in the column "self". A frame defines a class and the parent GUI will define one or more instances of this class as variables. A GUI or a frame has a list of \guico{actions} corresponding to the event handlers of its components, for example a button to be pressed. The pure Pascal units are passive, they contain a set of public \unico{procedures} which are called from the GUIs. Frames too may contain public \guifco{procedures}. Thus in this documentation, action lists are given for the GUIs and frames, and lists of public variables and procedures for the frames and Pascal units. 
 
-The GUIs handle the user interactions while the Pascal units contain all the calculations. This separation was largely done in OPA, however not strictly. Some minor calculatoins are done in the GUI in some places.
+GUI components accept user input and/or launch events. Some have captions, like \ofld{Buttons}, others not, like for example a \ofldx{plot area} responding to mouse clicks. The general scheme is \evcod{component}{event handler}. Event handlers may call private procedures of the GUI or public procedures from units listed in the \guico{uses} section.
 
-OPA was developed over more than 30 years along the design of SLS, SLS 2.0 and other machines, and features were implemented as needed for design work. The program code reflects this history and may not present the most logical structure. Also the names of the units (including use of capitals) are historical and could be changed to more meaningful descriptors.
+In general GUIs should handle the user interactions only while the Pascal units do all the calculations. This separation was largely realized in OPA, however not strictly. Some minor calculatoins are done in the GUI in some places.
+
+OPA was developed over more than 30 years along the design of SLS, SLS 2.0 and other machines, and features were implemented as needed for design work. The program code reflects this history and may not present the most logical structure. Also the names of the units (including inconsistent use of capitals) are historical and could be changed to more meaningful descriptors.
+
+In this document, \todo{red italics give informations about bugs and other problems and/or suggestions for future improvements.} \feature{Green italics mention particular features which distinguish OPA from other beam dynamics and should be maintained.}
 
 Like other beam dynamics programs OPA works on a lattice file. It contains {\em elements}, mainly magnets of different type, and {\em segments}, which are line-ups of elements and segments. One of the segements is selected and expanded to become {\em the lattice} to work with. Element parameters, e.g. quadrupole strength in the lattice file can be numbers or arithmetic expressions using {\em variables}, which are part of the lattice file too.
 
 
 
-%Documentation of each unit includes
-%\begin{mylist}
-%\item Name: this is the name of the source file. The format \opagui{GUI} identifies a %GUI component, \opaguif{frame} is an embedded GUI component, and \opauni{unit} is a plain Pascal unit. 
-%\item Uses: a list of units used by this one
-%\item Task: a brief description of functionality
-%\item Action: a list of actions corresponding to the event handlers.
-%\item Public: a list of public procedures provided. Private procedures are not listed %since they are only relevant inside the unit.
-%\item To do: suggestion for improvements in a future version.
-%\end{mylist}
 
 
 \begin{table}
@@ -129,11 +140,11 @@ Name & self & Purpose & Size \\ \hline
 \ouni{../com/conrect} & & contour plot calculation & 332 \\
 \ouni{../com/asaux} & & little helpers & 349 \\
 \ouni{opalatticefiles} & & file reading and writing & 1839 \\
-\ogui{OPAEditor} & \guico{} & interactive lattice editor  & 346 \\
+\ogui{texteditor} & \guico{FormTxtEdt} & text editor for lattice file & 190 \\
+\ogui{OPAEditor} & \guico{FormEdit} & interactive lattice editor  & 346 \\
 \ogui{EdElCreate} & \guico{} & creation of an element & 144 \\
 \ogui{EdElSet} & \guico{} & edit element parameters & 861 \\
 \ogui{EdSgSet} & \guico{} & edit segment parameters & 444 \\
-\ogui{texteditor} & \guico{} & text editor for lattice file & 190 \\
 \ogui{opticview} & \guico{} & linear optics design & 1143 \\
 \oguif{knobframe} & \guico{} & slider to set element property & 421 \\
 \ogui{Opticstart} & \guico{} & setting for start parameters & 615 \\
@@ -158,11 +169,11 @@ Name & self & Purpose & Size \\ \hline
 \ogui{Bucket} & \guico{} & plot RF bucket & 640 \\
 \ogui{LGBeditor} & \guico{} & longitudinal gradient bend editor & 702 \\
 \ouni{LGBeditorLib} & & longitudinal gradient bend calculations & 471 \\
-\ogui{OPAGeometry} & \guico{} & geometric machine layout and matching & 2010 \\
 \ogui{OPAtrackP} & \guico{} & phase space tracking & 1422 \\
 \ogui{OPAtrackDA} & \guico{} & dynamic aperture tracking & 1666 \\
 \ogui{OPAtrackT} & \guico{} & Touschek tracking & 1726 \\
 \ouni{tracklib} & & particle tracking calculations & 1502 \\
+\ogui{OPAGeometry} & \guico{} & geometric machine layout and matching & 2010 \\
 \ogui{OPACurrents} & \guico{} & export magnet currents to machine control & 303 \\
 \ouni{opatest} & & test of new features & 472 
 \end{tabular}
@@ -173,24 +184,19 @@ Name & self & Purpose & Size \\ \hline
 
 \section{Main programs and in general}
 
-\ounih{opa.lpr}
+\ounih{Main program}{{opa.lpr}}
 
 \desc{The main program file which allocates the units as described below and creates some of the forms. It is created more or less automatically by the Lazarus IDE.}
 
+\oguih{Menu}{opamenu}
 
-\oguih{opamenu}
+\desc{The main GUI for reading and writing files and to launch the other GUIs. It includes message (log) and status windows. It is always open in the background. Closing it exits OPA.}
 
-\desc{The main GUI for reading and writing files and to launch the other GUIs. It includes message (log) and status windows. It is always open in the background. Closing it exits OPA.
-}
-
-\uses{\ouni{OPAglobal}, \ogui{OPAEditor}, \ogui{TextEditor}, \ouni{OPALatticeFiles},\ \ogui{OpticView}, \ogui{OPAtune}, 
+\uses{\ouni{OPAglobal}, \ogui{OPAEditor}, \ogui{texteditor}, \ouni{opalatticefiles},\ \ogui{opticview}, \ogui{OPAtune}, 
   \ogui{OPAmomentum}, \ogui{OPAChroma}, \ogui{OPAtrackP},  \ogui{OPAtrackDA}, \ogui{OPAtrackT}, \ogui{OPAorbit},
   \ogui{OPAGeometry}, \ogui{LGBeditor}, \ogui{Bucket}, \ogui{OPACurrents}, \ouni{opatest}}
-  
-
-
+ 
 \act{
-
 \guico{FormCreate} called at start creates the GUI and fills the menu items with data: the list of last used files is established and the status labels are set. Then handles to most components are passed to \ouni{OPAglobal} to make them available to all GUIs, in order to send messages to the log window, update the status in the status window and enable or disable options depending on the result of calculations.
 Note, that the initialization of \ouni{OPAglobal} is executed first to provide the required information. 
 
@@ -229,7 +235,7 @@ Note, that the initialization of \ouni{OPAglobal} is executed first to provide t
 
 \evcod{RF Bucket Viewer}{ds\_rfbu} launch RF bucket visualization \ogui{Bucket}
 
-\evcod{Geometry Layout}{ds\_geo } launch geometry layout and matching \ogui{OPAgeometry}
+\evcod{Geometry Layout}{ds\_geo } launch geometry layout and matching \ogui{OPAGeometry}
 
 \evcod{LGB Optimizer}{ds\_lgbo } launch editor for longitudinal gradient bends \ogui{LGBeditor}\\
 
@@ -259,13 +265,12 @@ The other menu items in this group are temporary tests calling procedures from u
 \evcod{Clear}{ButLogClr} clears the log window.
 }
 
-\ounih{OPAglobal}
+\ounih{Global data}{OPAglobal}
 
 \desc{
 This unit defines global constants, types and variables and thus is OPA's "database". It also provides many public procedures for different non-physics tasks. Only an overview can be given here, and the most important or complex things will be explained. Everything else should become clear from the code, hopefully.}
 
-\uses{\opauni{mathlib}, \opauni{../com/asaux}}
-
+\uses{\opauni{../com/mathlib}, \opauni{../com/asaux}}
 
 \pvar{
 Constants include general settings, array sizes, color definitions, name strings and values of flags later to be referenced by name.\\
@@ -321,9 +326,6 @@ are expanded into separate instances named \code{CH001,CH002...} to adress them 
 
 \unico{AppendChar} builds a linked list of characters for \ogui{texteditor} \todo{(wrong place)}.
 
-\unico{getKfromI, getdKdIfac, getIfromK} convert  magnet strength in current and vice versa taking into account non-linear magnet saturation, only used in \ogui{OPACurrents} 
-\todo{(wrong place)}.
-
 \unico{putkval, getkval, putSexkval, getSexkval} functions are shortcuts to set or get the parameter which is considered the strength of a magnet.
 
 \unico{FillComboSeg} fills the list of last used files in \ogui{opamenu}.
@@ -341,12 +343,12 @@ The procedures and functions listed under "Calculator" are an arithmetic evaluat
 
 \todo{The \ouni{OPAglobal} unit grew large large and heterogenous over the years and should be split into several units for the different functions to be performed. Several procedures should be moved to other units}\\
 
+\ounih{Mathematics library}{mathlib}
 
-\ounih{mathlib}
-\uses{standalone, no uses}
 \desc{
-A library of mathemical functions: definition of types and operations with vectors, matrices and complex numbers. It further contains some special functions, among them the Touschek integral function, and implementations of Powell's minimizer, LU decomposition and Singular Value Decomposition taken from \cite{numrec}, but extended to dynamic array size. OPA does not link external libraries but all algorithms needed are included in the code.
-}
+A library of mathemical functions: definition of types and operations with vectors, matrices and complex numbers. It further contains some special functions, among them the Touschek integral function, and implementations of Powell's minimizer, LU decomposition and Singular Value Decomposition taken from \cite{numrec}, but extended to dynamic array size. OPA does not link external libraries but all algorithms needed are included in the code.}
+
+\uses{none}
 
 \pvar{
 Types define vectors and matrices for beam dynamics, geometry and for the Powell minimization procedure. The only public variables are the parameters for Powell. 
@@ -364,33 +366,265 @@ Most procedures are elementary operations on vectors, matrices and complex numbe
 
 \unico{svdcmp} and \unico{svbksb} perform singular value decomposition and backsubstitution to solver lineaer systems of equations as described in \cite{numrec}. SVD is superiour to LUD for non-square and degenerate systems. An packing/unpacking algorithms was added to use the procedures with arbitrary dimension. The procedure is used in orbit correction in \ogui{OPAorbit} and for setting octupole families in \ogui{OPAChroma}.
 
-\unico{Powell} is an implementation of Powell's minimizer for steepest gradient search in $N$ dimensions taken from \cite{numrec}. It is used for sextupole optimization in \ogui{OPAChroma}, for longitudinal gradient optimization in \ogui{LGBEditor}, and (test mode only) for non-linear optimization in \ogui{OPAmomentum}.
+\unico{Powell} is an implementation of Powell's minimizer for steepest gradient search in $N$ dimensions taken from \cite{numrec}. It is used for sextupole optimization in \ogui{OPAChroma}, for longitudinal gradient optimization in \ogui{LGBeditor}, and (test mode only) for non-linear optimization in \ogui{OPAmomentum}.
+}
+
+\ounih{Graphics library}{../com/Vgraph}
+
+\desc{
+The class \unico{Vplot} defined in this unit contains a Lazarus \code{TC
+anvas} object. Plot commands for \code{TCanvas}  use integer screen pixel coordinates. \ouni{../com/Vgraph} wraps these standard plotting commands with procedures of same name but accepting physics coordinates as real numbers. Data are either scaled and forwarded to \code{TCanvas}  or written to an Ecapsulated postscript file \code{*.eps}.
+
+Furthermore procedures for crating nice axes, for drawing circles and ellipses and for grabbing the screen image have been added.
+}
+
+\uses{none}
+
+\pvar{
+There are no public variables. A GUI will define one or more variables of class \unico{Vplot}
+}
+
+\ppro{
+\unico{Create} accepts a handle to a \code{TCanvas} object, which is needed to construct a \unico{Vplot} object. Further some initialization is done.
+
+\unico{PS\_start} opens an \code{*.eps} file of name \unico{psfile} supplied by the calling procedure for output and sets the private flag \unico{PS} to \code{true} to direct the output to the file and not to the screen. A file header is written, defining the BoundingBox as the canvas screen size. Then macros for text alignment are defined in postscript language. If opening the file fails, an error message is returned.
+
+\unico{PS\_stop} closes the \code{*.eps} file and sets the flag \unico{PS} to \code{false}.
+
+\unico{SetRange*}, \unico{SetMargin*} etc set plot ranges and scaling as displayed in Fig.\ref{vprange}. The vertical screen coordinate counts downwards whereas the physical coordinates as well as the Postscript coordinates count upwards. 
+
+\unico{getpx,getpy} and \unico{PS\_getpxr,PS\_getpyr} translate physical coordinates $x,y$ into screen, resp. Postscript coordinates (upper/lower line):
+\[
+{\tt px}={\tt px0}+\frac{\tt pxrange}{x_{\rm range}} (x-x_{\rm min}) \qquad
+{\tt py}=\left\{ \begin{array}{r} {\tt py0} + \\ {\tt pytotal} - {\tt py0} -  \end{array} \right\} \frac{(-{\tt pyrange})}{y_{\rm range}} (y-y_{\rm min}) \qquad
+\]
+
+\unico{AdjustAspectRatio} adjusts the plot ranges such, that the unit is the same horizontal and vertical, i.e. a circle appears as circle not as an ellipse.
+
+\unico{Axis} plots an axis with even numbers as annotations and ranges, also extracting an exponent if needed. 
+
+\unico{GetAxisSpace} returns the space required for the axis annotations without drawing the axis in order to adjust the plot range accordingely. It is called first by the calling GUI, in particular by \oguif{../com/asfigure}.
+
+\unico{Circle} and \unico{Ellipse} plot a circle or a (sheared) ellipse in beam dynamics notation.
+
+\unico{GrabImage} copies the screen canvas to the system clipboard, useful to catch plots for draft notes.
+
+All the other procedures are mainly wrappers for the standard plot commands or shortcuts to draw arrows, symbols etc.
+
+\unico{Stroke} does nothing on the screen but terminates a series of plot commands in Postscript. Curve plotting procedures need to terminate a \unico{LineTo...} loop by calling \unico{stroke}.
+}
+
+\feature{Direct EPS export is a convenient function to immediately create high resolution graphics ready for publication in a \LaTeX document.}
+
+
+\begin{figure}\centering
+\includegraphics[scale=0.8]{vplotcoor.png}
+\caption{\label{vprange}\ouni{../com/Vgraph} coordinates}
+\end{figure}
+
+
+
+\oguifh{Plot area}{../com/asfigure}
+This frame contains a paintbox (i.e. a plot area) to be embedded in a GUI and a \unico{Vplot} object using the paintbox canvas. 
+Added functionality includes handles to edit fields in order to translate mouse actions to numbers. 
+
+\uses{\ouni{../com/Vgraph}, \ouni{../com/asaux}}
+
+\pvar{
+\guifco{plot} is a variable of class \unico{Vplot} in \ouni{../com/Vgraph}. It is accessible to the parent GUI for direct plotting.
 
 }
 
-\ounih{../com/Vgraph}
-\desc{}
-\uses{}
+\ppro{
 
-\oguifh{../com/asfigure}
+\guifco{assignScreen} creates \unico{Vplot} and passes the paintbox canvas in order to plot on the screen.
 
+\guifco{forceMargin*} set fixed margins for the plot and supresses auto-scaling by subsequent calls to \guifco{Init} or \prcod{VGraph}{Axis}.
 
-\section{Main GUIs}
+\guifco{Init} starts the plot. Inputs are the horizontal and vertical ranges, flags where to put axes and the descriptions of the axes, a flag to mark the origin and another flag to adjust the aspect ratio (i.e. increasing the smaller of the two ranges until the units are of same size, see \prcod{VGraph}{AdjustAspectRatio}).
 
+\guifco{SetSize} to be called from the parent GUI on resizing is used to change the size of this frame.
 
+\guifco{PassEditHandle*} accepts the handle to a \code{TEdit} field in order to link it to the mouse position inside this frame.
 
+\guifco{PassFormHandle} accepts a handle to the parent GUI. \todo{(?)}
 
+\guifco{GetRange} returns the range of a rectangular region in physical coordinates, which has been marked by dragging the mouse inside the plot.
 
-
-
-
-
-
-
-
+\guifco{UnfreezeEdit} frees the edit fields again, when it had been frozen by an Mouse/up event (see below).
+}
 
 
-\opamodule{OPAElements.pas}{(82.6k)}{OPAglobal, MathLib;}
+\act{
+\evcodxf{plot area}{pMouseDown,pMouseMove,pMouseUp} handles mouse events inside the plot area.
+When edit fields are linked, the physical coordinates of the plot are displayed in the fields while moving the mouse. On releasing the mouse, the edit field freezes, i.e. saves the last data and changes its color.
+This is used in \ogui{OPAtrackP} %{PassEditHandle..} 
+to see the particle coordinates corresponding to the cursor position. \\
+When the mouse is dragged, the region between mouse down and up is used to rescale the plot area. This is used to zoom in in \ogui{OPAGeometry}~-- \todo{This works in Windows but not in Linux, probably due to different event handling~-- not yet understood.}
+
+\evcodxf{plot area}{pDblClick} grabs the plot image to the Clipboard on double-clicking the mouse.
+}
+
+
+
+\ounih{Contour plot calculation}{../com/conrect}
+
+\desc{This contour plot calculation is taken from \cite{CONRECT} with minor adaptations. Given a 2D array of rectangular gridded data it returns an array of contour lines.}
+
+\uses{none}
+\pvar{
+\unico{Con...} are a set of types to store the data. \unico{ConLinesType} contains points of a straight line belonging to an contour of height index \unico{ih}, and \unico{ConLinesArray} is an array of these.
+}
+\ppro{
+\unico{Conrec} is the only procedure, calculating the contours.}
+
+\ounih{Utilities}{../com/asaux}
+
+\desc{This unit is a collection of "little helpers" for formatting numbers and strings, for defining colors etc. Some of this functions may be obsolete meanwhile, since newer versions of Lazarus and Pascal may include corresponding functions.
+Procedures are short and probably self-explaining. Not all of them are used in OPA (the \code{../com} folder units are used by several programs).}
+
+\uses{none}
+
+\section{Lattice I/O and Edit} 
+
+\ounih{Lattice files}{opalatticefiles}
+
+\desc{Lattice data are read from and saved to files called \code{*.opa}. Reading a file copies its content into a linked list of characters (basically a long string) in \grcod{opamenu}{ReadFile}.
+
+There is an option to read additional files of magnet calibrations and allocations (i.e. real magnet types and names associated with the element), in order to prepare data for the machine control system.
+
+Files from other beam dynamics programs can be read and written, however, this includes only the basic parameters and may require some manual editing to make these files work. This includes Tracy-2 or -3 files \code{*.lat}, Elegant files \code{*.ele,*.lte}, MAD files \code{*.mad} and MAD sequence files \code{*.seq}.
+}
+
+\uses{\ouni{OPAglobal}, \ouni{mathlib}, \ouni{../com/asaux}}
+
+\ppro{
+\unico{Latread} evaluates the character list of type \unico{TextBuffer}: comments, enclosed by \{ \} brackets, are skipped. An input line is terminated by a semicolon (;), its length is unlimited and it may break over several lines in the lattice file.  Input lines are evaluated by searching first for a colon (:) which identfies an element or segment, or, if not found, a variable.
+
+A variable input line contains a name, an equal sign ($=$) and a value or an expression.
+Reserved variables are found searching for the names TITLE, ALLOCATION, CALIBRATION (containing a title of the lattice and the names of optional allocation and calibration files), and by searching in the list of keywords \unico{globkeyw} containing ENERGY and other global parameters. Other names not matching these keywords are considered as user-defined variables.
+
+An element or segment input line contains a name, the colon (:) and a comma-separated list of tokens.
+
+An element is recognized if the colon is followed by a valid element type name in list \unico{elemkeyw} (which is based on \unico{ElemName} in \ouni{OPAglobal}). Then the tokens are expected to contain each a parameter identifier, an equal sign ($=$) and a value or expression. There are many parameters for the different element types. The element is created and the values are assigned.
+
+For a segment the tokens are names of elements or segments, both are  assigned to a linked list of type \unico{AbstractEleType} as defined in \ouni{OPAglobal}.
+
+If names of allocation or calibration files were given, these files are read now.
+
+Finally, the lattice is built from the last segment calling \prcod{OPAglobal}{MakeLattice}.\\
+
+
+\unico{LatReadCom} is called after LatRead and searches the lattice string for a pair of tokens \code{\{com} and \code{com\}} to save the text between. All other comments contained in the lattice and enclosed in \{ \} brackets only are not saved.\\
+
+\unico{ReadAllocation} and \unico{ReadCalibration} read additional optional files containing lists of magnet types and real names and the magnet calibrations in order to calculate the magnet currents in \guico{OPACurrents}. 
+An example for SLS is found at \url{https://ados.web.psi.ch/slsdesc/optic/magnets.html}. 
+
+The \unico{ElementType} in \ouni{OPAglobal} contains a pointer to a linked list of \unico{NameListType},  which contains real names of elements, name of power supply, i.e. control channel, polarity etc. \\
+
+
+\unico{lteconvert}, \unico{madconvert} and \unico{madseqconvert} try to make Elegant \code{*.lte} and MAD \code{*.mad} and \code{*.seq} files understandable for OPA. They work on the \unico{TextBuffer} string by exchanging keywords and inserting conversion factors without analyzing the lattice itself. This is then done by a subsequent call to \unico{LatRead}. Tracy \code{*.lat} and Elegant \code{*.ele} files can be digested directly by \unico{LatRead}.\\
+
+\unico{WriteLattice} accepts a variable \unico{mode} of value \code{0..5} to write an OPA, Tracy-2, Elegant, MAD-X, BMAD or Tracy-3 file. \unico{mode} \code{6} writes an OPA-file with all arithmetic expressions expanded into numbers.
+
+Different beam dynamics codes use different units (e.g. degrees or radians) and different definitions of magnet order and strength. Only OPA, Elegant and Tracy-3 handle correctly nested inversions of segments to implement an asymmetric element (e.g. dipole with different entry and exit edge angles) correctly in the lattice. Export to the other programs requires to create and insert inverted segments (prefix \code{I\_}) for all segments containing asymmetric elements.
+
+All  programs mentioned above allow arithmetic expressions instead of plain values for element parameters. However, unlike the others, Elegant uses inverse Polish notation, which is not included here, therefore expressions are expanded, i.e. resolved to values, for Elegant.
+
+Further export of data is straightforward: first variables, then elements, then segments. The complete lattice file is returned as one long string.
+}
+
+\todo{Type \unico{TextBuffer} is a linked list of characters and has historical origin. It could be replaced by a long string, which would be much simpler.}
+
+\oguih{Text Editor}{texteditor} 
+\desc{A simple Notepad-like text editor to edit the lattice file. The content of the edit window is one variable of type \unico{textbuffer}, i.e. the editor "does not know" what the content means. At exit or when a test is requested, \prcod{opalatticefiles}{LatRead} is used to analyze the lattice.}
+
+\uses{\ouni{OPAglobal}, \ouni{opalatticefiles}}
+
+\ppro{
+\guico{Init} called from \ogui{opamenu} accepts a handle to the drop down list of segments in order to change its content when segments are created or deleted.
+
+\guico{LoadLattice} called from \ogui{opamenu} calls \prcod{opalatticefiles}{WriteLattice} to write the lattice file into the text window \guico{EdtWin}. Then the text window is copied into a text buffer to save its content.
+}
+
+\act{
+\evcodx{text window}{disableOKBut} disables the \ofld{OK} button when text is changed. No other action is done on text input.
+
+\evcod{Test}{filetest} performs a test of the input by calling \prcod{opalatticefiles}{LatRead}. Before, the input is copied into a buffer, then, by calling \prcod{OPAglobal}{PassErrLogHandle}, the output from \unico{LatRead} is redirected from the \ogui{opamenu} main log window to the local error log window \guico{myerrlog}, because the main GUI may be covered by the text editor GUI. If the test is successful, the \ofld{OK} button is enabled. Then the handle for output is set back to the main GUI.
+
+
+\evcod{OK}{fileget} reads the lattice in the same way, now knowing that the input is a valid lattice, and exits. At Exit, the segment drop down list in the mnain GUI is set to the last segment, from which the lattice was built by \prcod{opalatticefiles}{LatRead}.
+
+\evcod{Cancel}{fileRestore} ignores the text window, reads the lattice from the buffer as saved at \guico{Init} and exits.
+
+}
+
+\todo{Nowadays better text editors may be available, which include colored mark-up, auto-complete options and real time checks.}
+
+\oguih{Interactive Editor}{OPAEditor}
+
+The "OPA Editor" allows to create elements and compose a lattice without knowing element type names and lattice file syntax. It is more suitable for beginners, while the text editor may be more convenient for experienced users.
+
+The GUI displays two lists, one for variables and elements, the other one for segments. In addition some global parameters like beam energy and default magnet aperture may be set.
+
+\uses{\ouni{OPAglobal}, \ogui{EdlCreate}, \ogui{EdelSet}, \ogui{EdSgSet}, \ouni{../com/asaux}}
+
+\ppro{
+\guico{Init} called from \ogui{opamenu} accepts a handle to the drop down list of segments in order to change its content when segments are created or deleted. Init is also called internally to update the list contents.
+}
+
+\act{
+\evcodx{Element list}{ListBoxEClick}: if the first line of the list is licked, the object \guico{EditElemCreate} of class \ogui{EdElCreate} is initialized by passing handles to this list and to the \ogui{EdSgSet} object for editing segments. If another line of the list is clicked then object \guico{EditElemSet} of class \ogui{EdElSet} is intitalized by calling two different procedures depending on if the clicked item represents a variable or an element, and a handle to this list is passed.
+
+\evcodx{Segment List}{ListBoxSClick} initializes object \guico{EditSegSet} of class \ogui{EdSgSet} by passing a handle to this list.
+
+\evcod{Beam energy}{EditGloEKeyPress}, \evcodx{aperture fields}{EditA*KeyPress},\\ \evcod{Magnet pole radius}{EdrrefKeyPress} are edit fields to accept values for beam energy, for element default apertures, and for default magnet pole inscribed radius.
+
+\ofldx{Comment window} (no event) text window \guico{MemCom} accepts a comment, which will be saved in the lattice file between the \code{\{com...com\}} tokens.
+
+\evcod{Invert all dipole polarities}{ButDipInv} inverts all dipole polarities.
+
+\evcod{Expand undulators}{ButExpUndClick} expands an undulator into a series of dipoles and drift spaces creating the elements and re-defining the undulator as segment. Usually undulator is a basic element, and the series of dipoles and drifts is executed internally and not visible to the user.
+
+\evcod{Set all apertures}{ButAllAperClick} sets all apertures to the values given in the \guico{EditAx}, \guico{EditAy} fields thus overwriting individual element settings. 
+
+\ofld{Set all (not only if larger)} (no event) if checkbox \guico{ChkAll} is checked, apertures of all elements are set, otherwise only those which have a larger aperture than the values in the fields.
+
+\ofld{Invert rotations in inverted segments} (no event): If  checkbox \guico{ChkGloRi} is ticked or not defines if a beam rotation is inverted (like an asymmetric elements) or not when a segment containing the rotations is  inverted. A corresponding flag \unico{glob.rot\_inv} is set and saved in the lattice file.
+
+\evcod{Exit}{ButExit} saves data, updates the segment drop down list in \ogui{opamenu} and closes the GUI.
+}
+
+
+\oguih{Element Creator}{EdElCreate} 
+
+\oguih{Element Editor}{EdElSet} 
+
+\oguih{Segment Editor}{EdSgSet}
+
+
+\section{Linear Optics}
+
+\oguih{Linear optics design}{opticview} 
+
+\oguifh{Parameter knob}{knobframe} 
+
+\oguih{Start parameters}{Opticstart} 
+
+\oguih{Tune matching}{OpticTune} 
+
+\oguih{Optics marker update}{OpticWOMK} 
+
+\oguih{Plot mode selection}{OpticEnvel} 
+
+\oguih{Linar matching}{OpticMatch} 
+
+\oguih{Parameter scan}{OpticMatchScan}
+
+\ounih{Lattice calculations}{opticplot} 
+
+\ounih{Element calculations}{OPAElements} 
+
 A beam as defined by its orbit, (normal mode) beta functions, dispersion and coupling matrix is propagated through an element \code{>Driftspace,Quadrupole...}
 
 Internally the procedures \code{>MCC\_prop} and \code{>MBD\_prop} perform the transfer for coupling and non-coupling eleements.
@@ -402,13 +636,67 @@ For display OPA subdivides elements in slices, where the slice length correspond
 Internal private procedures calculate phase advances and transform between physical, normal modes and normalized normal mode coordinates.\\
 
 
+\oguih{Tune diagram}{OPAtune}
+
+\section{Momentum Dependent Optics}
+
+\oguih{Momentum dependence}{OPAmomentum}
+
+\ounih{Calculations}{MomentumLib} 
+
+\section{Non-linear Optimization}
+
+\oguih{Non-linear optimization}{OPAChroma} 
+
+\oguifh{Element controller}{CSexLine} 
+
+\oguifh{Result indicator}{CHamLine} 
+
+\ounih{Result handles}{ChromGUILib1} 
+
+\ounih{Element handles}{ChromGUILib2} 
+
+\oguih{Vector diagram}{OPAChromaSVector} 
+
+\ounih{Calculations}{chromlib} 
+
+\section{Orbit and Injection}
+
+\oguih{Orbit and injection}{OPAorbit} 
+
+\section{Special Element Editors}
+
+\oguih{RF bucket}{Bucket}
+
+\oguih{Longitudinal gradient bend}{LGBeditor} 
+
+\ounih{LGB calculations}{LGBeditorLib} 
+
+\section{Tracking}
+
+\oguih{Phase space}{OPAtrackP} 
+
+\oguih{Dynamic aperture}{OPAtrackDA} 
+
+\oguih{Touschek lifetime}{OPAtrackT} 
+
+\ounih{Calculations}{tracklib}
+
+\section{Layout, Currents etc}
+
+\oguih{Machine Layout}{OPAGeometry}
+
+\oguih{Magnet currents}{OPACurrents}
+
+\unico{getKfromI, getdKdIfac, getIfromK} convert  magnet strength in current and vice versa taking into account non-linear magnet saturation.
+
+\ounih{Test procedures}{opatest} 
+
+
+
+
 
 \subsection{Editors}
-\opamodule{OPAEditor.pas/.lfm}{(9.7k)}{EdElCreate, EdElSet, EdSegSet, OPAGlobal, ASaux}
-The ``OPA Editor'' allows elements, variables and segments to be created and modified interactively. Global parameters like energy and default aperture can be set, and a comment may be added. Furthermore some convenience functions allow all dipoles to be inverted or undulators to be expanded into series of dipoles and drifts.\\
-
-\opamodule{EdElCreate.pas/.lfm}{(3.5k)}{EdElSet, EdSegSet, OPAGlobal}
-Create a new element from a dopdown list.\\
 
 \opamodule{EdElSet.pas/.lfm}{(28.4k)}{OPAglobal, OpticPlot, ASfigure, ASaux}
 Table to edit all parameters of an element or a variable. Some fields may contain algebraic expressions to calculate parameters from variables. This procedure is called in four different ways, for elements and for variables, and from editor or from optics design. For (iron dominated) magnets, a possible pole-profile is plotted \code{>PlotPro}.\\
@@ -416,8 +704,6 @@ Table to edit all parameters of an element or a variable. Some fields may contai
 \opamodule{EdSgSet.pas/.lfm}{(11.9k)}{OPAglobal, ASaux}
 A table to set up or modify a segment, which is a line-up of elements and segments.\\
 
-\opamodule{texteditor.pas/.lfm}{(5.2k)}{OPAglobal}
-A simple Notepad-like text editor to edit the lattice file; used as an alternative to the interactive ``OPA Editor'' for the experienced user.\\
 
 \opamodule{LGBeditor.pas/.lfm}{(19.1k)}{OPAglobal,  MathLib, ASfigure, ASaux}
 \opamodule{LGBeditorLib.pas}{(13.9k)}{OPAglobal, ASfigure, ASaux}
@@ -575,34 +861,16 @@ This unit is for temporarily needed procedures or for testing new stuff, which t
 In the present (\today) version the unit contains, among others, three procedures for reading MAD {\tt .mad}, MAD sequence {\tt .seq} and ELEGANT {\tt .lte} files. The procedures are yet incomplete but nevertheless facilitate reading these files.\\
 
 
-\subsection{Graphics and little helpers}
 
-%\opamoduleN{Fgraph.pas}{(10.8k)}
-%This unit for floating point graphics is only used by {\tt OpticView}. At start it is given a canvas handle for subsequent plot actions.
-%
-%\todo{All other OPA units use the more modern and powerful {\tt VGraph} and {\tt ASfigure} graphics units. {\tt FGraph} is only present for historical reasons, and because {\tt OpticView} uses some special plot and mouse actions. {\tt OpticView} should be adapted to {\tt VGraph}, and {\tt FGraph} should be eliminated.}\\
 
-These units are not in the OPA folder, because they are of more general use and part of other projects too:\\
 
-\opamodule{..ASfigure.pas/.lfm}{(9.9k) [Frame]}{Vgraph, ASAux.}
-This frame provides a paintbox (i.e. a plot window) to be embedded in a GUI and a {\tt Vplot}-object as defined in {\tt VGraph}. Added functionality includes handles to Edit fields in order to translate mouse actions to numbers (used in {\tt OPATrackP}) \code{>PassEditHandle..} \\
 
-\opamoduleN{..Vgraph.pas}{(25.1k)}
-This unit defines a canvas-based object with many public procedures for floating point graphics.
-On creation it receives a canvas handle (for example, the canvas of the {\tt ASfigure}-paintbox) \code{>Create}.
-Some plot procedures wrap standard methods from the Lazarus {\tt Graphics} unit but use floating point numbers instead of integers.
-Other plot procedures provide extended functionality, for example plotting a (phase space) ellipse \code{>Ellipse} or drawing ``nice'' axes \code{>Axis}.\\
 
-\opamoduleN{..Conrect.pas}{(14.4k)}
-Calculation of contour lines for a 2D-array of data \cite{CONRECT}.\\
-
-\opamoduleN{..ASaux.pas}{(7.9k)}
-A collection of ``little helpers'' for formatting, string operations, reading edit fields and dimming colors. It also includes an index sort algorithm.\\
-
-\hyperref[ChromLib]{\opagui{ChromLib}}
 
 \begin{thebibliography}{18}
-\bibitem{inside}A. Streun, Inside OPA, \url{https://andreas-streun.de/opa/inside.pdf} 
+\bibitem{tutorial}OPA Tutorial, \url{https://andreas-streun.de/opa/tutorial2.pdf}
+\bibitem{userguide}OPA userguide, \url{https://andreas-streun.de/opa/opa4.pdf} 
+\bibitem{inside}Inside OPA, \url{https://andreas-streun.de/opa/inside.pdf} 
 \bibitem{euler}G. Slabaugh, Computing Euler angles from a rotation matrix, \url{https://eecs.qmul.ac.uk/~gslabaugh/publications/euler.pdf}.
 \bibitem{VZAS}V. Ziemann and A. Streun, Equilibrium parameters in coupled storage ring lattices and practical applications, Phys. Rev. Accel. Beams, 25, 050703, 2022. \biburl{https://link.aps.org/doi/10.1103/PhysRevAccelBeams.25.050703}.
 \bibitem{EDTENG} D. Edward and L.Teng, {\em Parametrization of linear coupled motion in periodic
