@@ -96,7 +96,7 @@
 \fboxsep1pt
 
 \parbox[t]{0.7\hsize}{
-  {\Huge\bf OPA documentation} version {\bf 4.1.0}\\
+  {\Huge\bf OPA documentation} version {\bf 4.1.1}\\
   Andreas Streun, \today
 } \hfill  \includegraphics{opalogo_small.jpg}
 \rule{\hsize}{1pt}
@@ -114,30 +114,35 @@ A GUI or a frame has a list of \guico{actions} corresponding to the event handle
 
 GUI components accept user input and/or launch events. Some have captions, like \ofld{Buttons}, others not, like for example a \ofldx{plot area} responding to mouse clicks. The general scheme is \evcod{component}{event handler}. Event handlers may call private procedures of the GUI or public procedures from units as listed in the \guico{uses} section. For the units \prcod{unit}{procedure} refers to a procedure in a unit.
 
-In this document, \todo{red italics give informations about bugs and other problems and/or suggestions for future improvements.} \feature{Green italics mention particular features which distinguish OPA from other beam dynamics and should be maintained.}
+In this document, \todo{red italics give informations about bugs and other problems and/or suggestions for future improvements.} \feature{Green italics mention particular features which distinguish OPA from other beam dynamics and should be preserved.}
 
 Questions may be adressed to the author at \url{mailto:psi@andreas-streun.de}.
 
 %\opamust indicates that this part of the code is essential and should be included
-
+\newpage
 
 
 \section{OPA status}
 
-Following semantic versioning \cite{semver} version 4.063 of OPA was renamed 4.1.0. However, since up to now only the author worked on the code, the distinctions MAJOR, MINOR, PATCH rather refer to the changes as visible to the users. 
+Following semantic versioning \cite{semver} version 4.063 of OPA was renamed 4.1.0. However, since up to now only the author worked on the code, the distinctions MAJOR, MINOR, PATCH rather refer to the changes as visible to the users than to the API. 
 
 
 Current version is OPA 4.1.1. It includes 44 Pascal units \code{.pas}, 28 of them are \opagui{GUIs} which are accompanied by a Lazarus form \code{.lfm} (created by the Lazarus IDE), and 16 of them are Pascal \opauni{units}. Five of the GUIs are \opaguif{frames}, i.e. self-defined components embedded in other GUIs. Four units are located in a parallel folder, here called \code{../com/} since they are not OPA specific but used with other programs too.
 Table~\ref{tabover} lists the units. The column "Size" lists the lines of code as a rough estimate for the complexity of the unit. Furthermore, OPA includes a couple of image files \code{.ico, .bmp} to draw symbols on buttons. 
 
-A GUI defines a class, and the actual GUI is the one and only instance of this class, i.e. a public variable, given in table~\ref{tabover} in the column "self". A frame defines a class and the parent GUI will define one or more instances of this class as variables. In this case, the column "self" gives the class name.
+A GUI defines a class, given in table~\ref{tabover} in the column "class". The actual GUI is the one and only instance of this class, i.e. a public variable, usually with the name as the class but without the leading "T". A frame also defines a class but no instance, instead the parent GUI will define one or more instances of this class as variables.
 
 In general GUIs should handle the user interactions only while the Pascal units do all the calculations. This separation was largely realized in OPA, however not strictly. Some minor calculations are done in the GUI in some places.
 
-OPA was developed over more than 30 years along the design of SLS, SLS 2.0 and other machines, and features were implemented as needed for design work. The program code reflects this history and may not present the most logical structure. Also the names of the units (including inconsistent use of capitals) are historical and could be changed to more meaningful descriptors.
+OPA was developed over more than 30 years along the design of SLS, SLS 2.0 and other machines, and features were implemented as needed for design work. The program code reflects this history and may not present the most logical structure. Also the names of the units (including inconsistent use of capitals) are historical and could be changed to more meaningful descriptors.\\
 
+In this document section \ref{secglob} will explain the "backbone" of OPA, which are the global datatypes and variables, the main menu and units for mathematics and graphics which are used by many GUIs. 
+Section \ref{secedit} contains lattice file handling and the two editors, text-based and "LEGO" block like.
 
-Like other beam dynamics programs OPA works on a lattice file. It contains {\em elements}, mainly magnets of different type, and {\em segments}, which are line-ups of elements and segments. One of the segements is selected and expanded to become {\em the lattice} to work with. Element parameters, e.g. quadrupole strength in the lattice file can be numbers or arithmetic expressions using {\em variables}, which are part of the lattice file too.
+Beam physics starts with section \ref{seclino} on the interactive linear optics design panel and related GUIs and units and continues with section~\ref{secmomo} on off-momentum optics. The non-linear optimization module is explained in section~\ref{secnonl}, and section~\ref{secorin} covers injection and orbit correction.
+
+Editors for the RF bucket and longitudinal gradient bends are explained in section~\ref{secspee}, the three tracking modules with their library in section \ref{sectrac}, and everything else like machine layout and magnet currents in section~\ref{secelse}.
+
 
 
 
@@ -148,20 +153,22 @@ Like other beam dynamics programs OPA works on a lattice file. It contains {\em 
 \label{tabover}
 {\small
 \begin{tabular}{lllr}
-Name & self & Purpose & Size \\ \hline
-\ogui{opamenu} & \guico{MenuForm} & the main menu & 901 \\
+Name & class & Purpose & Size \\ \hline
+\ogui{opamenu} & \guico{TMenuForm} & the main menu & 901 \\
 \ouni{OPAglobal} & & global variables and procedures & 2986 \\
 \ouni{mathlib} & & mathematical library & 2075 \\
 \oguif{../com/Vgraph} & \guifco{Vplot} & real number graphics library & 1276 \\
 \oguif{../com/asfigure} & \guifco{TFigure} & general plot procedure & 314 \\
 \ouni{../com/conrect} & & contour plot calculation & 332 \\
+\hline
 \ouni{../com/asaux} & & little helpers & 349 \\
 \ouni{opalatticefiles} & & file reading and writing & 1839 \\
-\ogui{texteditor} & \guico{FormTxtEdt} & text editor for lattice file & 190 \\
-\ogui{OPAEditor} & \guico{FormEdit} & interactive lattice editor  & 346 \\
-\ogui{EdElCreate} & \guico{EditElemCreate} & creation of an element & 144 \\
-\ogui{EdElSet} & \guico{} & edit element parameters & 861 \\
-\ogui{EdSgSet} & \guico{} & edit segment parameters & 444 \\
+\ogui{texteditor} & \guico{TFormTxtEdt} & text editor for lattice file & 190 \\
+\ogui{OPAEditor} & \guico{TFormEdit} & interactive lattice editor  & 346 \\
+\ogui{EdElCreate} & \guico{TEditElemCreate} & creation of an element & 144 \\
+\ogui{EdElSet} & \guico{TEditElemSet} & edit element parameters & 861 \\
+\ogui{EdSgSet} & \guico{TEditSegSet} & edit segment parameters & 444 \\
+\hline
 \ogui{opticview} & \guico{} & linear optics design & 1143 \\
 \oguif{knobframe} & \guico{} & slider to set element property & 421 \\
 \ogui{Opticstart} & \guico{} & setting for start parameters & 615 \\
@@ -173,23 +180,29 @@ Name & self & Purpose & Size \\ \hline
 \ouni{opticplot} & & linear beam dynamics calculations & 2840 \\
 \ouni{OPAElements} & & element propagation calculations & 2387 \\
 \ogui{OPAtune} & \guico{} & show the tune diagram & 634 \\
+\hline
 \ogui{OPAmomentum} & \guico{} & momentum dependence and optimization & 949 \\
 \ouni{MomentumLib} & \guico{} & momentum dependent calculations & 480 \\
+\hline
 \ogui{OPAChroma} & \guico{} & nonlinear optimization & 1413 \\
 \oguif{CSexLine} & \guico{} & controller for nonlinear element & 454 \\
-\oguif{CHamLine} & \guico{} & bar indicator for nonlinear Hamiltonian mode & 416 \\
-\ouni{ChromGUILib1} & & ? & 79 \\
-\ouni{ChromGUILib2} & & ? & 93 \\
+\oguif{CHamLine} & \guico{} & bar indicator for Hamiltonian mode & 416 \\
+\ouni{ChromGUILib1} & & little helper to pass results handles & 79 \\
+\ouni{ChromGUILib2} & & little helper to pass element handles & 93 \\
 \ogui{OPAChromaSVector} & \guico{} & show Hamiltonian as complex vector & 145 \\
 \ouni{chromlib} & & nonlinear dynamics calculations & 1813 \\
+\hline
 \ogui{OPAorbit} & \guico{} & orbit correction and injection & 2353 \\
+\hline
 \ogui{Bucket} & \guico{} & plot RF bucket & 640 \\
 \ogui{LGBeditor} & \guico{} & longitudinal gradient bend editor & 702 \\
 \ouni{LGBeditorLib} & & longitudinal gradient bend calculations & 471 \\
+\hline
 \ogui{OPAtrackP} & \guico{} & phase space tracking & 1422 \\
 \ogui{OPAtrackDA} & \guico{} & dynamic aperture tracking & 1666 \\
 \ogui{OPAtrackT} & \guico{} & Touschek tracking & 1726 \\
 \ouni{tracklib} & & particle tracking calculations & 1502 \\
+\hline
 \ogui{OPAGeometry} & \guico{} & geometric machine layout and matching & 2010 \\
 \ogui{OPACurrents} & \guico{} & export magnet currents to machine control & 303 \\
 \ouni{opatest} & & test of new features & 472 
@@ -199,11 +212,117 @@ Name & self & Purpose & Size \\ \hline
 
 \pagebreak
 
-\section{Main programs and in general}
+\section{\label{secglob}Main programs and general use}
 
 \ounih{Main program}{{opa.lpr}}
 
 \desc{The main program file which allocates the units as described below and creates some of the forms. It is created more or less automatically by the Lazarus IDE.}
+
+
+\ounih{Global data}{OPAglobal}
+
+\desc{
+This unit defines global constants, types and variables and thus is OPA's "database". It is also initialized first when OPA starts and sets environment variables and default values. Public variables defined here are used by the other modules, since almost all of them use \ouni{OPAglobal}. These "global" variables contain the basic lattice data, status flags, handles to access GUI components and temporary data to be exchanged between modules. This unit also provides many public procedures for various non-physics tasks. Only an overview can be given here, and the most important or complex things will be explained. Everything else should become clear from the code, hopefully.
+
+\todo{The \ouni{OPAglobal} unit grew large large and heterogenous over the years and should be split into several units for the different functions to be performed, or procedures should be moved to other units if applicable.}
+
+Like other beam dynamics programs OPA works on a lattice file. It contains {\em elements}, mainly magnets of different type, and {\em segments}, which are line-ups of elements and segments. One of the segments is selected and expanded to become {\em the lattice} to work with. Element parameters, e.g. quadrupole strength in the lattice file can be numbers or arithmetic expressions using {\em variables}, which are part of the lattice file too.
+}
+
+\uses{\opauni{../com/mathlib}, \opauni{../com/asaux}}
+
+\pvar{
+Constants include general settings, array sizes, color definitions, name strings and values of flags later to be referenced by name.\\
+
+Following type definitions may be considered as non-trivial:
+
+\unico{ElementType} is a case-record for defining element parameters such as length, quad focusing strength, dipole bending angle etc. Several (but not all) parameters may be arithmetic expressions instead of numbers. For more details see the user guide \cite{userguide} or the source code. 
+
+\unico{variable\_type} is for variables defined by name and value or arithmetic expressions. Variables are referenced in arithmetic expressions of element parameters or in other variables.
+
+\unico{AbstractEleType} represents either an element or a segment and contains pointers to previous and next abstract elements. The abstract element may be inverted or repeated.
+
+\unico{SegmentType} is for segments, which are series of abstract elements, defined by pointers to its initial and final abstract element.
+
+\unico{LatticeType} is a lattice entry. The lattice is built by expanding a segment, so it contains only elements, and additional information on direction (if the element is inverted), and data relevant for orbit correction (misaligmnets and if the element sits on a girder). \\
+\feature{Unlike several other codes OPA handles correctly nested inversions of segments to obtain the correct orientation of the element in the lattice. This is relevant for bending magnets with unequal edge properties.}
+
+\unico{OmarkType} is a set of optics data as property of the element type "optics marker".
+
+\unico{OpValType} is an extended set of optics data used for propagation in \ouni{OPAElements}.
+
+\unico{GirderType} describes a girder by first and last lattice entry of elements sitting on the girder, and by the type of connection to adjacent girders.
+
+\unico{CurveType} is a point in an optical functions curve including a pointer to the next point.
+
+\unico{CurvePlotType} defines a curve by a pointer to its initial point.
+
+\unico{DefaultType} defines a user setting by name and value. Default values are defined by \\ \prcod{OPAglobal}{Initialization} but can be modified by the user and saved.
+
+Other types are mainly shortcut definitions to gather interrelated data.\\
+
+Here are the most important global variables. If not mentioned otherwise, the type name is the variable name with suffix \code{type}. Usually only one instance exists:
+
+\unico{Elem} and \unico{Ella} are arrays of \unico{Elementtype}, where the first one is read from file and manipulated in the editors, while the second one are a subset of elements used in the lattice and to be modified in the various calculations. After terminating a calculation the user is asked to save or cancel the changes, which causes the \unico{Ella}-data to be copied back to the \unico{Elem} array or not.
+
+\unico{Segm}, \unico{Lattice} and \unico{Girder} are arrays of corresponding types. Maximum array length is defined in the \code{const} section of the unit.
+
+\unico{Glob} saves some global parameters like beam energy, default aperture size etc.
+
+\unico{Status} is a group of status flags to be set by the outcome of calculations in order to enable or disable buttons and to re-use data in other calculations.
+
+\unico{MainButtonHandles} provides global control of the various options in \ogui{opamenu} to enable or disable them based on the status flags.
+
+\unico{GlobDef} and \unico{Def} of \unico{DefaultType} are arrays of user-defined settings, which are read at start and when switching the working folder. 
+
+\unico{Beam} saves beam parameters like tune, emittance etc.
+
+\unico{SnapSave} stores intermediate results in order to re-use them in other modules, for example analytical results from the nonlinear optimization to compare them later with tracking. (Furthermore, some data are saved which are relevant for machine control and to be exported by \ogui{OPACurrents} to an EPICS \code{.snap} file.) \todo{Data are not invalidated yet, if something was modified in the lattice.}
+
+\todo{There are more variables of basic types, which better should not be globally visible to avoid errors and confusion. Wherever possible they may become local, or they should be hidden behind set- and get-procedures.}
+
+}
+
+\ppro{
+This listing of procedures is more or less inverse to the (historical and illogical) arrangement in the source file:
+
+\unico{Initialization} sets some global variables to reasonable initial values, sets all status flags to false, and sets default values for $\sim$250 user settings.
+Then it sets the OPA directory and tries to read the files \code{opa4\_path.ini} which contains a list of last used files. Then it reads \code{opa4\_glob\_ini} containing global user settings (at the moment this is only the amount of output). Finally, it takes the folder from the first entry in the list of last used files to set the working folder and reads the file \code{opa4\_set.ini} in this folder to restore the $\sim$250 user settings. If these files are missing, the default values are used.
+
+\unico{GlobDefWriteFile} and \unico{DefWriteFile} write the user settings back to these files if the session is regularly terminated by \evcod{opamenu}{ExitOPA}.
+
+\unico{MakeLattice} builds the lattice from elements and segments. Since a segment istelf contains elements and segments, the internal procedure \unico{SegLat} is called recursively to unpack the data. 
+%If a list of real names (from machine control system) is available, these names are 
+The elements, which are used in the lattice are copied from the \unico{Elem} to the \unico{Ella} array, and correctors and monitors with generic names \code{CH,CV,MON}
+are expanded into separate instances named \code{CH001,CH002...} to adress them individually in orbit correction in unit \ogui{OPAorbit}. Finally status flags are set.
+
+\unico{GirderSetup} evaluates the girder structure if contained in the lattice and allocates the lattice elements to the corresponding girders.
+
+\unico{IniElem} sets default values for new elements.
+
+\unico{AppendAE, ClearSeg, NAESeg} are procedures to handle segments, which are series of pointers to elements or other segments.
+
+\unico{AppendCurve, ClearCurve}  prepare data sets for plotting curves of optical functions. 
+
+\unico{AppendChar} builds a linked list of characters for \ogui{texteditor} \todo{(wrong place)}.
+
+\unico{putkval, getkval, putSexkval, getSexkval} functions are shortcuts to set or get the parameter which is considered the strength of a magnet.
+
+\unico{FillComboSeg} fills the list of last used files in \ogui{opamenu}.
+
+\unico{OPALog} writes a message to the log window in \ogui{opamenu}.
+
+\unico{MainButtonEnable} enables or disables the options in \ogui{opamenu} depending on the status flags. For example, tracking is only enabled if a periodic solution exists.
+
+\unico{PassMainButtonHandles} and \unico{passErrLogHandle} take handles to the GUI components of \ogui{opamenu} to enable other units using \ouni{OPAglobal} to enable/disable them.
+
+\unico{EllaSave} and \unico{Elcompare} check if elements in lattice (\unico{Ella}) have been changed with regard to the original elements (\unico{Elem}) and ask the user if the changes should be saved.
+
+The procedures and functions listed under "Calculator" are an arithmetic evaluator adapted from \cite{rosetta}. Other procedures not listed here include variable, element and segment to string conversion and other utilities which may be self-explanbatory.
+}
+
+
+
 
 \oguih{Menu}{opamenu}
 
@@ -282,83 +401,6 @@ The other menu items in this group are temporary tests calling procedures from u
 \evcod{Clear}{ButLogClr} clears the log window.
 }
 
-\ounih{Global data}{OPAglobal}
-
-\desc{
-This unit defines global constants, types and variables and thus is OPA's "database". It also provides many public procedures for different non-physics tasks. Only an overview can be given here, and the most important or complex things will be explained. Everything else should become clear from the code, hopefully.}
-
-\uses{\opauni{../com/mathlib}, \opauni{../com/asaux}}
-
-\pvar{
-Constants include general settings, array sizes, color definitions, name strings and values of flags later to be referenced by name.\\
-
-Following type definitions may be considered as non-trivial:
-
-\unico{ElementType} is a case-record for defining element parameters such as length, quad focusing strength, dipole bending angle etc. Several (but not all) parameters may be arithmetic expressions instead of numbers. The "optics marker" element contains a pointer to a set of optical functions (normal mode betas and alfas, dispersions, orbit and coupling matrix) of type \unico{OmarkType}.
-
-\unico{variable\_type} is for variables defined by name and value or arithmetic expressions. Variables are referenced in arithmetic expressions of element parameters or in other variables.
-
-\unico{AbstractEleType} is for abstract elements which represent either an element or a segment and contain pointers to previous and next abstract elements. The abstract element may be inverted or repeated.
-
-\unico{SegmentType} is for segments, which are series of abstract elements, defined by pointers to its initial and final abstract element.
-
-\unico{LatticeType} is a lattice entry. The lattice is built by expaning a segment, so it contains only elements, and additional information on direction (if the element is inverted), and data relevant for orbit correction (misaligmnets and if the element sits on a girder). \\
-\feature{Unlike several other codes OPA handles correctly nested inversions of segments to obtain the correct orientation of the element in the lattice. This is relevant for bending magnets with unequal edge properties.}
-
-\unico{GirderType} describes a girder by first and last lattice entry of elements sitting on the girder, and by the type of connection to adjacent girders.
-
-Other types are mainly shortcut definitions to gather interrelated data.\\
-
-Only few of the global variables need an explation:
-
-\unico{Elem} and \unico{Ella} are arrays of \unico{Elementtype}, where the first one is read from file and manipulated in the editors, while the second one are a subset of elements used in the lattice and to be modified in the various calculations. After terminating a calculation the user is asked to save or cancel the changes, which causes the \unico{Ella}-data to be copied back to the \unico{Elem} array or not.
-
-\unico{Status} of \unico{StatusType} is a group of status flags to be set by the outcome of calculations in order to enable or disable buttons and to re-use data in other calculations.
-
-\unico{MainButtonHandles} of \unico{MainButtonHandlesType} provided global control of the various options in \ogui{opamenu} to enable or disable them.
-
-\unico{GlobDef} and \unico{Def} of \unico{DefaultType} are arrays of user-defined settings, which are read at start and when switching the working folder. 
-}
-
-\ppro{
-This listing of procedures is more or less inverse to the (historical and illogical) arrangement in the source file:
-
-\unico{Initialization} sets some global variables to reasonable initial values, sets all status flags to false, and sets default values for $\sim$250 user settings.
-Then it sets the OPA directory and tries to read the files \code{opa4\_path.ini} which contains a list of last used files. Then it reads \code{opa4\_glob\_ini} containing global user settings (at the moment this is only the amount of output). Finally, it takes the folder from the first entry in the list of last used files to set the working folder and reads the file \code{opa4\_set.ini} in this folder to restore the $\sim$250 user settings. If these files are missing, the default values are used.
-
-\unico{GlobDefWriteFile} and \unico{DefWriteFile} write the user settings back to these files if the session is regularly terminated by \evcod{opamenu}{ExitOPA}.
-
-\unico{MakeLattice} builds the lattice from elements and segments. Since a segment istelf contains elements and segments, the internal procedure \unico{SegLat} is called recursively to unpack the data. 
-%If a list of real names (from machine control system) is available, these names are 
-The elements, which are used in the lattice are copied from the \unico{Elem} to the \unico{Ella} array, and correctors and monitors with generic names \code{CH,CV,MON}
-are expanded into separate instances named \code{CH001,CH002...} to adress them individually in orbit correction in unit \ogui{OPAorbit}. Finally status flags are set.
-
-\unico{GirderSetup} evaluates the girder structure if contained in the lattice and allocates the lattice elements to the corresponding girders.
-
-\unico{IniElem} sets default values for new elements.
-
-\unico{AppendAE, ClearSeg, NAESeg} are procedures to handle segments, which are series of pointers to elements or other segments.
-
-\unico{AppendCurve, ClearCurve}  prepare data sets for plotting curves of optical functions. 
-
-\unico{AppendChar} builds a linked list of characters for \ogui{texteditor} \todo{(wrong place)}.
-
-\unico{putkval, getkval, putSexkval, getSexkval} functions are shortcuts to set or get the parameter which is considered the strength of a magnet.
-
-\unico{FillComboSeg} fills the list of last used files in \ogui{opamenu}.
-
-\unico{OPALog} writes a message to the log window in \ogui{opamenu}.
-
-\unico{MainButtonEnable} enables or disables the options in \ogui{opamenu} depending on the status flags. For example, tracking is only enabled if a periodic solution exists.
-
-\unico{PassMainButtonHandles} and \unico{passErrLogHandle} take handles to the GUI components of \ogui{opamenu} to enable other units using \ouni{OPAglobal} to enable/disable them.
-
-\unico{EllaSave} and \unico{Elcompare} check if elements in lattice (\unico{Ella}) have been changed with regard to the original elements (\unico{Elem}) and ask the user if the changes should be saved.
-
-The procedures and functions listed under "Calculator" are an arithmetic evaluator adapted from \cite{rosetta}. Other procedures not listed here include variable, element and segment to string conversion and other utilities which may be self-explanbatory.
-}
-
-\todo{The \ouni{OPAglobal} unit grew large large and heterogenous over the years and should be split into several units for the different functions to be performed. Several procedures should be moved to other units}\\
 
 \ounih{Mathematics library}{mathlib}
 
@@ -501,7 +543,7 @@ Procedures are short and probably self-explaining. Not all of them are used in O
 
 \uses{none}
 
-\section{Lattice I/O and Edit} 
+\section{\label{secedit}Lattice I/O and Edit} 
 
 \ounih{Lattice files}{opalatticefiles}
 
@@ -635,38 +677,110 @@ The GUI displays two lists, one for variables and elements, the other one for se
 
 
 \oguih{Element Editor}{EdElSet} 
+
 \desc{
-Table to edit all parameters of an element or a variable. Some fields may contain algebraic expressions to calculate parameters from variables. This procedure is called in four different ways, for elements and for variables, and from editor or from optics design. For (iron dominated) magnets, a possible pole-profile is plotted \code{>PlotPro}.
+Main component of the GUI is a table to edit all parameters of an element or a variable. Some fields may contain algebraic expressions to calculate parameters from variables. This procedure is called in four different ways, for elements and for variables, and from editor or from optics design. For (iron dominated) magnets, a possible pole-profile is plotted.
 }
+
 \uses{\ouni{OPAglobal}, \ouni{opticplot}, \oguif{../com/asfigure}, \ouni{../com/asaux}}
+
+\ppro{
+\guico{InitE}, \guico{InitEVar}, \guico{InitO},  \guico{InitOVar} are four different initialization procedures, for elements and variables, and for calling from the interactive editor \ogui{OPAEditor} or from the linear optics design \ogui{opticview}. In edit mode, a handle to the element list in \ogui{opamenu} is passed, the element index is taken from the list, and the element to be edited is taken from the original element array \unico{Elem}. In optics mode, the index is given explicity and adresses the \unico{Ella} subset of elements in the lattice, and a handle to the plot window of \ogui{opticview} is passed to enable an update of the plot when the element is changed. For variables there is only one array \unico{Variable} (The arrays are defined in \ouni{OPAglobal}). \\
+Then two private procedures are called, which are common for edit and optics mode, to fill the table with data of the element or variable. For elements several lines are filled depending on the type of element, for variables it is only one line. Some element properties and variables may have a value {\em and} an arithmetic expression (like "A+B"), which is a string for variables and a pointer for elements. If the string is empty or the pointer is \code{nil}, the value is taken in edit mode. In optics mode, the calculated value from the expression is shown too ("2.5 = A+B") for elements. For variables the expression is shown in both modes.\\
+If the element is a quadrupole or a bending magnet, the GUI is extended by a plot area of type \oguif{asfigure} to show its pole profile.
+
+\guico{getJelem} just returns the index of the selected element in order to enable \ogui{opticview} to kill this GUI if the user assigns the element to a knob.
+}
+\act{
+
+\evcod{Done}{butOKClick} and \evcod{Apply}{butApplyClick} both read the table and update the element. The \ofld{Apply} button is only enabled in optics mode and does not close the GUI in order to view how the change affects the optics.\\ 
+The private procedure \guico{SetElem} for updating the element performs several steps:
+In edit mode, it reads the name of the element, checks if it already exists, and, if not, if this element is used in segments, and asks, if all these entries should be renamed too. Then, in both modes, the table is read and the values are assigned to the element depending on its type. This includes conversion from convenient input units to internal SI-units. The validity of data is checked, i.e. if values are valid numbers, and if expressions can be executed without error. If everything is ok, then, in edit mode, data are written to the selected element in the \unico{Elem} array and updated in the elements list of the calling \ogui{opamenu} GUI. In optics mode, the element in the \unico{Ella} array is updated, the optics is recalculated calling \prcod{opticsplot}{OpticReCalc}, and the plot in the calling \ogui{opticview} GUI is updated by sending it a \code{repaint} event.\\
+For variables, the private procedure \guico{SetVar} performs similar actions: In edit mode it reads the name, checks if it already exists, and, if not, it this variable is used in any expression, and asks if all these entries should be renamed too. Then in both modes, its expression is read from the table. (If the expression can be converted into a valid number, this value is assigned and the expression set to an empty string to identify a primary variable, which is a pure number.) Then, depending on the mode, the \ogui{opamenu} list is updated or the \ogui{opticview} plot is updated.
+
+\evcod{Cancel}{butCancelClick} does nothing but closing the GUI.
+
+\evcodx{Parameter table}{TabDrawCell} checks if input is a valid number and marks it red in case of error. This is not done in edit mode, since input may be an expression. In optics mode, expressions as input are not editable.
+
+\guico{ppaint} reacts on repaint events for the form and plots the magnet profile, it is activated at initialization.
+}
 
 
 \oguih{Segment Editor}{EdSgSet}
+
 \desc{
-A table to set up or modify a segment, which is a line-up of elements and segments.
+The GUI displays an editable string grid with names of elements and segments, which are marked in color depending on its kind and type. 
 }
+
 \uses{\ouni{OPAglobal}, \ouni{../com/asaux}}
 
+\ppro{
+\guico{Init} passes a handle to the segment list in \ogui{OPAEditor} and loads the abstract element sequence of the segment, which was clicked in the list, into the string grid. If entries contain an inversion flag or a multiplication factors, this is written to the grid cell too. The segment name is written to the \ofldx{Modify segment} name field at top, and its periodicity (replication factor) to the \ofldx{periodicity} field at bottom. If the first line of the segment list was clicked, a new segment is to be created and grid and name edit field stay empty.
+}
+\act{
+\evcodx{Grid}{drawCell} analyzes the content of the cell and assigns a color code for element type, segment or unknown using private procedure \guico{ElemCol\_C}.
 
-\section{Linear Optics}
+\evcodx{Grid}{gridKeyDown} reacts to pressing the CTRL+INSERT or CTRL+DELETE keys on the keyboard by inserting or deleting a grid cell, and shifting up or down the higher cells using private procedure \guico{ShiftCells}.
+
+\evcodx{Modify segment}{EditSegNameChange}: If the name of the segment was changed, the button to create a new segment is enabled.
+
+\evcod{update}{butokClick} and \evcod{create}{butcreClick} call private procedure \guico{SaveSeg} to read the grid cells and edit fields, and to perform several checks before creating or updating the segment:\\
+If the grid is empty and the segment is not used by any other segment, then the segment is deleted, otherwise an error message is sent.\\
+If the name is invalid or if the name already exists, or if the  segment contains unknown names, error messages are sent.\\
+If tests were successful, in case of \ofldx{create} a new segment is appended to the list, in case of \ofldx{update} the existing segment is deleted first by disposing all its abstract element pointers in \prcod{OPAglobal}{ClearSeg}.\\
+If an existing segment was renamed, the entry is updated in all others segments. Then, 
+the new segment sequence is saved as linked list of abstract elements by \prcod{OPAglobal}{AppendAE}. If the segment was deleted, it is removed from the global \unico{Segm} array and from the \ogui{OPAeditor} segment list, else the list is updated. Finally the exit procedure destroys the GUI.
+
+\evcod{delete}{butdelClick} sets all grid cells to empty strings and performs the delete procedures for an empty segment as described above, and exits.
+
+\evcod{cancel}{butcanClick} does nothing but exit.
+}
+
+\section{\label{seclino}Linear Optics}
 
 \oguih{Linear optics design}{opticview} 
 
+\desc{This is the main GUI for (linear) optics development. It contains procedures for initialization the form, for plotting, handlers for mouse events and GUI buttons.
+}
+
+\uses{\oguif{knobframe}, \ogui{Opticstart}, \ogui{OpticTune}, \ogui{OpticWOMK},\ogui{OpticEnvel}, \ogui{OpticMatch}, \ouni{opticplot}, \ogui{OPAtune}, \ogui{EdElSet}, \ouni{OPAglobal}, \ouni{mathlib}, \oguif{../com/Vgraph}, \ouni{../com/asaux}} 
+
+
 \oguifh{Parameter knob}{knobframe} 
+
+\uses{\ouni{opticplot}, \ouni{OPAglobal}, \ouni{mathlib}, \ouni{../com/asaux}} 
+
 
 \oguih{Start parameters}{Opticstart} 
 
+\uses{\ouni{opticplot}, \ouni{OPAglobal}, \ouni{mathlib}, \ouni{../com/asaux}} 
+
 \oguih{Tune matching}{OpticTune} 
+
+\uses{\ouni{opticplot}, \ouni{OPAglobal}, \ouni{mathlib}, \ouni{../com/asaux}} 
 
 \oguih{Optics marker update}{OpticWOMK} 
 
+\uses{\ouni{OPAglobal}, \ouni{../com/asaux}} 
+
 \oguih{Plot mode selection}{OpticEnvel} 
+
+\uses{\ouni{OPAglobal}, \ouni{mathlib}, \ouni{../com/asaux}} 
+
 
 \oguih{Linar matching}{OpticMatch} 
 
+\uses{\ouni{opticplot}, \oguif{knobframe}, \ogui{OpticMatchScan}, \ouni{OPAglobal},  \oguif{../com/asfigure}, \ouni{../com/asaux}} 
+
 \oguih{Parameter scan}{OpticMatchScan}
 
+\uses{\ouni{opticplot}, \ouni{OPAglobal}, \ouni{../com/asaux}} 
+
+
 \ounih{Lattice calculations}{opticplot} 
+
+\uses{
+ \ouni{OPAElements}, \ogui{OPAtune}, \ouni{OPAglobal}, \ouni{mathlib}, \oguif{../com/Vgraph}, \ouni{../com/asaux}}
 
 \ounih{Element calculations}{OPAElements} 
 
@@ -680,16 +794,20 @@ For display OPA subdivides elements in slices, where the slice length correspond
 
 Internal private procedures calculate phase advances and transform between physical, normal modes and normalized normal mode coordinates.\\
 
+\uses{\ouni{OPAglobal}, \ouni{mathlib}}
+
 
 \oguih{Tune diagram}{OPAtune}
 
-\section{Momentum Dependent Optics}
+\uses{\ouni{OPAglobal}, \oguif{../com/asfigure}, \ouni{../com/asaux}}
+
+\section{\label{secmomo}Momentum Dependent Optics}
 
 \oguih{Momentum dependence}{OPAmomentum}
 
 \ounih{Calculations}{MomentumLib} 
 
-\section{Non-linear Optimization}
+\section{\label{secnonl}Non-linear Optimization}
 
 \oguih{Non-linear optimization}{OPAChroma} 
 
@@ -705,11 +823,11 @@ Internal private procedures calculate phase advances and transform between physi
 
 \ounih{Calculations}{chromlib} 
 
-\section{Orbit and Injection}
+\section{\label{secorin}Orbit and Injection}
 
 \oguih{Orbit and injection}{OPAorbit} 
 
-\section{Special Element Editors}
+\section{\label{secspee}Special Element Editors}
 
 \oguih{RF bucket}{Bucket}
 
@@ -717,7 +835,7 @@ Internal private procedures calculate phase advances and transform between physi
 
 \ounih{LGB calculations}{LGBeditorLib} 
 
-\section{Tracking}
+\section{\label{sectrac}Tracking}
 
 \oguih{Phase space}{OPAtrackP} 
 
@@ -727,7 +845,7 @@ Internal private procedures calculate phase advances and transform between physi
 
 \ounih{Calculations}{tracklib}
 
-\section{Layout, Currents etc}
+\section{\label{secelse}Layout, Currents etc}
 
 \oguih{Machine Layout}{OPAGeometry}
 
@@ -751,8 +869,6 @@ These two procedures optimize the field profile of a longitudinal gradient bend 
 
 \subsection{Optics Design}
 
-\opamodule{OpticView.pas/.lfm}{(32.3k)}{OPAglobal, OpticPlot, Opticstart, OpticEnvel, OpticTune, OpticMatch, OpticWOMK, OPAtune, knobframe, EdElSet, Mathlib, VGraph, ASaux.}
-This is the main GUI for (linear) optics development. It contains procedures for initialization the form, for plotting, handlers for mouse events and GUI buttons.\\
 
 \opamodule{OpticPlot.pas}{(98.3k)}{OPAglobal, OPAElements, OPAtune, MathLib, ASfigure, VGraph, ASaux.}
 Linear beam optics includes closed orbit finder \code{>CloseOrbit}, periodic solution for coupled and uncoupled lattices \code{>NormalMode, FlatPeriodic}, propagation through elements \code{>Lattel} and full linear optics including integrals \code{>LinOp} with several options for periodic, symmetric, single pass forward, backward, from marker calculations \code{>OpticCalc}. Plot routines show beta functions and dispersions \code{>PlotBeta}, or orbit, envelopes and apertures \code{>PlotOrbit, PlotEnv, PlotApertures}, or magnetic fields \code{>PlotMag}. Lattice parameters are shown in a table \code{>FillBeamTab, FillBetaTab} and several output files can be printed \code{>Print...}\\
