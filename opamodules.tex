@@ -102,12 +102,12 @@
 \rule{\hsize}{1pt}
 
 \section{How to use this document}
-This document is intended to support program developers, who want to maintain the existing OPA code, or to rewrite it in another environment, or to extract useful parts for integration into other codes.
+This document is intended to support program developers, who want to maintain the existing OPA code, or to rewrite it in another environment, or to extract useful parts for integration into other codes. It
 
 When reading this document, the source code may be examined in parallel, preferably in the Lazarus IDE. In order to see how the code works, OPA may be executed or the tutorial \cite{tutorial} may be consulted. Further information on using OPA is found in the user guide \cite{userguide} and the underlying physics is outlined in \cite{inside}.
 
 In this document following styles are used:\\
-Pieces of Pascal code are shown as \code{code}.
+Pieces of code are shown in \code{typewriter style}.
 \opagui{GUI} is a graphical user interface, usually based on class \code{TForm}. \opaguif{Frame} if a user-defined GUI-component, usually based on class \code{TFrame}.  \opauni{Unit} is a standard Pascal unit. 
 
 A GUI or a frame has a list of \guico{actions} corresponding to the event handlers of its components, for example a button to be pressed. The pure Pascal units are passive, they contain a set of public \unico{procedures} which are called from the GUIs. Frames too may contain public \guifco{procedures}. Thus in this documentation, action lists are given for the GUIs and frames, and lists of public procedures for the frames and units. All modules may offer public variables, here coloured \guico{x}, \guifco{y}, \unico{z} for GUIs, frames, units.
@@ -169,7 +169,7 @@ Name & class & Purpose & Size \\ \hline
 \ogui{EdElSet} & \guico{TEditElemSet} & edit element parameters & 861 \\
 \ogui{EdSgSet} & \guico{TEditSegSet} & edit segment parameters & 444 \\
 \hline
-\ogui{opticview} & \guico{} & linear optics design & 1143 \\
+\ogui{opticview} & \guico{Toptic} & linear optics design & 1143 \\
 \oguif{knobframe} & \guico{} & slider to set element property & 421 \\
 \ogui{Opticstart} & \guico{} & setting for start parameters & 615 \\
 \ogui{OpticTune} & \guico{} & adjustment of lattice tune & 251 \\
@@ -740,16 +740,56 @@ the new segment sequence is saved as linked list of abstract elements by \prcod{
 
 \oguih{Linear optics design}{opticview} 
 
-\desc{This is the main GUI for (linear) optics development. It contains procedures for initialization the form, for plotting, handlers for mouse events and GUI buttons.
-}
+\desc{This is the main GUI for linear optics development. It contains a plot window to show optical functions along the lattice, a table to display beam parameter results, a couple of knobs to be assigned to elements and several buttons for various options and for changing the display. Unlike all other GUIs, the plot window here is not based on \oguif{../com/asfigure}, because it is too complex. All the beam dynamics calculations are done by \ouni{opticplot}.}
 
 \uses{\oguif{knobframe}, \ogui{Opticstart}, \ogui{OpticTune}, \ogui{OpticWOMK},\ogui{OpticEnvel}, \ogui{OpticMatch}, \ouni{opticplot}, \ogui{OPAtune}, \ogui{EdElSet}, \ouni{OPAglobal}, \ouni{mathlib}, \oguif{../com/Vgraph}, \ouni{../com/asaux}} 
+
+\ppro{
+\guico{Init} is called from \ogui{opamenu} passing a handle to a tune diagram as defined in \ogui{OPAtune}, which is further passed to \ouni{opticplot}. A \guifco{Vplot} object as defined in \oguif{../com/Vgraph} is created, the corresponding variable for the plot window named \unico{vp}, however, is defined in \ouni{opticplot}, where the calculations take place. A handle to the parameter table \guico{tab} is also passed to \ouni{opticplot}. Then some inital values are set for various data.\\
+If the lattice contains variables, copies of their values are saved, and all elements containing expressions are evaluated to check if the variables are used or not in the lattice. For each variable in use, a label is created underneath the plot window. If it is a primary variable (i.e. a number), which can be edited, the label is yellow, if it is a dependant variable (i.e. an expression) the label is pale yellow.\\
+Finally the GUI is resized based on saved user settings.
+}
+
+\act{
+\evcodx{GUI resize}{FormResize} reacts to a resize of the GUI by the user or by the \guico{Init} procedure. The GUI is resized by reserving space for buttons etc. and adjusting plot area, parameter table and labels for the variables to left over space.
+Then as many knobs as fit into the GUI are created. these knobs of class 
+\guifco{TKnob} are defined in   Since a knob may affect the values of other knobs (in case it will be assigned to a variable), each knob receives handles to all other knob calling public procedure \guifco{BrotherHandles} of \oguif{knobframe}. If the GUI was shrinked, knobs which don't fit in anymore are freed (i.e. destroyed). Finally, the sizes of all components of the GUI are calculated and set.
+
+\evcodx{plot area}{pwpaint} is not activated by the user but by the system if the \code{paintbox} of the plot area receives a generic \code{repaint} event. This is also done by \ogui{opamenu} after calling \guico{Init}. The event calls the private procedure \guico{MakePlot}, which performs these actions:\\
+The plot is initialized, i.e. plotting axes etc. The abscissa is always the longitudinal coordinate along the lattice. Regions representing magnets in the lattice are calculated, plotted and saved to later enable reaction on mouse operations.\\
+If \guico{MakePlot} is called for the first time, the start GUI \ogui{Opticstart} is launched in front of this GUI and will start the first calculation calling \prcod{opticplot}{OpticCalc}. Finally the resulting optical functions are plotted.\\ \todo{This way to launch the start menu is a bit awkward, there may be a better solution.}
+
+\evcodx{plot area}{pwMouseMove} shows the name of an element when hovering over.
+
+\evcodx{plot area}{pwMouseDown, pwMouseUp} drag an element to a knob, if the left mouse button was pressed inside an element region and released inside a knob region. If an element editor \ogui{EdElSet} is open for this element, it is killed. If the element is already connected to another knob, an error message is displayed.\\
+If the element is double-clicked, the element editor \ogui{EdElSet} is opened in optics mode, and if there was a connection to a knob, it is released.\\
+If the right mouse button is pressed, the optical function values at this location are shown in the lower part of the table \guico{tab}.
+
+\evcodx{variable labels}{varbutMouseDown, varbutMouseUp} perform the corresponding actions to a variable, if the mouse is pressed inside the region of a yellow variable label and released inside a knob region.
+
+
+
+\evcod{Start}{butStarClick} launches the start GUI again, to change initial parameters of the calculation.
+
+
+
+
+
+
+
+
+\evcodx{GUI close}{FormClose}
+}
+
+
+
+
 
 
 \oguifh{Parameter knob}{knobframe} 
 
 \uses{\ouni{opticplot}, \ouni{OPAglobal}, \ouni{mathlib}, \ouni{../com/asaux}} 
-
+ 
 
 \oguih{Start parameters}{Opticstart} 
 
