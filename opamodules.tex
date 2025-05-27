@@ -170,11 +170,11 @@ Name & class & Purpose & Size \\ \hline
 \ogui{EdSgSet} & \guico{TEditSegSet} & edit segment parameters & 444 \\
 \hline
 \ogui{opticview} & \guico{Toptic} & linear optics design & 1143 \\
-\oguif{knobframe} & \guico{} & slider to set element property & 421 \\
+\oguif{knobframe} & \guifco{TKnob} & slider to set element property & 421 \\
 \ogui{Opticstart} & \guico{} & setting for start parameters & 615 \\
+\ogui{OpticEnvel} & \guico{} & setting for optical functions plot & 372 \\
 \ogui{OpticTune} & \guico{} & adjustment of lattice tune & 251 \\
 \ogui{OpticWOMK} & \guico{} & write optics markers & 125 \\
-\ogui{OpticEnvel} & \guico{} & setting for optical functions plot & 372 \\
 \ogui{OpticMatch} & \guico{} & linear optics matching & 1457 \\
 \ogui{OpticMatchScan} & \guico{} & parameter scan & 119 \\
 \ouni{opticplot} & & linear beam dynamics calculations & 2840 \\
@@ -687,7 +687,7 @@ Main component of the GUI is a table to edit all parameters of an element or a v
 \ppro{
 \guico{InitE}, \guico{InitEVar}, \guico{InitO},  \guico{InitOVar} are four different initialization procedures, for elements and variables, and for calling from the interactive editor \ogui{OPAEditor} or from the linear optics design \ogui{opticview}. In edit mode, a handle to the element list in \ogui{opamenu} is passed, the element index is taken from the list, and the element to be edited is taken from the original element array \unico{Elem}. In optics mode, the index is given explicity and adresses the \unico{Ella} subset of elements in the lattice, and a handle to the plot window of \ogui{opticview} is passed to enable an update of the plot when the element is changed. For variables there is only one array \unico{Variable} (The arrays are defined in \ouni{OPAglobal}). \\
 Then two private procedures are called, which are common for edit and optics mode, to fill the table with data of the element or variable. For elements several lines are filled depending on the type of element, for variables it is only one line. Some element properties and variables may have a value {\em and} an arithmetic expression (like "A+B"), which is a string for variables and a pointer for elements. If the string is empty or the pointer is \code{nil}, the value is taken in edit mode. In optics mode, the calculated value from the expression is shown too ("2.5 = A+B") for elements. For variables the expression is shown in both modes.\\
-If the element is a quadrupole or a bending magnet, the GUI is extended by a plot area of type \oguif{asfigure} to show its pole profile.
+If the element is a quadrupole or a bending magnet, the GUI is extended by a plot area of type \oguif{../com/asfigure} to show its pole profile.
 
 \guico{getJelem} just returns the index of the selected element in order to enable \ogui{opticview} to kill this GUI if the user assigns the element to a knob.
 }
@@ -729,7 +729,7 @@ If the grid is empty and the segment is not used by any other segment, then the 
 If the name is invalid or if the name already exists, or if the  segment contains unknown names, error messages are sent.\\
 If tests were successful, in case of \ofldx{create} a new segment is appended to the list, in case of \ofldx{update} the existing segment is deleted first by disposing all its abstract element pointers in \prcod{OPAglobal}{ClearSeg}.\\
 If an existing segment was renamed, the entry is updated in all others segments. Then, 
-the new segment sequence is saved as linked list of abstract elements by \prcod{OPAglobal}{AppendAE}. If the segment was deleted, it is removed from the global \unico{Segm} array and from the \ogui{OPAeditor} segment list, else the list is updated. Finally the exit procedure destroys the GUI.
+the new segment sequence is saved as linked list of abstract elements by \prcod{OPAglobal}{AppendAE}. If the segment was deleted, it is removed from the global \unico{Segm} array and from the \ogui{OPAEditor} segment list, else the list is updated. Finally the exit procedure destroys the GUI.
 
 \evcod{delete}{butdelClick} sets all grid cells to empty strings and performs the delete procedures for an empty segment as described above, and exits.
 
@@ -765,59 +765,129 @@ If \guico{MakePlot} is called for the first time, the start GUI \ogui{Opticstart
 If the element is double-clicked, the element editor \ogui{EdElSet} is opened in optics mode, and if there was a connection to a knob, it is released.\\
 If the right mouse button is pressed, the optical function values at this location are shown in the lower part of the table \guico{tab}.
 
-\evcodx{variable labels}{varbutMouseDown, varbutMouseUp} perform the corresponding actions to a variable, if the mouse is pressed inside the region of a yellow variable label and released inside a knob region.
+\evcodx{variable labels}{varbutMouseDown, varbutMouseUp} perform the corresponding actions to a variable, if the mouse is pressed inside the region of a yellow variable label and released inside a knob region.\\
 
+\evcod{Start}{butStarClick} launches the start GUI \ogui{Opticstart} again, to change initial parameters of the calculation.
 
+\evcod{PlotMode}{butenvlClick} launches the GUI \ogui{OpticEnvel} to select plot of beta functions, envelopes or magnetic fields, and to set some plot parameters.
 
-\evcod{Start}{butStarClick} launches the start GUI again, to change initial parameters of the calculation.
+\evcod{TuneMatrix}{buttuneClick} launches the GUI \ogui{OpticTune} to smoothly adjust the lattice tune within a small range by changing all quadrupoles.
 
+\evcod{Matching}{butmatClick} launches the GUI \ogui{OpticMatch} for automatic matching of optical functions to target values by changing selected knobs (i.e. magnet strengths). Since some magnets may be connected to knobs, a handle to all knobs is passed that the maching program may set them to new values.
 
+\evcod{Write OMK}{butwomkClick} launches a small GUI \ogui{OpticWOMK} to select the optics markers to overwrite with the current optics data. (An optics marker is an element to store local optics data, which may be used as a starting point for forward/backward optics calculations.)
 
+\evcod{linear}{butnlinClick} toggles between linear and non-linear calculation by setting the flag \unico{UseSext}, and performs the calculation. The caption of the button is changed to \ofld{nonlinear} in non-linear mode. This option has only an effect on off-axis beams.
 
+\evcod{Kicker OFF}{butkickClick} toggles between kickers on and off by setting the flag \unico{UsePulsed}, and performs the calculation. The caption of the button is changed to \ofld{Kicker ON} if kickers are on.
 
+\evcod{-\textgreater txt}{butdataClick} writes four text files to the working folder, which are named \code{(opa file name)\_data, \_beta, \_mag, \_rad.txt}. They contain the equilibrium beam parameters, the beta functions along the lattice, the magnet field data and another output of beta functions for radiation calculations. 
 
+\evcod{-\textgreater EPS}{butepsClick} exports the plot to an encapsulated postscript file in the workig folder, which is named \code{(opa file name)\_betas, \_envel, \_magfd.eps} depending if betas, envelopes or magnetic fields are shown. 
+The procedure \guifco{PS\_start} and \guifco{PS\_stop} are called to switch on and off the postscript mode in \oguif{../com/Vgraph}.
 
+\evcod{Exit}{butexitClick} calls \prcod{OPAglobal}{EllaSave} to check for changes of element parameters and to ask the user to save the changes. Then user settings are saved and the GUI is closed.
 
-\evcodx{GUI close}{FormClose}
+\evcodx{GUI close}{FormClose} closes the GUI without saving anything.\\
+
+\evcod{\textless--\textgreater}{buzoominClick} zooms into the plot. The six other similar buttons perform similar actions like zoom out, shift left etc.\\ \feature{Internally, elements are subdivided in slices of a maximum length corresponding to one pixel on the screen, so a mini-beta-focus or the dispersion oscillation inside an undular may be resolved!}
+
+\evcod{$\wedge$B(x)}{buyupClick} magnifies vertically the plot of betafunctions or the horizontal envelope, if in envelope mode. In magnetic field plot mode, it has no effect. The four other similar buttons are to shrink the beta plot and to magnify/shrink  the dispersion plot, and to return to automatic scaling.
+
+\evcod{save}{bucsaveClick} saves the plot data to a second set of curves, which then is plotted in a darker color then the current curves in order to have a visual comparison of the changes. These actions take place in \ouni{opticplot}.
+
+\evcod{clear}{bucclearClick} removes the saved curves.
+
 }
-
-
 
 
 
 
 \oguifh{Parameter knob}{knobframe} 
 
+\desc{This component provides a knob to control an element parameter considered as strength as defined by \prcod{OPAgloal}{putkval/getkval}. Values may be set by slider or edit field, including range limits and a reset function. As many knobs as fit into the GUIs are dynamically embedded in optics design \ogui{opticview} and orbit correction \ogui{OPAorbit}. Knob actions trigger calculations and plots. Knobs may stay passive and only display the value, if the parameter is an expression controlled by a variable (which may be connected to another knob). Therefore a knob has to know his fellow knobs and to trigger their updates.}
+
 \uses{\ouni{opticplot}, \ouni{OPAglobal}, \ouni{mathlib}, \ouni{../com/asaux}} 
  
+\ppro{
+\guifco{Init} gives a name using an index provided by the calling GUI (because it numbers the knobs) and initializes the knob as being not yet connected.
+
+\guifco{SetSize} adjusts the knob to the size as given by the calling GUI. There is a minimum and maximum size, within this range the knob component is "elastic". If the range is exceeded, the number of knobs is adjusted by the parent GUI.
+
+\guifco{Brotherhandles} accepts handles to the other knobs in the GUI.
+
+\guifco{Load} and \guifco{LoadVar} connect the knob to an element or variable, accepting as input the index of the element or variable and a handle to the plot window of the parent GUI. If the parameter is an expression, the knob stays in passive mode, if it is a number, the knob is active. Element/variable name is written to the knob and range limits are set to values of same magnitude like the current value. The current value is saved. The element/variable is tagged in order to not connect it twice.
+
+\guifco{UnLoad} removes the element/variable tags and sets back all captions to the initial status of being not connected.
+
+\guifco{KUpdate} sets the knob to a new value by adjusting edit field and slider, and, if exceeded, also the range limits. If the knob was updated manually, private procedure \guifco{Action} is called to trigger calculations and plots and, if needed, to update the other knobs. If the knob is updated in this way from another plot, no further action takes place.\\
+If the knbos are components of \ogui{opticview} the {\em optics} is re-calculated and the plot is updated depending which mode (betas, envelopes, magnetic field) is set.
+If the knob is component of \ogui{OPAorbit} the {\em orbit} is re-calculated and the plot is updated.\\
+If the knob is connected to a variable, changing it may affect other knobs connected to elements or variables using {\em this} variable in an expression. So all elements' expressions are evaluated to update their values, and, if they are connected to another knob, the \guifco{KUpdate} procedure is called for the {\em other} knob (therefore it's not a circular reference). Of course, this affects only knobs which are in passive mode. \todo{This feature is yet only implemented for optics mode, since in orbit/injection mode no expressions are allowed for corrector magnets and kickers, which are the only elements to be connected. Thus it wasn't needed, however this is an uneccessary restriction.}
+
+\guifco{getella} and \guifco{getvar} return the index of the connected element/variable.
+}
+
+\act{
+\evcodxf{value field}{editKKeyPress} calls \guifco{KUpdate} to perform actions and adjust the range if the input value exceeds it.
+
+\evcodxf{slider}{sliderScroll} only performs actions, since the slider cannot exceed the given range.
+
+\evcodxf{min/max fields}{editmin/maxKeyPress} as well as \evcodf{\textgreater\textless}{butwidClick} and \evcodf{\textless\textgreater}{butnarClick} adjust the range limits by setting minimum/maximum or widening/narrowing the range, all calling private procedure \guifco{SetKrange}, which sets the small range fields and the slider parameters.
+
+\evcodf{Reset}{butresClick} resets the knob to the value it had when connecting it and performs the actions.
+
+\evcodf{X}{butfreeClick} disconnects the knob calling \guifco{Unload}.
+}
 
 \oguih{Start parameters}{Opticstart} 
 
+GUI to select the starting conditions for the optics solution, either periodic/symmetric, or from initial values for orbit, beta functions, dispersion and coupling given at the start or end of lattice or at an intermediate optics marker.\\
+
+
 \uses{\ouni{opticplot}, \ouni{OPAglobal}, \ouni{mathlib}, \ouni{../com/asaux}} 
-
-\oguih{Tune matching}{OpticTune} 
-
-\uses{\ouni{opticplot}, \ouni{OPAglobal}, \ouni{mathlib}, \ouni{../com/asaux}} 
-
-\oguih{Optics marker update}{OpticWOMK} 
-
-\uses{\ouni{OPAglobal}, \ouni{../com/asaux}} 
 
 \oguih{Plot mode selection}{OpticEnvel} 
+
+Select the plot mode to show beta functions (normal mode and/or projected) and dispersions, envelopes with orbit and apertures or magnetic fields. Several parameters may be set, e.g. the reference radius to calculate magnetic fields etc.\\
+
 
 \uses{\ouni{OPAglobal}, \ouni{mathlib}, \ouni{../com/asaux}} 
 
 
+\oguih{Tune matching}{OpticTune} 
+
+Calculates a $2\times 2$ matrix how the tunes depend on a scaling factor applied to all focusing and defocusing quads and allows the working point to shifted this way.\\
+
+\uses{\ouni{opticplot}, \ouni{OPAglobal}, \ouni{mathlib}, \ouni{../com/asaux}} 
+
+
+\oguih{Optics marker update}{OpticWOMK} 
+Asks whether an optics solution should be stored in the optics markers.\\
+
+\uses{\ouni{OPAglobal}, \ouni{../com/asaux}} 
+
+
+
 \oguih{Linar matching}{OpticMatch} 
+
+Matching of linear optics using a Newton-Raphson minimizer: Optics parameters to be adjusted with target values and at least the same number of knobs (e.g. quadrupole strenght, variables etc.) are selected, then the minimizer proceeds using the square matrix of most sensitive knobs, which is recalculated after each steps to take into account non-linearities. Reduced step size can be set for better convergence. It is possible to run a scan over some range of a target value.\\
+\todo{The matching procedure is quit old and restricted to uncoupled lattices. A more elaborate minimizer also including limits for the knobs should be implemented.}\\
+
 
 \uses{\ouni{opticplot}, \oguif{knobframe}, \ogui{OpticMatchScan}, \ouni{OPAglobal},  \oguif{../com/asfigure}, \ouni{../com/asaux}} 
 
 \oguih{Parameter scan}{OpticMatchScan}
+This is just a GUI to enter the range for a target function to run a scan.\\
 
 \uses{\ouni{opticplot}, \ouni{OPAglobal}, \ouni{../com/asaux}} 
 
 
 \ounih{Lattice calculations}{opticplot} 
+
+Linear beam optics includes closed orbit finder \code{>CloseOrbit}, periodic solution for coupled and uncoupled lattices \code{>NormalMode, FlatPeriodic}, propagation through elements \code{>Lattel} and full linear optics including integrals \code{>LinOp} with several options for periodic, symmetric, single pass forward, backward, from marker calculations \code{>OpticCalc}. Plot routines show beta functions and dispersions \code{>PlotBeta}, or orbit, envelopes and apertures \code{>PlotOrbit, PlotEnv, PlotApertures}, or magnetic fields \code{>PlotMag}. Lattice parameters are shown in a table \code{>FillBeamTab, FillBetaTab} and several output files can be printed \code{>Print...}\\
+
+
 
 \uses{
  \ouni{OPAElements}, \ogui{OPAtune}, \ouni{OPAglobal}, \ouni{mathlib}, \oguif{../com/Vgraph}, \ouni{../com/asaux}}
@@ -838,6 +908,8 @@ Internal private procedures calculate phase advances and transform between physi
 
 
 \oguih{Tune diagram}{OPAtune}
+
+GUI window to show a tune diagram: resonances up to selected orders and the working point, a line or a group of tune points is shown in the diagram. This procedure is used in linear optics to show the working point or it variation with momentum, in non-lineare optics to show a predictions for the tune footprint and in tracking to show the tracked tune footprint.\\
 
 \uses{\ouni{OPAglobal}, \oguif{../com/asfigure}, \ouni{../com/asaux}}
 
@@ -911,32 +983,6 @@ These two procedures optimize the field profile of a longitudinal gradient bend 
 
 
 \opamodule{OpticPlot.pas}{(98.3k)}{OPAglobal, OPAElements, OPAtune, MathLib, ASfigure, VGraph, ASaux.}
-Linear beam optics includes closed orbit finder \code{>CloseOrbit}, periodic solution for coupled and uncoupled lattices \code{>NormalMode, FlatPeriodic}, propagation through elements \code{>Lattel} and full linear optics including integrals \code{>LinOp} with several options for periodic, symmetric, single pass forward, backward, from marker calculations \code{>OpticCalc}. Plot routines show beta functions and dispersions \code{>PlotBeta}, or orbit, envelopes and apertures \code{>PlotOrbit, PlotEnv, PlotApertures}, or magnetic fields \code{>PlotMag}. Lattice parameters are shown in a table \code{>FillBeamTab, FillBetaTab} and several output files can be printed \code{>Print...}\\
-
-\opamodule{Opticstart.pas/.lfm}{(17.3k)}{OPAglobal,  OpticPlot, MathLib, ASaux.}
-GUI to select the starting conditions for the optics solution, either periodic/symmetric, or from initial values for orbit, beta functions, dispersion and coupling given at the start or end of lattice or at an intermediate optics marker.\\
-
-\opamodule{OpticEnvel.pas/.lfm}{(9.9k)}{OPAglobal,  OpticPlot, ASaux.}
-Select the plot mode to show beta functions (normal mode and/or projected) and dispersions, envelopes with orbit and apertures or magnetic fields. Several parameters may be set, e.g. the reference radius to calculate magnetic fields etc.\\
-
-\opamodule{OpticTune.pas/.lfm}{(6.1k)}{OPAglobal,  OpticPlot, MathLib, ASaux.}
-Calculates a $2\times 2$ matrix how the tunes depend on a scaling factor applied to all focusing and defocusing quads and allows the working point to shifted this way.\\
-
-\opamodule{OpticWOMK.pas/.lfm}{(2.5k)}{OPAglobal,  OpticPlot.}
-Asks whether an optics solution should be stored in the optics markers.\\
-
-\opamodule{OpticMatch.pas/.lfm}{(42.0k)}{OPAglobal, OpticPlot, OpticMatchScan, Knobframe, ASfigure, ASaux.}
-Matching of linear optics using a Newton-Raphson minimizer: Optics parameters to be adjusted with target values and at least the same number of knobs (e.g. quadrupole strenght, variables etc.) are selected, then the minimizer proceeds using the square matrix of most sensitive knobs, which is recalculated after each steps to take into account non-linearities. Reduced step size can be set for better convergence. It is possible to run a scan over some range of a target value.\\
-\todo{The matching procedure is quit old and restricted to uncoupled lattices. A more elaborate minimizer also including limits for the knobs should be implemented.}\\
-
-\opamodule{OpticMatchScan.pas/.lfm}{(2.9k)}{OPAglobal,  OpticPlot, ASaux.}
-This is just a GUI to enter the range for a target function to run a scan.\\
-
-\opamodule{knobframe.pas}{(11.5k) [Frame] }{OPAglobal, OpticPlot, Mathlib, ASaux.}
-The frame provides a knob to control a parameter (quad strength, variable value etc.) including limits and a reset function. A numner of knob frames is embedded in the GUI \code{OpticView, OPAOrbit} as space permits. Knob actions trigger calculations and plots. Knobs may be passive, if the quantity is controlled by a variable connected to another knob. Therefore a knob has to know his fellow knobs and trigger their updates \code{>BrotherHandles}\\
-
-\opamodule{OPAtune.pas/.lfm}{(15.9k)}{OPAglobal, ASfigure, ASaux.}
-GUI window to show a tune diagram: resonances up to selected orders and the working point, a line or a group of tune points is shown in the diagram. This procedure is used in linear optics to show the working point or it variation with momentum, in non-lineare optics to show a predictions for the tune footprint and in tracking to show the tracked tune footprint.\\
 
 \opamodule{OPAorbit.pas/.lfm}{(73.0k)}{OPAglobal, OpticPlot,  OpticStart, Knobframe, MathLib, ASfigure, ASaux.}
 This unit calculates the beam orbit. It is used to either study orbit distortion and correction (usually in periodic mode) or to study injection (usually in forward mode)~-- a corresponding flag is set at start. Most procedureds in the unit are used to set up the rather complex GUI with knobs for correctors, kickers and BPMs and various panels for orbit correction, plotting or injection studies.
