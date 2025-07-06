@@ -1,7 +1,7 @@
 object BucketView: TBucketView
-  Left = 1284
+  Left = 675
   Height = 400
-  Top = 139
+  Top = 253
   Width = 454
   Caption = 'BucketView'
   ClientHeight = 400
@@ -23,7 +23,6 @@ object BucketView: TBucketView
     inherited p: TPaintBox
       Height = 97
       Width = 97
-      OnPaint = pPaint
     end
   end
   object butex: TButton

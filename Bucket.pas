@@ -5,7 +5,7 @@ interface
 
 uses
   LCLIntf, LCLType, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  asfigure, asaux, mathlib, OPAglobal, StdCtrls, ExtCtrls;
+  asfigure, asaux, mathlib, OPAglobal, StdCtrls, ExtCtrls, conrect;
 
 type
 
@@ -35,7 +35,6 @@ type
     procedure Ed_KeyPress(Sender: TObject; var Key: Char);
     procedure Ed_Exit(Sender: TObject);
     procedure butcopyLatClick(Sender: TObject);
-    procedure pPaint(Sender: TObject);
 
   private
     procedure MakePlot;
@@ -53,7 +52,7 @@ var
 
 implementation
 
-uses conrect;
+//uses conrect;
 const
   nvoal=5;   npara=7;
 Var
@@ -217,13 +216,6 @@ begin
   CalcBucket;
   MakePlot;
 end;
-
-procedure TBucketView.pPaint(Sender: TObject);
-begin
-//  CalcBucket;
-//  MakePlot;
-end;
-
 
 procedure TBucketView.Layout;
 const

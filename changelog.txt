@@ -1,3 +1,16 @@
+4.1.1   June/July 2025   (some clean-up during documentation)
+- OPAChroma, CSExLine
+  removed load button and corresponding procs to read values from a temp file
+  and set families (was once implemented to import data from MOGA runs).
+- Bucket
+  empty proc pPaint removed
+- OPAElements
+  GetBAT moved to opticplot/NormalMode, because it is only used there.
+- opticplot
+  removed PlotGNU, became obsolete due to EPS export
+- OPAglobal, OPACurrents
+  Moved procedures getkfromI and getIfromK to OPACurrents
+
 4.1.0 = 4.063
 - new version numbering following semantic versioning https://semver.org/
   SemVer is for APIs - not applicable to OPA yet since it is standalone, so
@@ -25,7 +38,7 @@
    modes included the amplitudes with correspomnding powers, however this was not done
    for chromaticities, and the resonant terms needed an extra factor to become
    comparable. Considering dphi/dt = dH/dJ in action angle variables, we now use the
-   derivatives of the Hamiltonian modes. Then the factor for the resonaces becomes
+   derivatives of the Hamiltonian modes. Then the factor for the resonances becomes
    obsolete and terms are compared at relevant amplitudes.
 
 4.060 18.10.2024

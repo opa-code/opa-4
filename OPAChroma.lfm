@@ -805,20 +805,6 @@ object Chroma: TChroma
     TabOrder = 28
     Visible = False
   end
-  object ButLoad: TButton
-    Left = 400
-    Height = 16
-    Top = 6
-    Width = 49
-    Caption = 'load '
-    Font.Color = clNavy
-    Font.Height = -13
-    Font.Name = 'MS Sans Serif'
-    OnClick = ButLoadClick
-    ParentFont = False
-    TabOrder = 29
-    Visible = False
-  end
   object EdNumDiff: TEdit
     Left = 672
     Height = 23
@@ -830,7 +816,7 @@ object Chroma: TChroma
     OnExit = EdNumDiffExit
     OnKeyPress = EdNumDiffKeyPress
     ParentFont = False
-    TabOrder = 30
+    TabOrder = 29
     Text = 'EdNumDiff'
   end
   object ButOctOff: TButton
@@ -844,7 +830,7 @@ object Chroma: TChroma
     Font.Name = 'MS Sans Serif'
     OnClick = ButOctOffClick
     ParentFont = False
-    TabOrder = 31
+    TabOrder = 30
     Visible = False
   end
   object butoctres: TButton
@@ -858,7 +844,7 @@ object Chroma: TChroma
     Font.Name = 'MS Sans Serif'
     OnClick = butoctresClick
     ParentFont = False
-    TabOrder = 32
+    TabOrder = 31
     Visible = False
   end
   object ChkComb: TCheckBox
@@ -872,10 +858,6 @@ object Chroma: TChroma
     Font.Name = 'MS Sans Serif'
     OnClick = ChkCombClick
     ParentFont = False
-    TabOrder = 33
-  end
-  object OpenDialogLoad: TOpenDialog
-    Left = 408
-    Top = 24
+    TabOrder = 32
   end
 end

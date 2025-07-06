@@ -46,7 +46,6 @@ type
     procedure SetRange;
     procedure gettabs(var n,v,l: integer);
     procedure mySetColor(col: TColor);
-    procedure UpdateValbyLoad(kv: real);
     procedure UpdateValbyMin(kv: real);
     procedure Lock;
     procedure UnLock;
@@ -285,32 +284,6 @@ begin
     SVectorPlot.Star;
     TDiagPlot;
   end; // else nothing to do
-end;
-
-procedure TCSex.UpdateValbyLoad(kv: real);
-var
-  P: double;
-begin
-  myval:=kv;
-  if abs(myval) >  maxK then EdVal.Color:=clRed else EdVal.Color:=clwhite;
-  EdVal.Text:=FtoS(myval, wid_ed[i_am], dec_ed[i_am]);
-  case i_am of
-    sext: begin
-      UpDateSexFamInt(myfam, myval);
-    end;
-    octu: begin
-      UpDateOctFamInt(myfam, myval);
-    end;
-    deca: begin
-      DecaFam[myfam].b5L:=myval; PutKval(myval,DecaFam[myfam].jel,0);
-    end;
-  end;
-  DriveTerms;
-  P:=Penalty;
-  UpdateHamilton;
-  UpdatePenalty(P);
-  SVectorPlot.Star;
-  TDiagPlot;
 end;
 
 

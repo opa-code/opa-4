@@ -90,8 +90,6 @@ type
     laba3l: TLabel;
     labpath: TLabel;
     butphase: TButton;
-    ButLoad: TButton;
-    OpenDialogLoad: TOpenDialog;
     LabNumDiff: TLabel;
     EdNumDiff: TEdit;
     ButOctOff: TButton;
@@ -125,7 +123,6 @@ type
     procedure ButOsvdNpClick(Sender: TObject);
     procedure ButOsvdUndoClick(Sender: TObject);
     procedure butphaseClick(Sender: TObject);
-    procedure ButLoadClick(Sender: TObject);
     procedure ButOctOffClick(Sender: TObject);
     procedure butoctresClick(Sender: TObject);
     procedure ChkCombClick(Sender: TObject);
@@ -219,15 +216,6 @@ begin
   width:=1000; height:=700;
   if screen.width <width  then width :=screen.width;
   if screen.height<height then height:=screen.height;
-
-  fload_dir:=ExtractFileName(FileName);
-//  fload_dir:=work_dir+Copy(fload_dir,0,Pos('.',fload_dir)-1)+'_mogares\pisa10_seed14033.txt';
-  fload_dir:=work_dir+Copy(fload_dir,0,Pos('.',fload_dir)-1)+'_mogares\';
-  if setCurrentDir(fload_dir) then begin
-    ButLoad.Visible:=true;
-    OpenDialogLoad.InitialDir:=fload_dir;
-    setCurrentDir(work_dir);
-  end;
 
 //------------- up to here, was in FormCreate before -----------
 
@@ -634,8 +622,6 @@ begin
   x:=wsoff+dist+cbxw;
   LabSChrom.Left:=wsoff+dist; LabSName.Left:=x+lsn;
   LabSVal.Left:=x+lsv; LabSLock.Left:=x+lsl;
-  ButLoad.SetBounds(x+(lsv+lsl) div 2, 6, (lsl-lsv) div 2-2, 16);
-// load is going to disappear in future, use same bounds for chkComb 26.2.19
   ChkComb.SetBounds(x+(lsv+lsl) div 2, 6, (lsl-lsv) div 2-2, 16);
 
 // Plot starts below separator. offset and available space:
@@ -1306,76 +1292,6 @@ begin
   UpdatePenalty(P);
 end;
 
-// read a text file of sext & oct data, written by another program
-// (made for Mike Ehrlichman's PISA-BMAD-MOGA -- Dec.9, 2014)
-procedure TChroma.ButLoadClick(Sender: TObject);
-var
-  loadfile: string;
-  f: TextFile;
-  line: string;
-  ibrop, ibrcl, iequa: integer;
-  loadpar, loadnam: string;
-  loadval: real;
-  ifam, errcode: integer;
-  P: double;
-begin
-//  OpenDialogLoad.FileName:='';
-  if OpenDialogLoad.Execute then begin
-    loadfile:= OpenDialogLoad.FileName;
-    if FileExists(loadfile) then begin
-      AssignFile(f,loadfile);
-{$I-}
-      reset(f);
-{$I+}
-      if IOResult =0 then begin
-        while not Eof(f) do begin
-          readln(f,line);
-          ibrop:=Pos('[',line);
-          ibrcl:=Pos(']',line);
-          iequa:=Pos('=',line);
-          loadnam:=UpperCase(copy(line,0,ibrop-1));
-          loadpar:=copy(line,ibrop+1,ibrcl-ibrop-1);
-{$R-}
-          Val(copy(line,iequa+1,length(line)),loadval,errcode);
-{$R+}
-//opamessage(0, loadnam+'|'+loadpar+'|'+copy(line,iequa+1,length(line))+'|'+ftos(loadval,18,3));
-          if loadpar='k3l' then begin
-            for ifam:=0 to High(OctuFam) do with OctuFam[ifam] do begin
-              if Ella[jel].nam=loadnam then begin
-                CS[ifam+Length(SexFam)].UpDateValbyLoad(loadval/6);
-              end;
-            end;
-          end else begin
-            for ifam:=0 to High(SexFam) do with SexFam[ifam] do begin
-              if Ella[jel].nam=loadnam then begin
-                loadval:=loadval/2*Ella[jel].l;
-                CS[ifam].UpDateValbyLoad(loadval);
-              end;
-            end
-          end;
-        end;
-
-        closefile(f);
-
-        if AutoChrom then begin
-          AutoChrom:=false;
-          CSelect[SFSDFlag[0]].Checked:=false;
-          CSelect[SFSDFlag[1]].Checked:=false;
-        end;
-
-        if osvd_active then chkOsvdAuto.Checked:=False;
-
-        DriveTerms;
-        P:=Penalty;
-        UpdateHamilton;
-        UpdatePenalty(P);
-        SVectorPlot.Star;
-        TDiagPlot;
-
-      end;
-    end;
-  end;
-end;
 
 procedure TChroma.ButOctOffClick(Sender: TObject);
 var    i: integer;

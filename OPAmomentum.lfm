@@ -1,7 +1,7 @@
 object momentum: Tmomentum
-  Left = 946
+  Left = 1005
   Height = 567
-  Top = 130
+  Top = 102
   Width = 741
   Caption = 'Variation of beam parameters with momentum'
   ClientHeight = 567
@@ -275,9 +275,9 @@ object momentum: Tmomentum
     end
   end
   object PanMin: TPanel
-    Left = 144
+    Left = 136
     Height = 209
-    Top = 328
+    Top = 325
     Width = 329
     BevelOuter = bvLowered
     ClientHeight = 209

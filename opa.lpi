@@ -44,12 +44,16 @@
       <Unit2>
         <Filename Value="EdElCreate.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="EditElemCreate"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
       </Unit2>
       <Unit3>
         <Filename Value="EdElSet.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="EditElemSet"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
       </Unit3>
       <Unit4>
         <Filename Value="texteditor.pas"/>
@@ -100,7 +104,9 @@
       <Unit11>
         <Filename Value="OpticMatch.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="Match"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
       </Unit11>
       <Unit12>
         <Filename Value="OpticWOMK.pas"/>

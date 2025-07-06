@@ -1,14 +1,11 @@
  {
-
 Calculation of sext hamiltonians to 2nd order based on J.Bengtsson's equations.
 Numerical differentiation for chroma up to 3rd order
-                                                                                                                                                               dcmp
-change to summation over families instead of single sextupoles
-as-april-08                                                           
 
-include octupoles nov-08
+also: Chun-xi Wang, Explicit formulas for 2nd-order driving terms due to sextupoles and chromatic effects
+of quadrupoles, ANL/APS/LS-330
 
-included H10002 term jul-10
+Improved scaling of Hamiltonians (proc Hamscaling) to make them comparable, as Feb.2025 v.4.061
 
 define consistently Hamiltonians NOT including the factor 2 from (2J),
 so the actual term is given by hjklmp*(2Jx)^(j+k)/2 etc. - 7.feb-12 v.3.38
@@ -16,8 +13,12 @@ so the actual term is given by hjklmp*(2Jx)^(j+k)/2 etc. - 7.feb-12 v.3.38
 corrected quad sign error, and adjustment to Chun-xi Wangs formulae for 2nd
 order sextupole terms by using the negative phase. as-27.feb-12 v.3.39
 
-Chun-xi Wang, Explicit formulas for 2nd-order driving terms due to sextupoles and chromatic effects
-of quadrupoles, ANL/APS/LS-330
+included H10002 term jul-10
+
+include octupoles nov-08
+
+change to summation over families instead of single sextupoles
+as-april-08                                                           
 
 }
 
