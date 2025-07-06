@@ -17,7 +17,6 @@ INTERFACE
 uses OPAglobal, MathLib, sysutils;
 
 Function SigNfromBeta(b, a: real): Matrix_2;
-Function GetBAT (m: Matrix_2; var be, al, tu: double): boolean;
 //function DRtoDN (dr: vektor_4; c: matrix_2; g: real): vektor_4;
 //function DNtoDS (dn: vektor_4; sa,sb: matrix_2): vektor_4;
 
@@ -112,29 +111,6 @@ begin
   SigNfromBeta:=s;
 end;
 
-Function GetBAT (m: Matrix_2; var be, al, tu: double): boolean;
-// only for periodic structure
-// get beta, alfa, tune from 2x2 matrix; return true if failed
-var
-  co, si: double;
-begin
-  co:=MatTra2(m)/2;
-  if abs(co) < 1 then begin
-    tu:=ArcCos(co)/2/Pi;
-    si:=sqrt(1-sqr(co));
-    if m[1,2]<0 then begin
-      si:=-si;
-      tu:=-tu;
-    end;
-    be:=m[1,2]/si;
-    al:=(m[1,1]-m[2,2])/2/si;
-//      tu:=arcsin(si)/2/Pi;
-    GetBat:=false;
-  end else begin
-    be:=1.0; al:=0.0; tu:=0.0;
-    GetBAT:=true;
-  end;
-end;
 
 {------------------------------------------------------------------------------}
 

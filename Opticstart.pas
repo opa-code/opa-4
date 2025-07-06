@@ -67,20 +67,19 @@ type
     tabbet: TTabSheet;
     tabdis: TTabSheet;
     tabcou: TTabSheet;
-    procedure butcloClick(Sender: TObject);
-    procedure butexiClick(Sender: TObject);
-    procedure but_dppClick(Sender: TObject);
+    procedure rbutClick(Sender: TObject);
+    procedure rbutperChange(Sender: TObject);
     procedure But_propperClick(Sender: TObject);
-    procedure chk_dppChange(Sender: TObject);
-    procedure chk_flipChange(Sender: TObject);
     procedure chk_coupChange(Sender: TObject);
+    procedure chk_flipChange(Sender: TObject);
+    procedure but_dppClick(Sender: TObject);
+    procedure chk_dppChange(Sender: TObject);
     procedure ed_couKeyPress(Sender: TObject; var Key: char);
     procedure ed_couExit(Sender: TObject);
 //    procedure ButOrbClick(Sender: TObject);
-    procedure rbutClick(Sender: TObject);
     procedure butapplyClick(Sender: TObject);
-    procedure rbutperChange(Sender: TObject);
-    procedure set_togo_lab;
+    procedure butcloClick(Sender: TObject);
+    procedure butexiClick(Sender: TObject);
   private
     Fhandle: TForm;
     ooimode: integer; // 0 optic, 1 orbit, 2 injection
@@ -93,6 +92,7 @@ type
     procedure per_panini;
     procedure calc_g2;
     procedure setdppmode;
+    procedure set_togo_lab;
   public
      {cancel_start, } orb_plot_enabled: boolean;
      procedure Load (ooimode_in: integer; calledfrom:TForm);

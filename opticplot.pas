@@ -67,7 +67,6 @@ procedure PrintHTMLData;
 procedure PrintCurve (fnam0: string);
 procedure printMagnets(fnam0: string);
 procedure printRadiation(fnam0: string);
-procedure PrintGNU;
 
 procedure PlotOrbit;
 procedure PlotBeta;
@@ -1046,103 +1045,6 @@ begin
   end;
 end;
 
-
-// GNU postprocessing: print beta and magnet file and gnupplot command file
-procedure printGNU;
-
-var
-  c: CurvePt;
-  fname, fnam0, gnam0: string;
-  outfi: textfile;
-  h,s, mfac, smin, smax,dispmin, dispmax, betamax: real;
-  i,j: integer;
-begin
-  fnam0:=ExtractFileName(FileName);
-  gnam0:=Copy(fnam0,0,Pos('.',fnam0)-1);
-  fnam0:=work_dir+gnam0;
-  fname:=fnam0+'_mcod.out';
-  assignFile(outfi,fname);
-{$I-}
-  rewrite(outfi);
-{$I+}
-  if IOResult =0 then begin
-    s:=0.0;
-    writeln(outfi, '  0     start         0.0         0.0        0.0');
-    for i:=1 to Glob.NLatt do begin
-      j:=FindEl(i);
-      with Ella[j] do begin
-        case cod of
-          cquad: if kq >0 then h:=1.0  else if kq <0 then h:=-1.0  else h:=0.0;
-          cbend: if phi>0 then h:=0.5  else if phi<0 then h:=-0.5  else h:=0.0;
-          csext: if ms >0 then h:=1.5  else if ms <0 then h:=-1.5  else h:=0.0;
-          ccomb: if ckq>0 then h:=0.75 else if ckq<0 then h:=-0.75 else h:=0.0;
-          cmpol: if bnl >0 then h:=2.0 else if bnl <0 then h:=-2.00 else h:=0.0;
-          else h:=0.0;
-        end;
-        writeln(outfi, i:5, ' ', nam, s:12:6, s+l:12:6, h:8:3);
-        s:=s + l;
-      end;
-    end; {for}
-    CloseFile(outfi);
-  end;
-
-  fname:=fnam0+'_beta.out';
-  assignFile(outfi,fname);
-{$I-}
-  rewrite(outfi);
-{$I+}
-  if IOResult =0 then begin
-    betamax:=0.0; dispmax:=0.0; dispmin:=0.0;
-    SliceCalcN(0);
-    c:=CurvePlot.ini;
-    smin:=c^.spos;
-    writeln(outfi, c^.spos:12:6, c^.betxa:12:6, c^.betyb:12:6, c^.disx:12:6);
-    while c^.nex <> nil do begin
-      c:=c^.nex;
-      writeln(outfi, c^.spos:12:6, c^.betxa:12:6, c^.betyb:12:6, c^.disx:12:6);
-      if c^.betxa > betamax then betamax:=c^.betxa;
-      if c^.betyb > betamax then betamax:=c^.betyb;
-      if c^.disx > dispmax then dispmax:=c^.disx;
-      if c^.disx < dispmin then dispmin:=c^.disx;
-    end;
-    smax:=c^.spos;
-    ClearCurve;
-    CloseFile(outfi);
-  end;
-  fname:=fnam0+'_beta.gp';
-  assignFile(outfi,fname);
-{$I-}
-  rewrite(outfi);
-{$I+}
-  if IOResult =0 then begin
-    betamax:=betamax*1.1;
-    dispmax:=dispmax*1.1;
-    if abs(dispmin) < dispmax/5.0 then dispmin:=-dispmax/5.0;
-    mfac:=abs(dispmin)/2.0;
-    writeln(outfi,'set term post eps enhanced');
-    writeln(outfi,'set output "'+gnam0+'_beta.eps"');
-    writeln(outfi,'set size 0.8,0.7');
-    writeln(outfi,'  set xlabel "s [m]"');
-    writeln(outfi,'set ylabel "Beta Functions [m]"');
-    writeln(outfi,'set y2label "Dispersion [m]"');
-    writeln(outfi,'set ytics nomirror; set y2tics');
-    writeln(outfi,'set yrange [0:',betamax:12:5,']');
-    writeln(outfi,'set y2range [',dispmin:12:6,':',dispmax:12:6,']');
-
-    writeln(outfi,'set style line 1 lt 1 lw 5');
-    writeln(outfi,'set style line 2 lt 2 lw 5');
-    writeln(outfi,'set style line 3 lt 3 lw 3');
-    writeln(outfi,'set style line 4 lt 1 lw 1');
-
-    writeln(outfi,'plot [',smin:12:4,':',smax:12:4,'] [] \');
-    writeln(outfi,'     "',gnam0,'_mcod.out" using 4:($5*',mfac:8:4,') axis x1y2 notitle with fsteps ls 4, \');
-    writeln(outfi,'     "',gnam0,'_beta.out" using 1:2 title "{/Symbol b}_x" with lines ls 1, \');
-    writeln(outfi,'     "',gnam0,'_beta.out" using 1:3 title "{/Symbol b}_y" with lines ls 2, \');
-    writeln(outfi,'     "',gnam0,'_beta.out" using 1:4 axis x1y2 title "{/Symbol h}_x" with lines ls 3;');
-
-    CloseFile(outfi);
-  end;
-end;
 
 {----------------------------------------------}
 
@@ -2286,6 +2188,30 @@ var
   dispfail, normfail: boolean;
   fractunea, fractuneb, betaa, betab, alfaa, alfab: double;
   fractunea2, fractuneb2, betaa2, betab2, alfaa2, alfab2: double;
+
+  Function GetBAT (m: Matrix_2; var be, al, tu: double): boolean;
+// only for periodic structure
+// get beta, alfa, tune from 2x2 matrix; return true if failed
+  var
+    co, si: double;
+  begin
+    co:=MatTra2(m)/2;
+    if abs(co) < 1 then begin
+      tu:=ArcCos(co)/2/Pi;
+      si:=sqrt(1-sqr(co));
+      if m[1,2]<0 then begin
+        si:=-si;
+        tu:=-tu;
+      end;
+      be:=m[1,2]/si;
+      al:=(m[1,1]-m[2,2])/2/si;
+//      tu:=arcsin(si)/2/Pi;
+      GetBat:=false;
+    end else begin
+      be:=1.0; al:=0.0; tu:=0.0;
+      GetBAT:=true;
+    end;
+  end;
 
 
 
