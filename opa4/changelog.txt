@@ -1,4 +1,9 @@
-4.1.1   June/July 2025   (some clean-up during documentation)
+4.1.1   June/July 2025
+Some clean-up during documentation. Removed procs are found in v.4.063=v.4.1.0
+- OPAOrbit
+  no passing of form handles to asfigure instances, not needed.
+  removed "txt" button to print text file, was no action behind, not needed.
+  removed procedure butreadcorClick, was temporary to read Tracy data ("cormis")
 - OPAChroma, CSExLine
   removed load button and corresponding procs to read values from a temp file
   and set families (was once implemented to import data from MOGA runs).

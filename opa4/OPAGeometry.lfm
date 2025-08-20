@@ -382,9 +382,9 @@ object Geometry: TGeometry
   end
   object chkOrbit: TCheckBox
     Left = 0
-    Height = 19
+    Height = 21
     Top = 112
-    Width = 80
+    Width = 91
     Caption = 'show Orbit'
     Color = clBlack
     Font.Color = clWhite
@@ -398,9 +398,9 @@ object Geometry: TGeometry
   end
   object chkAsprat: TCheckBox
     Left = 0
-    Height = 19
+    Height = 21
     Top = 184
-    Width = 88
+    Width = 106
     Caption = 'fix aspect ratio'
     Checked = True
     OnClick = chkAspratClick
@@ -891,24 +891,25 @@ object Geometry: TGeometry
       Top = 6
       Width = 185
       Caption = 'Mode'
-      ClientHeight = 23
+      ClientHeight = 25
       ClientWidth = 181
       TabOrder = 0
       object rbcenter: TRadioButton
         Left = 6
-        Height = 19
+        Height = 21
         Top = 2
-        Width = 38
+        Width = 43
         Caption = 'cen'
+        Checked = True
         OnClick = rbdrawClick
         TabOrder = 0
       end
       object rbinifin: TRadioButton
         Tag = 1
         Left = 46
-        Height = 19
+        Height = 21
         Top = 2
-        Width = 30
+        Width = 36
         Caption = 'ini'
         OnClick = rbdrawClick
         TabOrder = 1
@@ -916,9 +917,9 @@ object Geometry: TGeometry
       object rbfinini: TRadioButton
         Tag = 2
         Left = 86
-        Height = 19
+        Height = 21
         Top = 2
-        Width = 31
+        Width = 37
         Caption = 'fin'
         OnClick = rbdrawClick
         TabOrder = 2

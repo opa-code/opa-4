@@ -528,14 +528,11 @@ function getkval (j: word; jpar: word): real;
 procedure putkval (k: real; j: word; jpar: word);
 function getSexkval (j: word): real;
 procedure putSexkval (k: real; j: word);
-function getKfromI (c: CalibrationType; i: double): double;
-function getdkdIfac (c: CalibrationType; I: double): double;
-function getIfromK(cal:CalibrationType; kv:double): double;
 
 function NameCheck(s: String): Boolean;
 
 function AppendChar(var a: CharBufpt; ch: Char): CharBufpt;
-function AppendLine(var a: LineBufpt; line: String): LineBufpt;
+//function AppendLine(var a: LineBufpt; line: String): LineBufpt;
 function AppendCurveN (var a: CurvePt; s, x, y, bxa, bxb, bya, byb, dx, dy, dxp, dyp, cdet, ba,bb, aa, ab, da,db: real): CurvePt;
 procedure ClearCurve;
 function  FindEl  (ilattice:integer): integer;
@@ -1281,110 +1278,6 @@ begin
   end else if cod=ccomb then cms:=k/l*cslice;
 end;
 
-{-------------------------------------------------------------------------}
-
-
-{get magnet strength from current:
-give (n-1)th field derivative (B, B', B", ...) in units of T/m^(n-1) as a function of current
-and normalize to energy for k-value
-
-               /              |I|*tlin                    \
-           b = | bres + --------------------------------- |*sign(I)
-               \        (1+sfac*(|I|*(1/isat))^aexp)^nexp /
-
-since most quads are unipolar assume remanence always same sign as current
-for bends b is the curvature phi/leng
-}
-function getKfromI (c: CalibrationType; i: double): double;
-var
-  b: double;
-begin
-  b:=c.bres+abs(i)*c.tlin/PowR(1+c.sfac*PowR((abs(i)*c.isat),c.aexp),c.nexp);
-  if i < 0 then b:=-b;
-  getKfromI:= b/(glob.energy*1E9/speed_of_light)/factorial(c.mpol);
-end;
-
-{.......................................................................}
-
-{attenuation factor for (dk/dI)/(dk/dI_linear) compared to linear calibration,
-= (dBn/dI)/(dBn/dI_linear) i.e. derivative of above divided by tlin, without brho
-
-                1 + (1-aexp*nexp)*sfac*(|I|/isat)^aexp)
-           f = ----------------------------------------
-                (1+sfac*(|I|*(1/isat))^aexp)^(nexp+1)
-}
-function getdkdIfac (c: CalibrationType; I: double): double;
-var
-  x: double;
-begin
-  x:=c.sfac*PowR( abs(I)*c.isat,c.aexp);
-  getdkdIfac:= (1.0 + (1.0 - c.aexp*c.nexp)*x )/ PowR( 1.0+x, c.nexp+1);
-end;
-
-{.......................................................................}
-
-{
-  get current from magnet strength:
-  nonlinear calibration: iterate to get current for k-value
-  bisection root finder from numerical recipes
-}
-
-function getIfromK(cal:CalibrationType; kv:double): double;
-
-const
-  rtbIterations = 40;
-  rtbAccuracy  = 1e-6; // 1 microAmp accuracy sufficient
-  rtbRange = 0.2; // variation range, sufficient since functions are smooth
-
-var
-  i,x1, x2, f1, f2, rtb, dx, xmid, fmid{, lincurr}: double;
-  jstep:integer;
-
-  function rtbfunc (i, kvguess:double): double;
-  begin
-      // function to become = 0 for root finder
-    rtbfunc:= getKfromI(cal,i) -kvguess;
-  end;
-
-begin
-//  lincurr:=0.0;
-  if cal.tlin=0 then begin
-    i:=0.0;
-    OPALog(1,'getIfromB: ZERO linear calibration factor found !');
-  end else begin
-  // result for linear, inititial guess for nonlinear
-    i := (kv*glob.energy*1E9/speed_of_light*factorial(cal.mpol)-cal.bres)/cal.tlin;
-//    lincurr:=i;
-    if (cal.isat <> 0.0) then begin
-      x1:=(1.0-rtbRange)*i;
-      x2:=(1.0+rtbRange)*i;
-      f1:=rtbfunc(x1,kv);
-      f2:=rtbfunc(x2,kv);
-      if ((f1*f2) > 0.0) then begin
-        OPALog(1,'getIfromB > bracketing failed - use linear inversion.');
-      end else begin
-        if (f1 < 0) then begin
-          rtb:=x1;
-          dx :=x2-x1;
-        end else begin
-          rtb:=x2;
-          dx :=x1-x2;
-        end;
-        jstep:=0;
-        repeat
-          inc(jstep);
-          dx:=dx*0.5;
-          xmid:=rtb+dx;
-          fmid:=rtbfunc(xmid,kv);
-          if (fmid <= 0.0) then rtb:=xmid;
-        until (abs(dx) < rtbAccuracy) or (fmid = 0.0) or (jstep = rtbIterations);
-        i:=rtb;
-       end; //else
-    end; //isat
-  end; //tlin
-  getIfromK:=i;
-end;
-
 
 {-------------------------------------------------------------------------}
 
@@ -1421,7 +1314,8 @@ end;
 
 {-------------------------------------------------------------------------}
 
-{construct linked list of line-strings}
+{
+//construct linked list of line-strings
 function AppendLine(var a: LineBufpt; line: String): LineBufpt;
 //appends a line to the line buffer
 var
@@ -1435,9 +1329,9 @@ begin
 end;
 
 function AppendText(var a: LineBufpt; text: String; cbrk: char; indent: integer): LineBufpt;
-{breaks a text at character cbrk and appends it to the buffer line by line.
- indent all lines but first one by indent blanks.f
-}
+//breaks a text at character cbrk and appends it to the buffer line by line.
+// indent all lines but first one by indent blanks.f
+
 var
   ibrk, i: integer;
   t, sind, sind0: string;
@@ -1454,7 +1348,7 @@ begin
   end;
   AppendText:=AppendLine(a,sind+t);
 end;
-
+}
 
 {###### Access to elements and segments ##################################}
 

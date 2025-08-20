@@ -39,7 +39,6 @@ type
 
   TOrbit = class(TForm)
     ButSync: TButton;
-    ButPrint: TButton;
     butps: TButton;
     butzoi: TButton;
     butzol: TButton;
@@ -128,8 +127,6 @@ type
     butkicktm: TButton;
     butloop: TButton;
     butcopy: TButton;
-    butreadcor: TButton;
-    procedure ButPrintClick(Sender: TObject);
     procedure butpsClick(Sender: TObject);
     procedure butzooClick(Sender: TObject);
     procedure butexClick(Sender: TObject);
@@ -174,7 +171,6 @@ type
     procedure EdkickturnsExit(Sender: TObject);
     procedure butloopClick(Sender: TObject);
     procedure butcopyClick(Sender: TObject);
-    procedure butreadcorClick(Sender: TObject);
   private
     orbmax, cormax, mismax, circ, sposini, sposfin, dsmin, CODpenalty: real;
     knobF: TKnob;
@@ -283,11 +279,11 @@ begin
 
   oimode:=oco_inj_mode;
 
-  plotox.passFormHandle(self);
+//  plotox.passFormHandle(self);
   plotox.assignScreen;
-  plotoy.passFormHandle(self);
+//  plotoy.passFormHandle(self);
   plotoy.assignScreen;
-  plotw.PassFormHandle(self);
+//  plotw.PassFormHandle(self);
   plotw.assignScreen;
   setOrbitHandle(self);
 
@@ -1041,25 +1037,6 @@ begin
   if sposfin > circ then begin sposfin:=circ; sposini:=sposfin-slen; end;
   Resizeall;
   MakePlot;
-end;
-
-procedure TOrbit.ButPrintClick(Sender: TObject);
-var
-    i, jt: integer;
-begin
-// to be extended: tmp only orb to diag file,
-// to do: output to orb/cor/mis files
-  case plotOCM of
-    0: begin
-      for jt:=0 to nturns-1 do begin
-        writeln(diagfil,'----spos---- ----Xorb---- ----Yorb-----');
-        for i:=0 to Glob.NLatt do with opval[jt,i] do writeln(diagfil, ftos(spos,12,6), ' ', ftos(orb[1],12,9), ' ', ftos(orb[2],12,9), ' ', ftos(orb[3],12,9), ' ',  ftos(orb[4],12,9) );
-        writeln(diagfil,'----spos---- ----Xorb---- ----Yorb-----');
-      end;
-    end;
-    1: ;//later
-    2: ;//later
-  end;
 end;
 
 
@@ -2273,81 +2250,5 @@ begin
   TEReadVal(EdJodx, v, 5, 0); EdJody.Text:=Inttostr(round(v));
 end;
 
-
-//temporary, to read data from tracy for comparison
-procedure TOrbit.butreadcorClick(Sender: TObject);
-const
-  reps=1e-4;
-type
-  rcotype = record
-    rs1, rs2, rdx, rdy, rdt: real;
-    rnam: ElemStr;
-  end;
-var
-  rco: array of rcotype;
-  fname: string;
-  fcor: textfile;
-  i, j, ii: integer;
-  s1, s2: real;
-  tnam: Elemstr;
-begin
-  fname:=ExtractFileName(FileName);
-  fname:=work_dir+'cormis_23.txt';
-  assignFile(fcor,fname);
-{$I-}
-    reset(fcor);
-{$I+}
-  i:=0; s1:=0;
-  if IOResult =0 then begin
-    rco:=nil;
-    while not eof(fcor) do begin
-      setlength(rco, length(rco)+1);
-      with rco[High(rco)] do begin
-        readln(fcor, ii, rs1, rs2, rdx, rdy, rdt, rnam);
-        rnam:=Trim(Uppercase(rnam));
-        if Pos('I_',rnam)=1 then rnam:=copy(rnam,3,100);
-        rdx:=rdx/1e6; rdy:=rdy/1e6; rdt:=rdt/1e6;
-      end;
-    end;
-    opalog(0,'read '+inttostr(ii)+' lines from '+fname);
-  end else opalog(2,'reading file '+fname+' failed, or not found');
-  CloseFile(fcor);
-  setMisalignments(0,0,0,0,0,0,0,0);
-  s1:=0;
-  for i:=1 to Glob.NLatt do begin
-    j:=FindEl(i);
-    s2:=s1+Ella[j].l;
-    if Ella[j].cod in cMisalign then begin
-      case Ella[j].cod of
-        cmoni: tnam:='MON';
-        ccorh: tnam:='HCM';
-        ccorv: tnam:='VCM';
-        else tnam:=Ella[j].nam;
-      end;
-      for ii:=0 to High(rco) do with rco[ii] do begin
-        if compareText(tnam,rnam)=0 then begin
-          if (abs(s1-rs1)+abs(s2-rs2))<reps then begin
-            with Lattice[i] do begin
-              dx:=rdx; dy:=rdy; dt:=rdt;
-            end;
-          end;
-        end;
-      end;
-    end;
-    s1:=s2;
-  end;
-{ --> move to printbutton
-  writeln(diagfil2,' ----------- Misalignment settings --------------');
-  s1:=0;
-  for i:=1 to Glob.NLatt do begin
-    j:=findel(i);
-    s2:=s1+ella[j].l;
-    if Ella[j].cod in cMisalign then with Lattice[i] do writeln(diagfil2,i,'  ',s1:12:6, s2:12:6, dx*1e6:12:6, dy*1e6:12:6, dt*1e6:12:6,'   ',ella[j].nam);
-    s1:=s2;
-  end;
-}  
-  OrbitRecalc;
-  MakePlot;
-end;
 
 end.

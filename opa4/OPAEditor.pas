@@ -33,7 +33,7 @@ type
     ButAllAper: TButton;
     EditAx: TEdit;
     EditAy: TEdit;
-    ButInvUnd: TButton;
+    ButExpUnd: TButton;
     procedure ButExitClick(Sender: TObject);
     procedure EdrrefExit(Sender: TObject);
     procedure EdrrefKeyPress(Sender: TObject; var Key: char);
@@ -44,7 +44,7 @@ type
     procedure EditAxKeyPress(Sender: TObject; var Key: Char);
     procedure EditAyKeyPress(Sender: TObject; var Key: Char);
     procedure ButAllAperClick(Sender: TObject);
-    procedure ButInvUndClick(Sender: TObject);
+    procedure ButExpUndClick(Sender: TObject);
   private
     cshandle: TComboBox;
     EleVarNames, SegmNames: TStrings;
@@ -224,7 +224,7 @@ begin
   end;
 end;
 
-procedure TFormEdit.ButInvUndClick(Sender: TObject);
+procedure TFormEdit.ButExpUndClick(Sender: TObject);
 // expand undulators -> create series of bends
 // later: drop down for selection of undulator
 var

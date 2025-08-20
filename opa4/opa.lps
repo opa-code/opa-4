@@ -15,8 +15,9 @@
         <ComponentName Value="MenuForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="12"/>
-        <TopLine Value="740"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="734"/>
         <CursorPos X="11" Y="772"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
@@ -82,8 +83,8 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="OpticPlot"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="2006"/>
-        <CursorPos X="26" Y="2038"/>
+        <TopLine Value="2498"/>
+        <CursorPos X="12" Y="2536"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
       </Unit7>
@@ -94,8 +95,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="341"/>
-        <CursorPos X="31" Y="379"/>
+        <TopLine Value="257"/>
+        <CursorPos X="16" Y="288"/>
         <UsageCount Value="201"/>
       </Unit8>
       <Unit9>
@@ -139,10 +140,10 @@
         <ComponentName Value="CHam"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
-        <EditorIndex Value="6"/>
-        <CursorPos X="70" Y="9"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="254"/>
+        <CursorPos X="17" Y="286"/>
         <UsageCount Value="201"/>
-        <Loaded Value="True"/>
       </Unit13>
       <Unit14>
         <Filename Value="OPAChroma.pas"/>
@@ -150,22 +151,19 @@
         <ComponentName Value="Chroma"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="5"/>
-        <TopLine Value="902"/>
-        <CursorPos X="21" Y="934"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1201"/>
+        <CursorPos X="59" Y="1212"/>
         <UsageCount Value="201"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
       </Unit14>
       <Unit15>
         <Filename Value="chromlib.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="ChromLib"/>
-        <EditorIndex Value="7"/>
-        <TopLine Value="230"/>
-        <CursorPos X="16" Y="249"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="31"/>
+        <CursorPos X="34" Y="31"/>
         <UsageCount Value="201"/>
-        <Loaded Value="True"/>
       </Unit15>
       <Unit16>
         <Filename Value="OPAtrackP.pas"/>
@@ -173,18 +171,21 @@
         <ComponentName Value="trackp"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="981"/>
-        <CursorPos X="12" Y="1012"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="603"/>
+        <CursorPos X="39" Y="607"/>
         <UsageCount Value="201"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit16>
       <Unit17>
         <Filename Value="tracklib.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="1103"/>
-        <CursorPos X="62" Y="1141"/>
+        <EditorIndex Value="7"/>
+        <TopLine Value="274"/>
+        <CursorPos X="18" Y="312"/>
         <UsageCount Value="201"/>
+        <Loaded Value="True"/>
       </Unit17>
       <Unit18>
         <Filename Value="OPACurrents.pas"/>
@@ -230,12 +231,10 @@
         <ComponentName Value="tuneplot"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="158"/>
         <CursorPos Y="180"/>
         <UsageCount Value="201"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
       </Unit22>
       <Unit23>
         <Filename Value="OPAtrackT.pas"/>
@@ -263,27 +262,26 @@
         <Filename Value="OPAChromaSVector.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <EditorIndex Value="8"/>
-        <CursorPos X="2" Y="9"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="86"/>
+        <CursorPos X="14" Y="107"/>
         <UsageCount Value="201"/>
-        <Loaded Value="True"/>
       </Unit25>
       <Unit26>
         <Filename Value="ChromGUILib1.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="10"/>
-        <TopLine Value="40"/>
-        <CursorPos X="25" Y="66"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2"/>
+        <CursorPos Y="28"/>
         <UsageCount Value="201"/>
-        <Loaded Value="True"/>
       </Unit26>
       <Unit27>
         <Filename Value="ChromGUILib2.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="11"/>
-        <TopLine Value="20"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="36"/>
+        <CursorPos X="17" Y="74"/>
         <UsageCount Value="201"/>
-        <Loaded Value="True"/>
       </Unit27>
       <Unit28>
         <Filename Value="OPAorbit.pas"/>
@@ -292,8 +290,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="273"/>
-        <CursorPos X="17" Y="292"/>
+        <TopLine Value="155"/>
+        <CursorPos Y="174"/>
         <UsageCount Value="201"/>
       </Unit28>
       <Unit29>
@@ -311,10 +309,11 @@
         <ComponentName Value="Figure"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="246"/>
-        <CursorPos X="43" Y="284"/>
+        <EditorIndex Value="5"/>
+        <CursorPos X="95" Y="19"/>
         <UsageCount Value="201"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit30>
       <Unit31>
         <Filename Value="../com/Vgraph.pas"/>
@@ -348,12 +347,10 @@
         <ComponentName Value="BucketView"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="126"/>
         <CursorPos X="28" Y="164"/>
         <UsageCount Value="201"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
       </Unit35>
       <Unit36>
         <Filename Value="../com/conrect.pas"/>
@@ -369,12 +366,12 @@
         <UnitName Value="OPALatticeFiles"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="75" Y="11"/>
-        <UsageCount Value="127"/>
+        <UsageCount Value="145"/>
       </Unit37>
       <Unit38>
         <Filename Value="changelog.txt"/>
-        <EditorIndex Value="4"/>
-        <CursorPos X="73" Y="4"/>
+        <EditorIndex Value="2"/>
+        <CursorPos X="81" Y="6"/>
         <UsageCount Value="100"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="None"/>
@@ -402,9 +399,11 @@
       </Unit41>
       <Unit42>
         <Filename Value="OPAElements.pas"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos X="17" Y="1006"/>
-        <UsageCount Value="32"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="2094"/>
+        <CursorPos X="17" Y="2094"/>
+        <UsageCount Value="37"/>
+        <Loaded Value="True"/>
       </Unit42>
       <Unit43>
         <Filename Value="/usr/share/fpcsrc/3.2.2/rtl/objpas/sysutils/sysstr.inc"/>
@@ -440,13 +439,10 @@
         <ComponentName Value="CSex"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="207"/>
         <CursorPos X="23" Y="239"/>
-        <UsageCount Value="26"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
+        <UsageCount Value="29"/>
       </Unit47>
       <Unit48>
         <Filename Value="Bucket.lfm"/>
@@ -456,127 +452,115 @@
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit48>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="27" HistoryIndex="26">
       <Position1>
-        <Filename Value="CSexLine.pas"/>
-        <Caret Line="48" Column="25" TopLine="27"/>
+        <Filename Value="OPAtrackP.pas"/>
+        <Caret Line="359" Column="13" TopLine="328"/>
       </Position1>
       <Position2>
-        <Filename Value="OPAChroma.pas"/>
-        <Caret Line="623" Column="13" TopLine="606"/>
+        <Filename Value="OPAtrackP.pas"/>
+        <Caret Line="945" Column="25" TopLine="839"/>
       </Position2>
       <Position3>
-        <Filename Value="OPAChroma.pas"/>
-        <Caret Line="429" Column="81" TopLine="410"/>
+        <Filename Value="tracklib.pas"/>
+        <Caret Line="1250" Column="19" TopLine="1212"/>
       </Position3>
       <Position4>
-        <Filename Value="OPAChroma.pas"/>
-        <Caret Line="430" Column="102" TopLine="410"/>
+        <Filename Value="tracklib.pas"/>
+        <Caret Line="69" Column="18" TopLine="50"/>
       </Position4>
       <Position5>
-        <Filename Value="OPAChroma.pas"/>
-        <Caret Line="438" Column="81" TopLine="410"/>
+        <Filename Value="OPAtrackP.pas"/>
+        <Caret Line="943" Column="40" TopLine="924"/>
       </Position5>
       <Position6>
-        <Filename Value="OPAChroma.pas"/>
-        <Caret Line="439" Column="102" TopLine="410"/>
+        <Filename Value="OPAtrackP.pas"/>
+        <Caret Line="1092" Column="35" TopLine="1061"/>
       </Position6>
       <Position7>
-        <Filename Value="CSexLine.pas"/>
-        <Caret Line="50" Column="17" TopLine="22"/>
+        <Filename Value="OPAtrackP.pas"/>
+        <Caret Line="941" Column="22" TopLine="935"/>
       </Position7>
       <Position8>
-        <Filename Value="chromlib.pas"/>
-        <Caret Line="968" Column="26" TopLine="930"/>
+        <Filename Value="OPAtrackP.pas"/>
+        <Caret Line="943" Column="8" TopLine="935"/>
       </Position8>
       <Position9>
-        <Filename Value="CSexLine.pas"/>
-        <Caret Line="55" Column="20" TopLine="24"/>
+        <Filename Value="OPAtrackP.pas"/>
+        <Caret Line="1079" Column="66" TopLine="1074"/>
       </Position9>
       <Position10>
-        <Filename Value="CSexLine.pas"/>
-        <Caret Line="22" Column="28" TopLine="15"/>
+        <Filename Value="OPAtrackP.pas"/>
+        <Caret Line="144" Column="23" TopLine="127"/>
       </Position10>
       <Position11>
-        <Filename Value="CSexLine.pas"/>
-        <Caret Line="39" Column="24" TopLine="18"/>
+        <Filename Value="OPAtrackP.pas"/>
+        <Caret Line="905" Column="11" TopLine="873"/>
       </Position11>
       <Position12>
-        <Filename Value="CSexLine.pas"/>
-        <Caret Line="49" Column="24" TopLine="18"/>
+        <Filename Value="OPAtrackP.pas"/>
+        <Caret Line="910" Column="11" TopLine="878"/>
       </Position12>
       <Position13>
-        <Filename Value="CSexLine.pas"/>
-        <Caret Line="288" Column="26"/>
+        <Filename Value="OPAtrackP.pas"/>
+        <Caret Line="1111" Column="13" TopLine="1080"/>
       </Position13>
       <Position14>
-        <Filename Value="CSexLine.pas"/>
-        <Caret Line="290" Column="26" TopLine="258"/>
+        <Filename Value="OPAtrackP.pas"/>
+        <Caret Line="1311" Column="79" TopLine="1282"/>
       </Position14>
       <Position15>
-        <Filename Value="CSexLine.pas"/>
-        <Caret Line="308" Column="29" TopLine="276"/>
+        <Filename Value="OPAtrackP.pas"/>
+        <Caret Line="1225" Column="3" TopLine="1220"/>
       </Position15>
       <Position16>
-        <Filename Value="CSexLine.pas"/>
-        <Caret Line="309" Column="21" TopLine="277"/>
+        <Filename Value="OPAtrackP.pas"/>
+        <Caret Line="1254" Column="3" TopLine="1248"/>
       </Position16>
       <Position17>
-        <Filename Value="CSexLine.pas"/>
-        <Caret Line="319" Column="88" TopLine="287"/>
+        <Filename Value="OPAtrackP.pas"/>
+        <Caret Line="1301" Column="3" TopLine="1299"/>
       </Position17>
       <Position18>
-        <Filename Value="CSexLine.pas"/>
-        <Caret Line="326" Column="12" TopLine="294"/>
+        <Filename Value="OPAtrackP.pas"/>
+        <Caret Line="1365" Column="39" TopLine="1363"/>
       </Position18>
       <Position19>
-        <Filename Value="CSexLine.pas"/>
-        <Caret Line="331" Column="12" TopLine="299"/>
+        <Filename Value="OPAtrackP.pas"/>
+        <Caret Line="119" Column="28" TopLine="101"/>
       </Position19>
       <Position20>
-        <Filename Value="CSexLine.pas"/>
-        <Caret Line="336" Column="12" TopLine="304"/>
+        <Filename Value="OPAtrackP.pas"/>
+        <Caret Line="1366" Column="32" TopLine="1328"/>
       </Position20>
       <Position21>
-        <Filename Value="CSexLine.pas"/>
-        <Caret Line="341" Column="12" TopLine="309"/>
+        <Filename Value="OPAtrackP.pas"/>
+        <Caret Line="1378" Column="3" TopLine="1373"/>
       </Position21>
       <Position22>
-        <Filename Value="CSexLine.pas"/>
-        <Caret Line="347" Column="20" TopLine="315"/>
+        <Filename Value="OPAtrackP.pas"/>
+        <Caret Line="101" Column="24" TopLine="83"/>
       </Position22>
       <Position23>
-        <Filename Value="CSexLine.pas"/>
-        <Caret Line="348" Column="20" TopLine="316"/>
+        <Filename Value="OPAtrackP.pas"/>
+        <Caret Line="608" Column="51" TopLine="577"/>
       </Position23>
       <Position24>
-        <Filename Value="CSexLine.pas"/>
-        <Caret Line="349" Column="20" TopLine="317"/>
+        <Filename Value="OPAtrackP.pas"/>
+        <Caret Line="641" Column="12" TopLine="610"/>
       </Position24>
       <Position25>
-        <Filename Value="CSexLine.pas"/>
-        <Caret Line="355" Column="12" TopLine="323"/>
+        <Filename Value="OPAtrackP.pas"/>
+        <Caret Line="1407" Column="21" TopLine="1369"/>
       </Position25>
       <Position26>
-        <Filename Value="CSexLine.pas"/>
-        <Caret Line="39" Column="24" TopLine="21"/>
+        <Filename Value="OPAtrackP.pas"/>
+        <Caret Line="1409" Column="3" TopLine="1373"/>
       </Position26>
       <Position27>
-        <Filename Value="CSexLine.pas"/>
-        <Caret Line="49" Column="24" TopLine="21"/>
+        <Filename Value="OPAtrackP.pas"/>
+        <Caret Line="101" Column="24" TopLine="83"/>
       </Position27>
-      <Position28>
-        <Filename Value="CSexLine.pas"/>
-        <Caret Line="41" Column="21" TopLine="17"/>
-      </Position28>
-      <Position29>
-        <Filename Value="CSexLine.pas"/>
-        <Caret Line="30" Column="21"/>
-      </Position29>
-      <Position30>
-        <Filename Value="CSexLine.pas"/>
-        <Caret Line="41" Column="21" TopLine="9"/>
-      </Position30>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

@@ -1,7 +1,7 @@
 object EditSegSet: TEditSegSet
-  Left = 1197
+  Left = 406
   Height = 336
-  Top = 150
+  Top = 41
   Width = 546
   Caption = 'Segment Editor'
   ClientHeight = 336

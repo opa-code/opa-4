@@ -34,7 +34,7 @@ type
     ds_geo: TMenuItem;
     tm_bdpattern: TMenuItem;
     tm_spectra: TMenuItem;
-    opanovar: TMenuItem;
+    ex_opanovar: TMenuItem;
     mi_file: TMenuItem;
     fi_open: TMenuItem;
     fi_save: TMenuItem;
@@ -84,9 +84,6 @@ type
     procedure ButLogPrtClick(Sender: TObject);
     procedure exp_masterClick(Sender: TObject);
 //    procedure tm_consoleClick(Sender: TObject);
-    procedure tm_diClick(Sender: TObject);
-    procedure tm_magClick(Sender: TObject);
-    procedure tm_spectraClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject);
     procedure comboSegChange(Sender: TObject);
@@ -104,7 +101,7 @@ type
     procedure ex_madxClick(Sender: TObject);
     procedure ex_elegantClick(Sender: TObject);
     procedure ex_bmadClick(Sender: TObject);
-    procedure opanovarClick(Sender: TObject);
+    procedure ex_opanovarClick(Sender: TObject);
 
     procedure ed_opedClick(Sender: TObject);
     procedure ed_textClick(Sender: TObject);
@@ -124,6 +121,10 @@ type
 
     procedure tm_curClick(Sender: TObject);
     procedure tm_testClick(Sender: TObject);
+    procedure tm_diClick(Sender: TObject);
+    procedure tm_magClick(Sender: TObject);
+    procedure tm_spectraClick(Sender: TObject);
+
   private
 //    bitsym: array[0..6] of TBitMap;
     procedure UpDateLastUsed;
@@ -700,7 +701,7 @@ begin
   end;
 end;
 
-procedure TMenuForm.opanovarClick(Sender: TObject);
+procedure TMenuForm.ex_opanovarClick(Sender: TObject);
 begin
   saveDialog1.FileName:=copy(FileName,1,Pos('.',FileName)-1);
   with saveDialog1 do begin

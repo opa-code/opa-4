@@ -1268,12 +1268,13 @@ var
   mfname: string;
 begin
 //insufficient precision!!
-  geo.beginMetaPlot(10);
+{  geo.beginMetaPlot(10);
   MakePlot;
   mfname:=ExtractFileName(FileName);
   mfname:=work_dir+Copy(mfname,0,Pos('.',mfname)-1);
   geo.endMetaPlot(mfname+'_geometry.wmf');
   MakePlot;
+}
 end;
 
 procedure TGeometry.butlistClick(Sender: TObject);

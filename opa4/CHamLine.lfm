@@ -15,7 +15,8 @@ object CHam: TCHam
   ParentColor = False
   ParentFont = False
   TabOrder = 0
-  DesignTop = 25
+  DesignLeft = 212
+  DesignTop = 38
   object LabName: TLabel
     Left = 8
     Height = 14

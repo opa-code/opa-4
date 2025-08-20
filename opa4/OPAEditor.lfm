@@ -1,7 +1,7 @@
 object FormEdit: TFormEdit
-  Left = 1176
+  Left = 175
   Height = 508
-  Top = 148
+  Top = 25
   Width = 553
   Caption = 'Editor'
   ClientHeight = 508
@@ -174,13 +174,13 @@ object FormEdit: TFormEdit
     TabOrder = 8
     Text = '  Ay'
   end
-  object ButInvUnd: TButton
+  object ButExpUnd: TButton
     Left = 8
     Height = 25
     Top = 472
     Width = 161
     Caption = 'Expand undulators'
-    OnClick = ButInvUndClick
+    OnClick = ButExpUndClick
     TabOrder = 9
   end
   object chkAllAper: TCheckBox

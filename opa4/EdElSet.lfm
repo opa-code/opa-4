@@ -1,7 +1,7 @@
 object EditElemSet: TEditElemSet
-  Left = 934
+  Left = 607
   Height = 474
-  Top = 484
+  Top = 412
   Width = 977
   Caption = 'Element Setup'
   ClientHeight = 474
@@ -11,29 +11,27 @@ object EditElemSet: TEditElemSet
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Position = poDefaultPosOnly
-  LCLVersion = '2.0.6.0'
+  LCLVersion = '2.2.0.4'
   object Label1: TLabel
     Left = 8
     Height = 25
     Top = 8
-    Width = 58
+    Width = 69
     Caption = 'Modify'
     Font.Color = clWindowText
     Font.Height = -21
     Font.Name = 'MS Sans Serif'
-    ParentColor = False
     ParentFont = False
   end
   object LabType: TLabel
     Left = 80
     Height = 25
     Top = 8
-    Width = 78
+    Width = 86
     Caption = 'LabType'
     Font.Color = clWindowText
     Font.Height = -21
     Font.Name = 'MS Sans Serif'
-    ParentColor = False
     ParentFont = False
   end
   object tab: TStringGrid
@@ -49,9 +47,6 @@ object EditElemSet: TEditElemSet
     ParentFont = False
     RowCount = 1
     TabOrder = 0
-    TitleFont.Color = clWindowText
-    TitleFont.Height = -13
-    TitleFont.Name = 'MS Sans Serif'
     OnDrawCell = tabDrawCell
   end
   object ButOK: TButton
@@ -74,7 +69,7 @@ object EditElemSet: TEditElemSet
   end
   object EditName: TEdit
     Left = 200
-    Height = 24
+    Height = 28
     Top = 8
     Width = 129
     Font.CharSet = ANSI_CHARSET

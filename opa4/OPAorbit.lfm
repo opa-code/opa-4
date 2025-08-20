@@ -123,7 +123,7 @@ object Orbit: TOrbit
     object butbpmref: TButton
       Left = 6
       Height = 25
-      Top = 6
+      Top = 8
       Width = 33
       Caption = 'set'
       Enabled = False
@@ -453,7 +453,7 @@ object Orbit: TOrbit
       TabOrder = 20
     end
     object butloop: TButton
-      Left = 142
+      Left = 144
       Height = 25
       Top = 93
       Width = 49
@@ -474,15 +474,6 @@ object Orbit: TOrbit
       Caption = '|'
       OnClick = butcopyClick
       TabOrder = 22
-    end
-    object butreadcor: TButton
-      Left = 118
-      Height = 17
-      Top = 6
-      Width = 17
-      Caption = 'R'
-      OnClick = butreadcorClick
-      TabOrder = 23
     end
   end
   object panctr: TPanel
@@ -694,23 +685,14 @@ object Orbit: TOrbit
       OnClick = chkKeepMaxClick
       TabOrder = 1
     end
-    object ButPrint: TButton
-      Left = 6
-      Height = 19
-      Top = 83
-      Width = 34
-      Caption = '->txt'
-      OnClick = ButPrintClick
-      TabOrder = 2
-    end
     object butps: TButton
-      Left = 52
+      Left = 8
       Height = 19
-      Top = 83
-      Width = 34
-      Caption = '-> PS'
+      Top = 86
+      Width = 79
+      Caption = '-> EPS'
       OnClick = butpsClick
-      TabOrder = 3
+      TabOrder = 2
     end
   end
   object butex: TButton

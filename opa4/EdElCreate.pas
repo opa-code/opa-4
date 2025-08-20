@@ -11,17 +11,17 @@ uses
 type
   TEditElemCreate = class(TForm)
     Label1: TLabel;
-    ComboBox1: TComboBox;
+    ComEtype: TComboBox;
     Label2: TLabel;
     Label3: TLabel;
-    NameInput: TEdit;
-    Button1: TButton;
-    Button2: TButton;
-    procedure ComboBox1Change(Sender: TObject);
-    procedure NameInputChange(Sender: TObject);
-    procedure NameInputKeyPress (Sender: TObject; var Key:Char);
-    procedure Button2Click(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
+    EdEName: TEdit;
+    ButCre: TButton;
+    ButCan: TButton;
+    procedure ComEtypeChange(Sender: TObject);
+    procedure EdENameChange(Sender: TObject);
+    procedure EdENameKeyPress (Sender: TObject; var Key:Char);
+    procedure ButCanClick(Sender: TObject);
+    procedure ButCreClick(Sender: TObject);
   private
     Shandle: TEditSegSet;
     ListHandle: TListBox;
@@ -40,18 +40,18 @@ implementation
 
 {$R *.lfm}
 
-procedure TEditElemCreate.ComboBox1Change(Sender: TObject);
+procedure TEditElemCreate.ComEtypeChange(Sender: TObject);
 begin
-  newElemCode:=ComboBox1.ItemIndex;
+  newElemCode:=ComEtype.ItemIndex;
 end;
 
 
-procedure TEditElemCreate.NameInputChange(Sender: TObject);
+procedure TEditElemCreate.EdENameChange(Sender: TObject);
 begin
-  newElemName:= NameInput.text;
+  newElemName:= EdEName.text;
 end;
 
-procedure TEditElemCreate.NameInputKeyPress (Sender: TObject; var Key:Char);
+procedure TEditElemCreate.EdENameKeyPress (Sender: TObject; var Key:Char);
 begin
   key:=UpCase(key);
   if key=#13 then key:=#0;
@@ -68,12 +68,12 @@ begin
 end;
 
 
-procedure TEditElemCreate.Button2Click(Sender: TObject);
+procedure TEditElemCreate.ButCanClick(Sender: TObject);
 begin
  Exit;
 end;
 
-procedure TEditElemCreate.Button1Click(Sender: TObject);
+procedure TEditElemCreate.ButCreClick(Sender: TObject);
 begin
 {check if name is valid and kind was selected}
   if newElemCode = -1 then begin
@@ -114,7 +114,7 @@ begin
         EditElemSet.Show;
       end;
     end else begin
-      NameInput.text:='';
+      EdEName.text:='';
     end;
   end;
 
@@ -126,8 +126,8 @@ var i {, index}: integer;
 begin
   ListHandle:=handle;
   Shandle:=ESShandle;
-  NameInput.text:='';
-  with ComboBox1 do begin
+  EdEName.text:='';
+  with ComEtype do begin
     for i:=0 to NelemKind do begin
       {index:=} Items.Add(ElemName[i]);
     end;

@@ -506,7 +506,7 @@ object trackp: Ttrackp
       Height = 17
       Top = 110
       Width = 73
-      Caption = '--> PS'
+      Caption = '--> EPS'
       Enabled = False
       OnClick = butexportClick
       TabOrder = 3

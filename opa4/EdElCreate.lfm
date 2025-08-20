@@ -1,100 +1,93 @@
 object EditElemCreate: TEditElemCreate
   Left = 1058
+  Height = 185
   Top = 570
+  Width = 285
   BorderStyle = bsSingle
   Caption = 'Create an Element'
   ClientHeight = 185
   ClientWidth = 285
   Color = cl3DLight
-  Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -16
   Font.Name = 'MS Sans Serif'
-  Font.Style = []
   Position = poDesktopCenter
-  PixelsPerInch = 96
+  LCLVersion = '2.2.0.4'
   object Label1: TLabel
     Left = 16
+    Height = 25
     Top = 8
-    Width = 254
-    Height = 24
+    Width = 325
     Caption = 'Create a new element/variable'
-    Font.Charset = DEFAULT_CHARSET
     Font.Color = clActiveCaption
     Font.Height = -21
     Font.Name = 'MS Sans Serif'
-    Font.Style = []
     ParentFont = False
   end
   object Label2: TLabel
     Left = 24
+    Height = 25
     Top = 48
-    Width = 38
-    Height = 24
+    Width = 46
     Caption = 'Kind'
-    Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -21
     Font.Name = 'MS Sans Serif'
-    Font.Style = []
     ParentFont = False
   end
   object Label3: TLabel
     Left = 8
+    Height = 25
     Top = 96
-    Width = 51
-    Height = 24
+    Width = 62
     Caption = 'Name'
     Color = cl3DLight
-    Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -21
     Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    ParentColor = False
     ParentFont = False
+    Transparent = False
   end
-  object ComboBox1: TComboBox
+  object ComEtype: TComboBox
     Left = 72
+    Height = 29
     Top = 48
     Width = 201
-    Height = 28
-    ItemHeight = 20
+    ItemHeight = 0
+    OnChange = ComEtypeChange
     TabOrder = 0
     Text = 'select '
-    OnChange = ComboBox1Change
   end
-  object NameInput: TEdit
+  object EdEName: TEdit
     Left = 72
+    Height = 32
     Top = 96
     Width = 201
-    Height = 24
-    Font.Charset = ANSI_CHARSET
+    Font.CharSet = ANSI_CHARSET
     Font.Color = clBlue
     Font.Height = -19
     Font.Name = 'Courier New'
-    Font.Style = []
+    OnChange = EdENameChange
+    OnKeyPress = EdENameKeyPress
     ParentFont = False
     TabOrder = 1
-    OnChange = NameInputChange
-    OnKeyPress = NameInputKeyPress
   end
-  object Button1: TButton
+  object ButCre: TButton
     Left = 72
+    Height = 25
     Top = 144
     Width = 97
-    Height = 25
     Caption = 'Create!'
+    OnClick = ButCreClick
     TabOrder = 2
-    OnClick = Button1Click
   end
-  object Button2: TButton
+  object ButCan: TButton
     Left = 184
+    Height = 25
     Top = 144
     Width = 91
-    Height = 25
     Caption = 'Cancel'
+    OnClick = ButCanClick
     TabOrder = 3
-    OnClick = Button2Click
   end
 end

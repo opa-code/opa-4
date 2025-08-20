@@ -10,6 +10,9 @@ uses
 
 
 type
+
+  { TCHam }
+
   TCHam = class(TFrame)
     LabName: TLabel;
     LabVal: TLabel;
@@ -215,6 +218,7 @@ begin
 //    Show;
   end;
   oldplotr:=plotr;
+
 end;
 
 //--------------------------------------------------------------------

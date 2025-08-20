@@ -746,7 +746,7 @@ begin
     if (jelem > -1) and (not EditMode) and (Acol=2) then begin
       try Val(tab.Cells[Acol,Arow],xv,err) except end;
       if err<>0 then begin
-        Brush.Color:=clBtnFace; Font.Color:=clGray;
+        Brush.Color:=clBtnFace; Font.Color:=clRed; //clGray;
         FillRect(Rect);
         TextOut(Rect.Left+2, Rect.Top+2, UB(tab.Cells[ACol, ARow]));
       end;

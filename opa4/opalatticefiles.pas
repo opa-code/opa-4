@@ -17,7 +17,6 @@ procedure LatReadCom (TextBuffer: Pointer);
 procedure LatRead (TextBuffer: pointer);
 procedure ReadAllocation;
 procedure ReadCalibration;
-procedure getCurrentsGLOB; // temp
 function  WriteLattice (latcode_in:integer): string;
 
 procedure madseqconvert(seqfile:string; var TextBuffer: pointer);
@@ -493,7 +492,7 @@ var
   x: real;
 
 begin
-// erase all data
+  // erase all data
   Calibration:=nil;
 // read calibration file
   if FileExists(calibrationFile) then begin
@@ -501,7 +500,8 @@ begin
 {$I-}
     reset(f);
 {$I+}
-    if IOResult =0 then begin
+
+  if IOResult =0 then begin
       while not eof(f) do begin
         readln(f,line); line:=UpperCase(line);
         ip:=Pos(':',line);
@@ -581,14 +581,14 @@ begin
     nl:=np^.nex;
     dispose(np);
   end;
-
   // read typedata file
   if FileExists(allocationFile) then begin
     AssignFile(f,allocationFile);
 {$I-}
     reset(f);
 {$I+}
-    if IOResult =0 then begin
+
+  if IOResult =0 then begin
       while not eof(f) do begin
       //read one line
         readln (f, line); line:=uppercase(line);
@@ -661,69 +661,6 @@ end;
 
 {-------------------------------------------------------------------------}
 
-procedure getCurrentsGLOB;
-type
-  pstype = record
-    name: string_25;
-    n:integer;
-    cavg, cmin, cmax:double;
-  end;
-
-var
-  cur, kv: double;
-  cfac, j, ip, ips: integer;
-  np: NameListpt;
-  cal: CalibrationType;
-  ps: array of pstype;
-
-begin
-  ps :=nil;
-  for j:=1 to Glob.NElla do with Ella[j] do begin
-//    writeln (nam,'------------------------------------------------------');
-    np:=nl;
-    while np<>nil do begin
-      cal:=Calibration[np.typeindex];
-// if original element has zero length, kv = kv*L, use cal.leng to get kv
-// if element length not equal calibration length, adjust gradient to keep kv*L constant:
-      if cod=cbend then kv:=phi/cal.leng else begin
-        if l=0.0 then kv:= getkval(j,0)/cal.leng
-                 else kv:= getkval(j,0)*l/cal.leng;
-      end;
-      if np.polarity=-1 then cfac:=-1 else cfac:=1;
-      cur:=getIfromk(cal,kv*cfac);
-//      writeln(nam,' | ', np.realname,' | ', getkval(j):8:3,' | ',kv:8:3,' | ', cur:8:3);
-      ips:=-1;
-      for ip:=0 to high(ps) do if ps[ip].name=np^.psname then ips:=ip;
-//power supply not yet registered: create list entry
-      if ips=-1 then begin
-        setlength(ps,length(ps)+1);
-        ps[high(ps)].name:=np^.psname;
-        ps[high(ps)].n:=1;
-        ps[high(ps)].cavg:=cur;
-        ps[high(ps)].cmin:=cur;
-        ps[high(ps)].cmax:=cur;
-// power supply known: check if new current value is compatible with average up to now
-      end else begin
-        if cur < ps[ips].cmin then ps[ips].cmin:=cur;
-        if cur > ps[ips].cmax then ps[ips].cmax:=cur;
-        ps[ips].cavg:=(ps[ips].cavg*ps[ips].n+cur)/(ps[ips].n+1);
-        inc(ps[ips].n);
-      end;
-      np:=np^.nex;
-    end;
-  end;
-
-{
-  for ip:=0 to high(ps) do begin
-    write(diagfil,ps[ip].name+' ');
-  end;
-  writeln(diagfil);
-  for ip:=0 to high(ps) do begin
-    write(diagfil,ps[ip].cavg:12:4);
-  end;
-  writeln(diagfil);
-}
-end;
 
 
 

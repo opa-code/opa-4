@@ -1,7 +1,7 @@
 object FormTxtEdt: TFormTxtEdt
-  Left = 1071
+  Left = 726
   Height = 668
-  Top = 340
+  Top = 275
   Width = 750
   Caption = 'Text Editor'
   ClientHeight = 668

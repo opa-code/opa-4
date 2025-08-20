@@ -1,9 +1,9 @@
 object MenuForm: TMenuForm
-  Left = 497
+  Left = 295
   Height = 375
-  Top = 492
+  Top = 243
   Width = 647
-  Caption = 'OPA 4.1.0 (=4.063)'
+  Caption = 'OPA 4.1.1'
   ClientHeight = 354
   ClientWidth = 647
   Color = clMenu
@@ -226,9 +226,9 @@ object MenuForm: TMenuForm
           Caption = 'BMAD'
           OnClick = ex_bmadClick
         end
-        object opanovar: TMenuItem
+        object ex_opanovar: TMenuItem
           Caption = 'OPA (novar)'
-          OnClick = opanovarClick
+          OnClick = ex_opanovarClick
         end
       end
       object N1: TMenuItem
@@ -310,26 +310,6 @@ object MenuForm: TMenuForm
     end
     object mi_extr: TMenuItem
       Caption = 'Extra'
-      object tm_mag: TMenuItem
-        Caption = 'Magnet Parameters'
-        OnClick = tm_magClick
-      end
-      object tm_cur: TMenuItem
-        Caption = 'Magnet Currents '
-        Enabled = False
-        OnClick = tm_curClick
-      end
-      object tm_test: TMenuItem
-        Caption = '(Test)'
-        OnClick = tm_testClick
-      end
-      object tm_bdpattern: TMenuItem
-        Caption = '(BDpattern)'
-      end
-      object tm_spectra: TMenuItem
-        Caption = '(spectra)'
-        OnClick = tm_spectraClick
-      end
       object tm_diaglev: TMenuItem
         Caption = 'Output'
         object tm_di0: TMenuItem
@@ -351,6 +331,26 @@ object MenuForm: TMenuForm
           Caption = 'all'
           OnClick = tm_diClick
         end
+      end
+      object tm_cur: TMenuItem
+        Caption = 'Magnet Currents '
+        Enabled = False
+        OnClick = tm_curClick
+      end
+      object tm_mag: TMenuItem
+        Caption = '(Magnet Parameters)'
+        OnClick = tm_magClick
+      end
+      object tm_test: TMenuItem
+        Caption = '(Test)'
+        OnClick = tm_testClick
+      end
+      object tm_bdpattern: TMenuItem
+        Caption = '(BDpattern)'
+      end
+      object tm_spectra: TMenuItem
+        Caption = '(spectra)'
+        OnClick = tm_spectraClick
       end
     end
   end

@@ -25,7 +25,6 @@ implementation
 var
   CH_handle: array[0..nCHamilton-1] of TCHam; //the 25 Hamiltonians
   laba1l_handle, laba2l_handle, laba3l_handle: TLabel; //handles for path
-// handles for the octupol-SVD related components:
 
 //-------------------------------------------------------------
 procedure Pass_CH_handles(CH: array of TCHam);

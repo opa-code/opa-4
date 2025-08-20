@@ -25,10 +25,10 @@ type
 //    prevlog: TMemo;
     segselect: TComboBox;
     function getEdtTxt: pointer;
+    procedure Exit;
   public
     procedure Init (cbshandle: TComboBox);
     procedure LoadLattice;
-    procedure Exit;
   end;
 
 var

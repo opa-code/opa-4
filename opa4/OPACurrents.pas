@@ -6,7 +6,7 @@ interface
 
 uses
   LCLIntf, LCLType, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  OPAglobal, ASaux, Grids, StdCtrls;
+  OPAglobal, MathLib, ASaux, Grids, StdCtrls;
 
 type
   TCurrents = class(TForm)
@@ -23,6 +23,11 @@ type
     procedure cgridSelectCell(Sender: TObject; ACol, ARow: Integer;
       var CanSelect: Boolean);
     procedure busnapSLSClick(Sender: TObject);
+
+    procedure getCurrentsGLOB; // temp
+    function getKfromI (c: CalibrationType; i: double): double;
+    function getdkdIfac (c: CalibrationType; I: double): double;
+    function getIfromK(cal:CalibrationType; kv:double): double;
    private
     { Private-Deklarationen }
   public
@@ -50,6 +55,177 @@ var
 {$R *.lfm}
 
 {------------------------------------------------------------------------------}
+procedure TCurrents.getCurrentsGLOB;
+type
+  pstype = record
+    name: string_25;
+    n:integer;
+    cavg, cmin, cmax:double;
+  end;
+
+var
+  cur, kv: double;
+  cfac, j, ip, ips: integer;
+  np: NameListpt;
+  cal: CalibrationType;
+  ps: array of pstype;
+
+begin
+  ps :=nil;
+  for j:=1 to Glob.NElla do with Ella[j] do begin
+//    writeln (nam,'------------------------------------------------------');
+    np:=nl;
+    while np<>nil do begin
+      cal:=Calibration[np.typeindex];
+// if original element has zero length, kv = kv*L, use cal.leng to get kv
+// if element length not equal calibration length, adjust gradient to keep kv*L constant:
+      if cod=cbend then kv:=phi/cal.leng else begin
+        if l=0.0 then kv:= getkval(j,0)/cal.leng
+                 else kv:= getkval(j,0)*l/cal.leng;
+      end;
+      if np.polarity=-1 then cfac:=-1 else cfac:=1;
+      cur:=getIfromk(cal,kv*cfac);
+//      writeln(nam,' | ', np.realname,' | ', getkval(j):8:3,' | ',kv:8:3,' | ', cur:8:3);
+      ips:=-1;
+      for ip:=0 to high(ps) do if ps[ip].name=np^.psname then ips:=ip;
+//power supply not yet registered: create list entry
+      if ips=-1 then begin
+        setlength(ps,length(ps)+1);
+        ps[high(ps)].name:=np^.psname;
+        ps[high(ps)].n:=1;
+        ps[high(ps)].cavg:=cur;
+        ps[high(ps)].cmin:=cur;
+        ps[high(ps)].cmax:=cur;
+// power supply known: check if new current value is compatible with average up to now
+      end else begin
+        if cur < ps[ips].cmin then ps[ips].cmin:=cur;
+        if cur > ps[ips].cmax then ps[ips].cmax:=cur;
+        ps[ips].cavg:=(ps[ips].cavg*ps[ips].n+cur)/(ps[ips].n+1);
+        inc(ps[ips].n);
+      end;
+      np:=np^.nex;
+    end;
+  end;
+
+{
+  for ip:=0 to high(ps) do begin
+    write(diagfil,ps[ip].name+' ');
+  end;
+  writeln(diagfil);
+  for ip:=0 to high(ps) do begin
+    write(diagfil,ps[ip].cavg:12:4);
+  end;
+  writeln(diagfil);
+}
+end;
+
+
+{get magnet strength from current:
+give (n-1)th field derivative (B, B', B", ...) in units of T/m^(n-1) as a function of current
+and normalize to energy for k-value
+
+               /              |I|*tlin                    \
+           b = | bres + --------------------------------- |*sign(I)
+               \        (1+sfac*(|I|*(1/isat))^aexp)^nexp /
+
+since most quads are unipolar assume remanence always same sign as current
+for bends b is the curvature phi/leng
+}
+function TCurrents.getKfromI (c: CalibrationType; i: double): double;
+var
+  b: double;
+begin
+  b:=c.bres+abs(i)*c.tlin/PowR(1+c.sfac*PowR((abs(i)*c.isat),c.aexp),c.nexp);
+  if i < 0 then b:=-b;
+  getKfromI:= b/(glob.energy*1E9/speed_of_light)/factorial(c.mpol);
+end;
+
+{.......................................................................}
+
+{attenuation factor for (dk/dI)/(dk/dI_linear) compared to linear calibration,
+= (dBn/dI)/(dBn/dI_linear) i.e. derivative of above divided by tlin, without brho
+
+                1 + (1-aexp*nexp)*sfac*(|I|/isat)^aexp)
+           f = ----------------------------------------
+                (1+sfac*(|I|*(1/isat))^aexp)^(nexp+1)
+}
+function TCurrents.getdkdIfac (c: CalibrationType; I: double): double;
+var
+  x: double;
+begin
+  x:=c.sfac*PowR( abs(I)*c.isat,c.aexp);
+  getdkdIfac:= (1.0 + (1.0 - c.aexp*c.nexp)*x )/ PowR( 1.0+x, c.nexp+1);
+end;
+
+{.......................................................................}
+
+{
+  get current from magnet strength:
+  nonlinear calibration: iterate to get current for k-value
+  bisection root finder from numerical recipes
+}
+
+function TCurrents.getIfromK(cal:CalibrationType; kv:double): double;
+
+const
+  rtbIterations = 40;
+  rtbAccuracy  = 1e-6; // 1 microAmp accuracy sufficient
+  rtbRange = 0.2; // variation range, sufficient since functions are smooth
+
+var
+  i,x1, x2, f1, f2, rtb, dx, xmid, fmid{, lincurr}: double;
+  jstep:integer;
+
+  function rtbfunc (i, kvguess:double): double;
+  begin
+      // function to become = 0 for root finder
+    rtbfunc:= getKfromI(cal,i) -kvguess;
+  end;
+
+begin
+//  lincurr:=0.0;
+  if cal.tlin=0 then begin
+    i:=0.0;
+    OPALog(1,'getIfromB: ZERO linear calibration factor found !');
+  end else begin
+  // result for linear, inititial guess for nonlinear
+    i := (kv*glob.energy*1E9/speed_of_light*factorial(cal.mpol)-cal.bres)/cal.tlin;
+//    lincurr:=i;
+    if (cal.isat <> 0.0) then begin
+      x1:=(1.0-rtbRange)*i;
+      x2:=(1.0+rtbRange)*i;
+      f1:=rtbfunc(x1,kv);
+      f2:=rtbfunc(x2,kv);
+      if ((f1*f2) > 0.0) then begin
+        OPALog(1,'getIfromB > bracketing failed - use linear inversion.');
+      end else begin
+        if (f1 < 0) then begin
+          rtb:=x1;
+          dx :=x2-x1;
+        end else begin
+          rtb:=x2;
+          dx :=x1-x2;
+        end;
+        jstep:=0;
+        repeat
+          inc(jstep);
+          dx:=dx*0.5;
+          xmid:=rtb+dx;
+          fmid:=rtbfunc(xmid,kv);
+          if (fmid <= 0.0) then rtb:=xmid;
+        until (abs(dx) < rtbAccuracy) or (fmid = 0.0) or (jstep = rtbIterations);
+        i:=rtb;
+       end; //else
+    end; //isat
+  end; //tlin
+  getIfromK:=i;
+end;
+
+
+
+
+
+
 
 //procedure TCurrents.FormCreate(Sender: TObject);
 //begin
