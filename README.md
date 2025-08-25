@@ -12,7 +12,7 @@ Algorithms for sextupole optimization and signal processing were kindly contribu
 Simon Leemann did a lot of tests and suggested many extensions and changes during the design of MAX-IV.
 Michael Borland and Chun-xi Wang tested the module for non-linear optimization for consistency with the `ELEGANT` code and helped to find several bugs.
 Volker Ziemann helped with implementation of coupling and calculation of radiation integrals.
-Bernard Riemann implemted the flood fill algorithm.
+Bernard Riemann implemented the flood fill algorithm.
 
 **Licence**
 
