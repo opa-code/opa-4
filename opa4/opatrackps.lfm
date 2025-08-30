@@ -1,0 +1,687 @@
+object trackp: Ttrackp
+  Left = 715
+  Height = 695
+  Top = 215
+  Width = 933
+  Caption = 'Phase space tracking'
+  ClientHeight = 695
+  ClientWidth = 933
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  OnClose = FormClose
+  OnResize = FormResize
+  LCLVersion = '2.2.0.4'
+  inline psx: TFigure
+    Left = 8
+    Height = 289
+    Top = 8
+    Width = 297
+    ClientHeight = 289
+    ClientWidth = 297
+    inherited p: TPaintBox
+      OnPaint = pPaint
+    end
+  end
+  inline psy: TFigure
+    Left = 320
+    Height = 289
+    Top = 8
+    Width = 289
+    ClientHeight = 289
+    ClientWidth = 289
+    TabOrder = 1
+    inherited p: TPaintBox
+      OnPaint = pPaint
+    end
+  end
+  inline ftx: TFigure
+    Left = 32
+    Height = 121
+    Top = 336
+    Width = 297
+    ClientHeight = 121
+    ClientWidth = 297
+    TabOrder = 2
+  end
+  inline fty: TFigure
+    Left = 352
+    Height = 121
+    Top = 336
+    Width = 289
+    ClientHeight = 121
+    ClientWidth = 289
+    TabOrder = 3
+  end
+  object PanParam: TPanel
+    Left = 656
+    Height = 137
+    Top = 24
+    Width = 241
+    BevelOuter = bvLowered
+    ClientHeight = 137
+    ClientWidth = 241
+    TabOrder = 4
+    object labturns: TLabel
+      Left = 22
+      Height = 14
+      Top = 22
+      Width = 29
+      Caption = 'Turns'
+    end
+    object labax: TLabel
+      Left = 14
+      Height = 14
+      Top = 46
+      Width = 48
+      Caption = 'Ax [mm]'
+    end
+    object labay: TLabel
+      Left = 118
+      Height = 14
+      Top = 46
+      Width = 47
+      Caption = 'Ay [mm]'
+    end
+    object labdone: TLabel
+      Left = 134
+      Height = 14
+      Top = 22
+      Width = 28
+      Caption = 'done'
+    end
+    object labt: TLabel
+      Left = 174
+      Height = 14
+      Top = 22
+      Width = 28
+      Caption = '     0'
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object labstartpos: TLabel
+      Left = 142
+      Height = 14
+      Top = 70
+      Width = 79
+      Caption = 'Trackpoint [m]'
+    end
+    object labelaper1: TLabel
+      Left = 54
+      Height = 14
+      Top = 94
+      Width = 46
+      Caption = 'Element'
+    end
+    object Labelaper2: TLabel
+      Left = 54
+      Height = 14
+      Top = 110
+      Width = 55
+      Caption = 'Apertures'
+    end
+    object comTurns: TComboBox
+      Left = 70
+      Height = 25
+      Top = 14
+      Width = 57
+      ItemHeight = 0
+      OnChange = comTurnsChange
+      TabOrder = 0
+      Text = 'comTurns'
+    end
+    object edixaper: TEdit
+      Left = 62
+      Height = 23
+      Top = 46
+      Width = 41
+      OnExit = ediExit
+      OnKeyPress = ediKeyPress
+      TabOrder = 1
+      Text = 'edixaper'
+    end
+    object ediyaper: TEdit
+      Left = 166
+      Height = 23
+      Top = 46
+      Width = 49
+      OnExit = ediExit
+      OnKeyPress = ediKeyPress
+      TabOrder = 2
+      Text = 'ediyaper'
+    end
+    object cbxElaper: TCheckBox
+      Left = 54
+      Height = 21
+      Top = 78
+      Width = 21
+      Checked = True
+      OnClick = cbxElaperClick
+      State = cbChecked
+      TabOrder = 3
+    end
+    object edistartpos: TEdit
+      Left = 166
+      Height = 23
+      Top = 86
+      Width = 57
+      OnExit = ediExit
+      OnKeyPress = ediKeyPress
+      TabOrder = 4
+      Text = 'edistartpos'
+    end
+    object butT6: TButton
+      Left = 110
+      Height = 17
+      Top = 110
+      Width = 25
+      Caption = '4D'
+      OnClick = butT6Click
+      TabOrder = 5
+    end
+  end
+  object PanCtrl: TPanel
+    Left = 656
+    Height = 145
+    Top = 168
+    Width = 241
+    BevelOuter = bvLowered
+    ClientHeight = 145
+    ClientWidth = 241
+    TabOrder = 5
+    object labcoord: TLabel
+      Left = 22
+      Height = 14
+      Top = 14
+      Width = 27
+      Caption = 'Start'
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      ParentFont = False
+    end
+    object Labx: TLabel
+      Left = 3
+      Height = 14
+      Top = 38
+      Width = 44
+      Caption = 'X [mm] '
+    end
+    object labpx: TLabel
+      Left = 6
+      Height = 14
+      Top = 78
+      Width = 55
+      Caption = 'Px [mrad]'
+    end
+    object labY: TLabel
+      Left = 110
+      Height = 14
+      Top = 46
+      Width = 40
+      Caption = 'Y [mm]'
+    end
+    object labpy: TLabel
+      Left = 110
+      Height = 14
+      Top = 78
+      Width = 55
+      Caption = 'Py [mrad]'
+    end
+    object Labdpp: TLabel
+      Left = 110
+      Height = 14
+      Top = 14
+      Width = 46
+      Caption = 'dp/p [%]'
+    end
+    object butexit: TButton
+      Left = 174
+      Height = 25
+      Top = 102
+      Width = 57
+      Caption = 'Exit'
+      OnClick = butexitClick
+      TabOrder = 0
+    end
+    object edixini: TEdit
+      Left = 54
+      Height = 23
+      Top = 38
+      Width = 49
+      OnExit = ediExit
+      OnKeyPress = ediKeyPress
+      TabOrder = 1
+      Text = '0.00'
+    end
+    object ediyini: TEdit
+      Left = 158
+      Height = 23
+      Top = 38
+      Width = 57
+      OnExit = ediExit
+      OnKeyPress = ediKeyPress
+      TabOrder = 2
+      Text = '0.00'
+    end
+    object edipxini: TEdit
+      Left = 54
+      Height = 23
+      Top = 70
+      Width = 49
+      OnExit = ediExit
+      OnKeyPress = ediKeyPress
+      TabOrder = 3
+      Text = '0.00'
+    end
+    object edipyini: TEdit
+      Left = 158
+      Height = 23
+      Top = 70
+      Width = 57
+      OnExit = ediExit
+      OnKeyPress = ediKeyPress
+      TabOrder = 4
+      Text = '0.00'
+    end
+    object edidpp: TEdit
+      Left = 158
+      Height = 23
+      Top = 6
+      Width = 57
+      OnExit = ediExit
+      OnKeyPress = ediKeyPress
+      TabOrder = 5
+      Text = '0.00'
+    end
+    object butrun: TButton
+      Left = 6
+      Height = 25
+      Top = 102
+      Width = 49
+      Caption = 'Run'
+      OnClick = butrunClick
+      TabOrder = 6
+    end
+    object butmore: TButton
+      Left = 62
+      Height = 25
+      Top = 102
+      Width = 49
+      Caption = 'More'
+      Enabled = False
+      OnClick = butmoreClick
+      TabOrder = 7
+    end
+    object butclear: TButton
+      Left = 118
+      Height = 25
+      Top = 102
+      Width = 49
+      Caption = 'Clear'
+      OnClick = butclearClick
+      TabOrder = 8
+    end
+    object butBeam: TButton
+      Left = 6
+      Height = 17
+      Top = 0
+      Width = 49
+      Caption = 'Beam'
+      OnClick = butBeamClick
+      TabOrder = 9
+    end
+  end
+  object PanFFT: TPanel
+    Left = 664
+    Height = 137
+    Top = 360
+    Width = 241
+    BevelOuter = bvLowered
+    ClientHeight = 137
+    ClientWidth = 241
+    TabOrder = 6
+    object labtune: TLabel
+      Left = 14
+      Height = 14
+      Top = 16
+      Width = 137
+      Caption = 'Fundamental tune range'
+    end
+    object labpident: TLabel
+      Left = 8
+      Height = 14
+      Top = 72
+      Width = 157
+      Caption = 'Peak identification tolerance'
+    end
+    object labdisplay: TLabel
+      Left = 19
+      Height = 14
+      Top = 104
+      Width = 96
+      Caption = 'Display threshold'
+    end
+    object Labrelf: TLabel
+      Left = 24
+      Height = 14
+      Top = 48
+      Width = 105
+      Caption = 'Rel. Filter for Peaks'
+    end
+    object editune: TEdit
+      Left = 158
+      Height = 23
+      Top = 16
+      Width = 57
+      TabOrder = 0
+      Text = 'editune'
+    end
+    object edipident: TEdit
+      Left = 160
+      Height = 23
+      Top = 80
+      Width = 57
+      TabOrder = 1
+      Text = 'edipident'
+    end
+    object edidisplay: TEdit
+      Left = 153
+      Height = 23
+      Top = 112
+      Width = 57
+      TabOrder = 2
+      Text = 'edidisplay'
+    end
+    object edirelf: TEdit
+      Left = 158
+      Height = 23
+      Top = 48
+      Width = 65
+      TabOrder = 3
+      Text = 'edirelf'
+    end
+  end
+  object PanRes: TPanel
+    Left = 656
+    Height = 137
+    Top = 520
+    Width = 249
+    BevelOuter = bvLowered
+    ClientHeight = 137
+    ClientWidth = 249
+    TabOrder = 7
+    object resgrid: TStringGrid
+      Left = 8
+      Height = 120
+      Top = 8
+      Width = 233
+      ColCount = 4
+      DefaultColWidth = 36
+      DefaultRowHeight = 18
+      FixedCols = 0
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      ParentFont = False
+      RowCount = 3
+      ScrollBars = ssVertical
+      TabOrder = 0
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'MS Sans Serif'
+      OnDrawCell = resgridDrawCell
+      ColWidths = (
+        16
+        80
+        51
+        36
+      )
+    end
+  end
+  object PanTush: TPanel
+    Left = 376
+    Height = 145
+    Top = 496
+    Width = 257
+    BevelOuter = bvLowered
+    ClientHeight = 145
+    ClientWidth = 257
+    TabOrder = 8
+    object LabSteps: TLabel
+      Left = 6
+      Height = 14
+      Top = 30
+      Width = 31
+      Caption = 'Steps'
+    end
+    object LabTush: TLabel
+      Left = 30
+      Height = 14
+      Top = 6
+      Width = 30
+      Caption = 'ADTS'
+    end
+    object labtprog: TLabel
+      Left = 54
+      Height = 1
+      Top = 62
+      Width = 1
+    end
+    object ediSteps: TEdit
+      Left = 54
+      Height = 23
+      Top = 30
+      Width = 65
+      OnExit = ediIExit
+      OnKeyPress = ediIKeyPress
+      TabOrder = 0
+      Text = 'ediSteps'
+    end
+    object butTush: TButton
+      Left = 6
+      Height = 25
+      Top = 102
+      Width = 65
+      Caption = 'Run'
+      OnClick = butTushClick
+      TabOrder = 1
+    end
+    object butBreak: TButton
+      Left = 86
+      Height = 25
+      Top = 102
+      Width = 49
+      Caption = 'Break'
+      Enabled = False
+      OnClick = butBreakClick
+      TabOrder = 2
+    end
+    object butexport: TButton
+      Left = 142
+      Height = 17
+      Top = 110
+      Width = 73
+      Caption = '--> EPS'
+      Enabled = False
+      OnClick = butexportClick
+      TabOrder = 3
+    end
+    object buttxt: TButton
+      Left = 134
+      Height = 25
+      Top = 6
+      Width = 75
+      Caption = '->TXT'
+      Enabled = False
+      OnClick = buttxtClick
+      TabOrder = 4
+    end
+    object tsplotbut: TButton
+      Left = 150
+      Height = 25
+      Top = 62
+      Width = 89
+      Caption = '   Amplitude'
+      OnClick = tsplotbutClick
+      TabOrder = 5
+    end
+  end
+  object panBeam: TPanel
+    Left = 8
+    Height = 145
+    Top = 496
+    Width = 329
+    BevelOuter = bvLowered
+    ClientHeight = 145
+    ClientWidth = 329
+    TabOrder = 9
+    Visible = False
+    object labBeamBeta: TLabel
+      Left = 14
+      Height = 14
+      Top = 14
+      Width = 48
+      Caption = 'Beta [m]'
+    end
+    object LabBeamAlfa: TLabel
+      Left = 14
+      Height = 14
+      Top = 46
+      Width = 32
+      Caption = 'Alpha'
+    end
+    object LabBeamEmit: TLabel
+      Left = 14
+      Height = 14
+      Top = 78
+      Width = 58
+      Caption = 'Emitt [nm]'
+    end
+    object LabBeamNpar: TLabel
+      Left = 14
+      Height = 14
+      Top = 110
+      Width = 27
+      Caption = 'Npar'
+    end
+    object LabBeamNshow: TLabel
+      Left = 254
+      Height = 14
+      Top = 6
+      Width = 72
+      Caption = 'show turns <'
+    end
+    object ButBeamXY: TButton
+      Left = 166
+      Height = 25
+      Top = 6
+      Width = 33
+      Caption = 'X'
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      OnClick = ButBeamXYClick
+      ParentFont = False
+      TabOrder = 0
+    end
+    object EdiBeamBeta: TEdit
+      Left = 70
+      Height = 23
+      Top = 14
+      Width = 81
+      OnExit = ediExit
+      OnKeyPress = ediKeyPress
+      TabOrder = 1
+      Text = 'EdiBeamBeta'
+    end
+    object EdiBeamAlfa: TEdit
+      Left = 70
+      Height = 23
+      Top = 46
+      Width = 81
+      OnExit = ediExit
+      OnKeyPress = ediKeyPress
+      TabOrder = 2
+      Text = 'EdiBeamAlfa'
+    end
+    object EdiBeamEmit: TEdit
+      Left = 70
+      Height = 23
+      Top = 78
+      Width = 81
+      OnExit = ediExit
+      OnKeyPress = ediKeyPress
+      TabOrder = 3
+      Text = 'EdiBeamEmit'
+    end
+    object EdiBeamNpar: TEdit
+      Left = 70
+      Height = 23
+      Top = 110
+      Width = 81
+      OnExit = ediIExit
+      OnKeyPress = ediIKeyPress
+      TabOrder = 4
+      Text = 'EdiBeamNpar'
+    end
+    object ButBeamShow: TButton
+      Left = 158
+      Height = 25
+      Top = 38
+      Width = 75
+      Caption = 'Set'
+      OnClick = ButBeamShowClick
+      TabOrder = 5
+    end
+    object ButBeamRun: TButton
+      Left = 158
+      Height = 25
+      Top = 62
+      Width = 57
+      Caption = 'Run'
+      OnClick = ButBeamRunClick
+      TabOrder = 6
+    end
+    object ButBeamBreak: TButton
+      Left = 158
+      Height = 17
+      Top = 94
+      Width = 57
+      Caption = 'Break'
+      OnClick = ButBeamBreakClick
+      TabOrder = 7
+    end
+    object ediBeamNshow: TEdit
+      Left = 262
+      Height = 23
+      Top = 30
+      Width = 49
+      OnExit = ediIExit
+      OnKeyPress = ediIKeyPress
+      TabOrder = 8
+      Text = 'ediBeamNshow'
+    end
+  end
+  object butParam: TButton
+    Left = 784
+    Height = 25
+    Top = 320
+    Width = 75
+    Caption = 'Parameters'
+    OnClick = butParamClick
+    TabOrder = 10
+  end
+  object labParam: TLabel
+    Left = 688
+    Height = 14
+    Top = 328
+    Width = 87
+    Caption = 'FFT Parameters'
+  end
+end
