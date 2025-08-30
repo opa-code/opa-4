@@ -1,0 +1,144 @@
+object knob: Tknob
+  Left = 0
+  Top = 0
+  Width = 204
+  Height = 128
+  Color = clBtnFace
+  ParentColor = False
+  TabOrder = 0
+  object Bevel1: TBevel
+    Left = 0
+    Top = 0
+    Width = 200
+    Height = 120
+    Style = bsRaised
+  end
+  object LabNam: TLabel
+    Left = 8
+    Top = 8
+    Width = 54
+    Height = 16
+    Caption = 'LabNam'
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clBlack
+    Font.Height = -16
+    Font.Name = 'Courier New'
+    Font.Style = []
+    ParentFont = False
+  end
+  object LabK: TLabel
+    Left = 8
+    Top = 40
+    Width = 37
+    Height = 20
+    Caption = 'LabK'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object butres: TButton
+    Left = 128
+    Top = 8
+    Width = 43
+    Height = 25
+    Caption = 'Reset'
+    Enabled = False
+    TabOrder = 0
+    OnClick = butresClick
+  end
+  object editK: TEdit
+    Left = 112
+    Top = 40
+    Width = 81
+    Height = 24
+    Enabled = False
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Courier New'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 1
+    Text = 'editK'
+    OnKeyPress = editKKeyPress
+  end
+  object slider: TScrollBar
+    Left = 3
+    Top = 75
+    Width = 194
+    Height = 16
+    Enabled = False
+    Max = 4
+    Min = -4
+    PageSize = 0
+    TabOrder = 2
+    OnScroll = sliderScroll
+  end
+  object editmin: TEdit
+    Left = 8
+    Top = 96
+    Width = 41
+    Height = 21
+    Enabled = False
+    TabOrder = 3
+    Text = 'min'
+    OnKeyPress = editminKeyPress
+  end
+  object editmax: TEdit
+    Left = 144
+    Top = 96
+    Width = 49
+    Height = 21
+    Enabled = False
+    TabOrder = 4
+    Text = 'max'
+    OnKeyPress = editmaxKeyPress
+  end
+  object butfree: TButton
+    Left = 176
+    Top = 8
+    Width = 17
+    Height = 17
+    Caption = 'X'
+    Enabled = False
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    ParentFont = False
+    TabOrder = 5
+    OnClick = butfreeClick
+  end
+  object butwid: TButton
+    Left = 80
+    Top = 96
+    Width = 17
+    Height = 16
+    Caption = '<>'
+    TabOrder = 6
+    OnClick = butwidClick
+  end
+  object butnar: TButton
+    Left = 104
+    Top = 96
+    Width = 17
+    Height = 16
+    Caption = '><'
+    TabOrder = 7
+    OnClick = butnarClick
+  end
+  object compar: TComboBox
+    Left = 48
+    Top = 8
+    Width = 81
+    Height = 21
+    ItemHeight = 13
+    TabOrder = 8
+    Text = 'Parameters'
+    Visible = False
+  end
+end

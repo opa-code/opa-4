@@ -1,0 +1,422 @@
+object setEnvel: TsetEnvel
+  Left = 1255
+  Height = 224
+  Top = 215
+  Width = 571
+  Caption = 'Set Plot Mode'
+  ClientHeight = 224
+  ClientWidth = 571
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -16
+  Font.Name = 'MS Sans Serif'
+  LCLVersion = '2.2.0.4'
+  object butgo: TButton
+    Left = 8
+    Height = 25
+    Top = 184
+    Width = 105
+    Caption = 'Apply'
+    OnClick = butgoClick
+    TabOrder = 0
+  end
+  object butcan: TButton
+    Left = 120
+    Height = 25
+    Top = 184
+    Width = 99
+    Caption = 'Close'
+    OnClick = butcanClick
+    TabOrder = 1
+  end
+  object rgmod: TRadioGroup
+    Left = 8
+    Height = 169
+    Top = 8
+    Width = 209
+    AutoFill = True
+    Caption = 'select plot mode'
+    ChildSizing.LeftRightSpacing = 6
+    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+    ChildSizing.EnlargeVertical = crsHomogenousChildResize
+    ChildSizing.ShrinkHorizontal = crsScaleChilds
+    ChildSizing.ShrinkVertical = crsScaleChilds
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 1
+    ClientHeight = 144
+    ClientWidth = 205
+    TabOrder = 2
+    object rbbet: TRadioButton
+      Left = 6
+      Height = 48
+      Top = 0
+      Width = 193
+      Caption = 'Beta and Dispersion'
+      Checked = True
+      OnClick = rbmodClick
+      TabOrder = 0
+      TabStop = True
+    end
+    object rbenv: TRadioButton
+      Left = 6
+      Height = 48
+      Top = 48
+      Width = 193
+      Caption = 'Envelopes'
+      OnClick = rbmodClick
+      TabOrder = 1
+    end
+    object rbmag: TRadioButton
+      Left = 6
+      Height = 48
+      Top = 96
+      Width = 193
+      Caption = 'Magnetic field'
+      OnClick = rbmodClick
+      TabOrder = 2
+    end
+  end
+  object panenv: TPanel
+    Left = 232
+    Height = 201
+    Top = 0
+    Width = 329
+    ClientHeight = 201
+    ClientWidth = 329
+    TabOrder = 3
+    object Label1: TLabel
+      Left = 14
+      Height = 20
+      Top = 38
+      Width = 137
+      Caption = 'emittance coupling:'
+    end
+    object Label2: TLabel
+      Left = 12
+      Height = 20
+      Top = 102
+      Width = 147
+      Caption = 'horizontal emittance:'
+    end
+    object Label3: TLabel
+      Left = 249
+      Height = 20
+      Top = 38
+      Width = 14
+      Caption = '%'
+    end
+    object Label4: TLabel
+      Left = 249
+      Height = 20
+      Top = 102
+      Width = 62
+      Caption = 'nm mrad'
+    end
+    object Label5: TLabel
+      Left = 16
+      Height = 20
+      Top = 134
+      Width = 127
+      Caption = 'vertical emittance:'
+    end
+    object Label6: TLabel
+      Left = 249
+      Height = 20
+      Top = 134
+      Width = 62
+      Caption = 'nm mrad'
+    end
+    object Label7: TLabel
+      Left = 12
+      Height = 20
+      Top = 163
+      Width = 131
+      Caption = 'rms energy spread'
+    end
+    object Label8: TLabel
+      Left = 249
+      Height = 20
+      Top = 163
+      Width = 14
+      Caption = '%'
+    end
+    object rbueq: TRadioButton
+      Left = 14
+      Height = 24
+      Top = 14
+      Width = 196
+      Caption = 'use equilibrium values'
+      Checked = True
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      OnClick = rbuClick
+      ParentFont = False
+      TabOrder = 0
+      TabStop = True
+    end
+    object rbuinp: TRadioButton
+      Left = 14
+      Height = 24
+      Top = 78
+      Width = 155
+      Caption = 'use input values:'
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      OnClick = rbuClick
+      ParentFont = False
+      TabOrder = 1
+    end
+    object edcop: TEdit
+      Left = 166
+      Height = 28
+      Top = 38
+      Width = 65
+      OnKeyPress = edcopKeyPress
+      TabOrder = 2
+      Text = 'edcop'
+    end
+    object edemx: TEdit
+      Left = 166
+      Height = 28
+      Top = 102
+      Width = 65
+      Enabled = False
+      OnKeyPress = edemxKeyPress
+      TabOrder = 3
+      Text = 'edemx'
+    end
+    object edemy: TEdit
+      Left = 166
+      Height = 28
+      Top = 134
+      Width = 65
+      Enabled = False
+      OnKeyPress = edemyKeyPress
+      TabOrder = 4
+      Text = 'edemy'
+    end
+    object eddpp: TEdit
+      Left = 166
+      Height = 28
+      Top = 163
+      Width = 65
+      Enabled = False
+      OnKeyPress = eddppKeyPress
+      TabOrder = 5
+      Text = 'eddpp'
+    end
+  end
+  object panMag: TPanel
+    Left = 232
+    Height = 161
+    Top = 40
+    Width = 329
+    ClientHeight = 161
+    ClientWidth = 329
+    TabOrder = 4
+    object labref: TLabel
+      Left = 24
+      Height = 20
+      Top = 8
+      Width = 122
+      Caption = 'Reference radius'
+    end
+    object Label9: TLabel
+      Left = 256
+      Height = 20
+      Top = 8
+      Width = 26
+      Caption = 'mm'
+    end
+    object edref: TEdit
+      Left = 166
+      Height = 28
+      Top = 8
+      Width = 73
+      OnKeyPress = edrefKeyPress
+      TabOrder = 0
+      Text = 'edref'
+    end
+    object chk_bfieldfix: TCheckBox
+      Left = 24
+      Height = 24
+      Top = 48
+      Width = 115
+      Caption = 'Fix plot range'
+      OnClick = chk_bfieldfixClick
+      TabOrder = 1
+    end
+    object lab_bfieldmax: TLabel
+      Left = 24
+      Height = 20
+      Top = 80
+      Width = 69
+      Caption = 'max. B [T]'
+    end
+    object lab_bfieldmin: TLabel
+      Left = 24
+      Height = 20
+      Top = 112
+      Width = 65
+      Caption = 'min. B [T]'
+    end
+    object ed_bfieldmax: TEdit
+      Left = 120
+      Height = 28
+      Top = 80
+      Width = 80
+      TabOrder = 2
+      Text = 'ed_bfieldmax'
+    end
+    object ed_bfieldmin: TEdit
+      Left = 120
+      Height = 28
+      Top = 112
+      Width = 80
+      TabOrder = 3
+      Text = 'ed_bfieldmin'
+    end
+  end
+  object panBet: TPanel
+    Left = 232
+    Height = 201
+    Top = 0
+    Width = 329
+    ClientHeight = 201
+    ClientWidth = 329
+    TabOrder = 5
+    object Label10: TLabel
+      Left = 14
+      Height = 20
+      Top = 46
+      Width = 126
+      Caption = 'max. betafunction'
+    end
+    object Label11: TLabel
+      Left = 14
+      Height = 20
+      Top = 78
+      Width = 109
+      Caption = 'max. dispersion'
+    end
+    object Label12: TLabel
+      Left = 230
+      Height = 20
+      Top = 46
+      Width = 13
+      Caption = 'm'
+    end
+    object Label13: TLabel
+      Left = 230
+      Height = 20
+      Top = 78
+      Width = 13
+      Caption = 'm'
+    end
+    object cbxbetamax: TCheckBox
+      Left = 16
+      Height = 24
+      Top = 14
+      Width = 115
+      Caption = 'Fix plot range'
+      OnClick = cbxbetamaxClick
+      TabOrder = 0
+    end
+    object edbetmax: TEdit
+      Left = 152
+      Height = 28
+      Top = 38
+      Width = 65
+      OnKeyPress = edbetmaxKeyPress
+      TabOrder = 1
+      Text = 'edbetmax'
+    end
+    object eddismax: TEdit
+      Left = 150
+      Height = 28
+      Top = 70
+      Width = 65
+      OnKeyPress = eddismaxKeyPress
+      TabOrder = 2
+      Text = 'eddismax'
+    end
+    object chk_betab: TCheckBox
+      Left = 25
+      Height = 24
+      Top = 120
+      Width = 134
+      Caption = 'normalmode a/b'
+      OnChange = chk_betabChange
+      TabOrder = 3
+    end
+    object chk_betxy: TCheckBox
+      Left = 24
+      Height = 24
+      Top = 144
+      Width = 108
+      Caption = 'projected x/y'
+      OnChange = chk_betxyChange
+      TabOrder = 4
+    end
+    object chk_betpp: TCheckBox
+      Left = 24
+      Height = 24
+      Top = 168
+      Width = 137
+      Caption = 'n.mode one-turn'
+      OnChange = chk_betppChange
+      TabOrder = 5
+    end
+    object rdg_disco: TRadioGroup
+      Left = 168
+      Height = 76
+      Top = 112
+      Width = 141
+      AutoFill = True
+      Caption = 'Show'
+      ChildSizing.LeftRightSpacing = 6
+      ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+      ChildSizing.EnlargeVertical = crsHomogenousChildResize
+      ChildSizing.ShrinkHorizontal = crsScaleChilds
+      ChildSizing.ShrinkVertical = crsScaleChilds
+      ChildSizing.Layout = cclLeftToRightThenTopToBottom
+      ChildSizing.ControlsPerLine = 1
+      ClientHeight = 51
+      ClientWidth = 137
+      TabOrder = 6
+      object rbu_disp: TRadioButton
+        Left = 6
+        Height = 17
+        Top = 0
+        Width = 125
+        Caption = 'Dispersion x/y'
+        Checked = True
+        OnChange = rbu_dispChange
+        TabOrder = 0
+        TabStop = True
+      end
+      object rbu_cdet: TRadioButton
+        Left = 6
+        Height = 17
+        Top = 17
+        Width = 125
+        Caption = 'det (C)'
+        OnChange = rbu_cdetChange
+        TabOrder = 1
+      end
+      object rbu_orbi: TRadioButton
+        Left = 6
+        Height = 17
+        Top = 34
+        Width = 125
+        Caption = 'Orbit'
+        OnChange = rbu_orbiChange
+        TabOrder = 2
+      end
+    end
+  end
+end

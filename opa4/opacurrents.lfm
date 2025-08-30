@@ -1,0 +1,96 @@
+object Currents: TCurrents
+  Left = 721
+  Height = 448
+  Top = 552
+  Width = 763
+  Caption = 'Currents'
+  ClientHeight = 448
+  ClientWidth = 763
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  LCLVersion = '2.0.6.0'
+  object cgrid: TStringGrid
+    Left = 8
+    Height = 385
+    Top = 8
+    Width = 297
+    ColCount = 3
+    FixedCols = 0
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRowSelect]
+    ParentFont = False
+    TabOrder = 0
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -13
+    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Style = [fsBold]
+    OnDrawCell = DrawCell
+    OnSelectCell = cgridSelectCell
+  end
+  object butex: TButton
+    Left = 320
+    Height = 25
+    Top = 368
+    Width = 75
+    Caption = 'Exit'
+    OnClick = butexClick
+    TabOrder = 1
+  end
+  object edps: TEdit
+    Left = 320
+    Height = 28
+    Top = 8
+    Width = 153
+    Enabled = False
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'MS Sans Serif'
+    ParentFont = False
+    TabOrder = 2
+    Text = 'edps'
+  end
+  object pgrid: TStringGrid
+    Left = 320
+    Height = 273
+    Top = 48
+    Width = 425
+    ColCount = 6
+    FixedCols = 0
+    TabOrder = 3
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'MS Sans Serif'
+    ColWidths = (
+      64
+      105
+      64
+      36
+      64
+      64
+    )
+  end
+  object busnapSLS: TButton
+    Left = 320
+    Height = 25
+    Top = 336
+    Width = 75
+    Caption = 'SNAP export'
+    OnClick = busnapSLSClick
+    TabOrder = 4
+  end
+  object memlog: TMemo
+    Left = 408
+    Height = 57
+    Top = 336
+    Width = 337
+    Lines.Strings = (
+      ''
+    )
+    TabOrder = 5
+  end
+end

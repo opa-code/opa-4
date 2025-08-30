@@ -1,0 +1,291 @@
+object optic: Toptic
+  Left = 1242
+  Height = 430
+  Top = 325
+  Width = 668
+  Caption = 'Optics Design'
+  ClientHeight = 430
+  ClientWidth = 668
+  Color = clMenu
+  Font.CharSet = ANSI_CHARSET
+  Font.Color = clBlack
+  Font.Height = -12
+  Font.Name = 'Arial'
+  OnClose = FormClose
+  OnResize = FormResize
+  LCLVersion = '2.2.0.4'
+  object pw: TPaintBox
+    Cursor = crCross
+    Left = 24
+    Height = 209
+    Top = 32
+    Width = 329
+    Color = clMenu
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clBlack
+    Font.Height = -16
+    Font.Name = 'Arial'
+    ParentColor = False
+    ParentFont = False
+    OnMouseDown = pwMouseDown
+    OnMouseMove = pwMouseMove
+    OnMouseUp = pwMouseUp
+    OnPaint = pwPaint
+  end
+  object tab: TStringGrid
+    Left = 392
+    Height = 217
+    Top = 24
+    Width = 241
+    ColCount = 3
+    DefaultRowHeight = 20
+    FixedColor = clInactiveCaptionText
+    FixedCols = 2
+    FixedRows = 0
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Options = [goFixedHorzLine, goHorzLine, goRangeSelect]
+    ParentFont = False
+    RowCount = 1
+    TabOrder = 0
+    OnDrawCell = tabDrawCell
+  end
+  object butgrid: TPanel
+    Left = 376
+    Height = 113
+    Top = 264
+    Width = 257
+    ClientHeight = 113
+    ClientWidth = 257
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    ParentFont = False
+    TabOrder = 1
+    object butex: TButton
+      Left = 742
+      Height = 25
+      Top = 70
+      Width = 75
+      Caption = 'exit'
+      TabOrder = 0
+    end
+    object butexit: TButton
+      Left = 166
+      Height = 33
+      Top = 78
+      Width = 75
+      Caption = 'Exit'
+      OnClick = butexitClick
+      TabOrder = 1
+    end
+    object butstar: TButton
+      Left = 6
+      Height = 17
+      Top = 14
+      Width = 75
+      Caption = 'Start'
+      OnClick = butstarClick
+      TabOrder = 2
+    end
+    object butenvl: TButton
+      Left = 86
+      Height = 17
+      Top = 14
+      Width = 75
+      Caption = 'PlotMode'
+      OnClick = butenvlClick
+      TabOrder = 3
+    end
+    object butmatc: TButton
+      Left = 86
+      Height = 25
+      Top = 46
+      Width = 75
+      Caption = 'Matching'
+      OnClick = butmatcClick
+      TabOrder = 4
+    end
+    object butwomk: TButton
+      Left = 166
+      Height = 17
+      Top = 46
+      Width = 75
+      Caption = 'write OMK'
+      OnClick = butwomkClick
+      TabOrder = 5
+    end
+    object buttune: TButton
+      Left = 6
+      Height = 25
+      Top = 46
+      Width = 75
+      Caption = 'TuneMatrix'
+      OnClick = buttuneClick
+      TabOrder = 6
+    end
+    object butdata: TButton
+      Left = 86
+      Height = 17
+      Top = 78
+      Width = 72
+      Caption = '->txt'
+      OnClick = butdataClick
+      TabOrder = 7
+    end
+    object buteps: TButton
+      Left = 86
+      Height = 17
+      Top = 94
+      Width = 72
+      Caption = '->EPS'
+      OnClick = butepsClick
+      TabOrder = 8
+    end
+    object butnlin: TButton
+      Left = 8
+      Height = 20
+      Top = 75
+      Width = 72
+      Caption = 'butnlin'
+      OnClick = butnlinClick
+      TabOrder = 9
+    end
+    object butkick: TButton
+      Left = 6
+      Height = 16
+      Top = 96
+      Width = 75
+      Caption = 'Kicker OFF'
+      OnClick = butkickClick
+      TabOrder = 10
+    end
+  end
+  object buleftedge: TButton
+    Left = 24
+    Height = 25
+    Top = 8
+    Width = 20
+    Caption = '|<---'
+    OnClick = buleftedgeClick
+    TabOrder = 2
+  end
+  object burightedge: TButton
+    Left = 216
+    Height = 25
+    Top = 8
+    Width = 20
+    Caption = '--->|'
+    OnClick = burightedgeClick
+    TabOrder = 3
+  end
+  object buleft: TButton
+    Left = 56
+    Height = 25
+    Top = 8
+    Width = 20
+    Caption = '<---'
+    OnClick = buleftClick
+    TabOrder = 4
+  end
+  object buright: TButton
+    Left = 184
+    Height = 25
+    Top = 8
+    Width = 20
+    Caption = '--->'
+    OnClick = burightClick
+    TabOrder = 5
+  end
+  object buzoomin: TButton
+    Left = 88
+    Height = 25
+    Top = 8
+    Width = 20
+    Caption = '<--->'
+    OnClick = buzoominClick
+    TabOrder = 6
+  end
+  object buzoomout: TButton
+    Left = 120
+    Height = 25
+    Top = 8
+    Width = 20
+    Caption = '>---<'
+    OnClick = buzoomoutClick
+    TabOrder = 7
+  end
+  object bufullview: TButton
+    Left = 152
+    Height = 25
+    Top = 8
+    Width = 20
+    Caption = '|----|'
+    OnClick = bufullviewClick
+    TabOrder = 8
+  end
+  object buyup: TButton
+    Left = 248
+    Height = 25
+    Top = 8
+    Width = 20
+    Caption = '/\ B (x)'
+    OnClick = buyupClick
+    TabOrder = 9
+  end
+  object buydown: TButton
+    Left = 280
+    Height = 25
+    Top = 8
+    Width = 20
+    Caption = '\/ B (x)'
+    OnClick = buydownClick
+    TabOrder = 10
+  end
+  object buyauto: TButton
+    Left = 360
+    Height = 25
+    Top = 8
+    Width = 20
+    Caption = 'auto'
+    OnClick = buyautoClick
+    TabOrder = 11
+  end
+  object buyDup: TButton
+    Left = 312
+    Height = 25
+    Top = 8
+    Width = 20
+    Caption = '/\ D (y)'
+    OnClick = buyDupClick
+    TabOrder = 12
+  end
+  object buyDdown: TButton
+    Left = 336
+    Height = 25
+    Top = 8
+    Width = 20
+    Caption = '\/ D (y)'
+    OnClick = buyDdownClick
+    TabOrder = 13
+  end
+  object bucsave: TButton
+    Left = 408
+    Height = 17
+    Top = 8
+    Width = 25
+    Caption = 'save'
+    OnClick = bucsaveClick
+    TabOrder = 14
+  end
+  object bucclear: TButton
+    Left = 440
+    Height = 17
+    Top = 8
+    Width = 33
+    Caption = 'clear'
+    OnClick = bucclearClick
+    TabOrder = 15
+  end
+end
