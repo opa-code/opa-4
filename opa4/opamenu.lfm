@@ -1,0 +1,366 @@
+object MenuForm: TMenuForm
+  Left = 295
+  Height = 375
+  Top = 243
+  Width = 647
+  Caption = 'OPA 4.2.0'
+  ClientHeight = 354
+  ClientWidth = 647
+  Color = clMenu
+  Font.Color = clWindowText
+  Font.Height = -16
+  Font.Name = 'MS Sans Serif'
+  Font.Style = [fsBold]
+  Menu = MainMenu1
+  OnClose = FormClose
+  OnCreate = FormCreate
+  LCLVersion = '2.2.0.4'
+  object LabFi0: TLabel
+    Left = 64
+    Height = 17
+    Top = 8
+    Width = 75
+    Caption = 'active File'
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object LabFileName: TLabel
+    Left = 152
+    Height = 19
+    Top = 8
+    Width = 30
+    Caption = 'New'
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clNavy
+    Font.Height = -16
+    Font.Name = 'Courier New'
+    ParentFont = False
+  end
+  object LabSg0: TLabel
+    Left = 32
+    Height = 17
+    Top = 32
+    Width = 114
+    Caption = 'active Segment'
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object mainerrlog: TMemo
+    Left = 152
+    Height = 272
+    Top = 64
+    Width = 473
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clMaroon
+    Font.Height = -12
+    Font.Name = 'Courier New'
+    Font.Pitch = fpFixed
+    Font.Quality = fqDraft
+    ParentFont = False
+    ReadOnly = True
+    ScrollBars = ssVertical
+    TabOrder = 0
+    WantReturns = False
+  end
+  object comboSeg: TComboBox
+    Left = 152
+    Height = 24
+    Top = 32
+    Width = 153
+    AutoSelect = False
+    AutoSize = False
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clNavy
+    Font.Height = -16
+    Font.Name = 'Courier New'
+    ItemHeight = 18
+    OnChange = comboSegChange
+    ParentFont = False
+    Style = csOwnerDrawVariable
+    TabOrder = 1
+  end
+  object butlatsh: TButton
+    Left = 312
+    Height = 25
+    Top = 32
+    Width = 185
+    Caption = 'Show Lattice Expansion'
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    OnClick = butlatshClick
+    ParentFont = False
+    TabOrder = 2
+  end
+  object panstatus: TPanel
+    Left = 8
+    Height = 273
+    Top = 64
+    Width = 137
+    BevelOuter = bvLowered
+    ClientHeight = 273
+    ClientWidth = 137
+    Color = clHighlightText
+    ParentColor = False
+    TabOrder = 3
+    object labstflag: TLabel
+      Left = 38
+      Height = 14
+      Top = 22
+      Width = 78
+      Caption = 'Status Flags'
+      Font.Color = clNavy
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object labstelem: TLabel
+      Left = 38
+      Height = 14
+      Top = 46
+      Width = 106
+      Caption = 'Special Elements'
+      Font.Color = clNavy
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object labstdata: TLabel
+      Left = 38
+      Height = 14
+      Top = 78
+      Width = 97
+      Caption = 'Calculated Data'
+      Font.Color = clNavy
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+  end
+  object ButLogPrt: TButton
+    Left = 505
+    Height = 23
+    Top = 32
+    Width = 56
+    Caption = 'print'
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    OnClick = ButLogPrtClick
+    ParentFont = False
+    TabOrder = 4
+  end
+  object ButLogClr: TButton
+    Left = 568
+    Height = 23
+    Top = 33
+    Width = 56
+    Caption = 'clear'
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    OnClick = ButLogClrClick
+    ParentFont = False
+    TabOrder = 5
+  end
+  object MainMenu1: TMainMenu
+    Left = 464
+    object mi_file: TMenuItem
+      Caption = 'File'
+      object fi_new: TMenuItem
+        Caption = 'New'
+        OnClick = fi_newClick
+      end
+      object fi_open: TMenuItem
+        Caption = 'Open...'
+        OnClick = fi_openClick
+      end
+      object fi_last: TMenuItem
+        Caption = 'Last Used'
+        OnClick = fi_lastClick
+      end
+      object fi_save: TMenuItem
+        Caption = 'Save'
+        OnClick = fi_saveClick
+      end
+      object fi_svas: TMenuItem
+        Caption = 'Save as...'
+        OnClick = fi_svasClick
+      end
+      object fi_expo: TMenuItem
+        Caption = 'Export to .'
+        object ex_tracy2: TMenuItem
+          Caption = 'Tracy-2'
+          OnClick = ex_tracy2Click
+        end
+        object ex_tracy3: TMenuItem
+          Caption = 'Tracy-3'
+          OnClick = ex_tracy3Click
+        end
+        object ex_elegant: TMenuItem
+          Caption = 'Elegant'
+          OnClick = ex_elegantClick
+        end
+        object ex_madx: TMenuItem
+          Caption = 'MAD-X'
+          OnClick = ex_madxClick
+        end
+        object ex_bmad: TMenuItem
+          Caption = 'BMAD'
+          OnClick = ex_bmadClick
+        end
+        object ex_opanovar: TMenuItem
+          Caption = 'OPA (novar)'
+          OnClick = ex_opanovarClick
+        end
+      end
+      object N1: TMenuItem
+        Caption = '-'
+      end
+      object fi_exit: TMenuItem
+        Caption = 'Exit'
+        OnClick = fi_exitClick
+      end
+    end
+    object mi_edit: TMenuItem
+      Caption = 'Edit'
+      object ed_text: TMenuItem
+        Caption = 'Text Editor'
+        OnClick = ed_textClick
+      end
+      object ed_oped: TMenuItem
+        Caption = 'OPA Editor'
+        OnClick = ed_opedClick
+      end
+    end
+    object mi_desi: TMenuItem
+      Caption = 'Design'
+      object ds_opti: TMenuItem
+        Caption = 'Linear Optics'
+        Enabled = False
+        OnClick = ds_optiClick
+      end
+      object ds_dppo: TMenuItem
+        Caption = 'Off-momentum Optics'
+        Enabled = False
+        OnClick = ds_dppoClick
+      end
+      object ds_sext: TMenuItem
+        Caption = 'Non-linear Dynamics'
+        Enabled = False
+        OnClick = ds_sextClick
+      end
+      object ds_lgbo: TMenuItem
+        Caption = 'LGB Optimizer'
+        OnClick = ds_lgboClick
+      end
+      object ds_orbc: TMenuItem
+        Caption = 'Orbit Correction'
+        Enabled = False
+        OnClick = ds_orbcClick
+      end
+      object ds_injc: TMenuItem
+        Caption = 'Injection Bumps'
+        Enabled = False
+        OnClick = ds_injcClick
+      end
+      object ds_rfbu: TMenuItem
+        Caption = 'RF Bucket Viewer'
+        OnClick = ds_rfbuClick
+      end
+      object ds_geo: TMenuItem
+        Caption = 'Geometry Layout'
+        OnClick = ds_geoClick
+      end
+    end
+    object mi_trac: TMenuItem
+      Caption = 'Tracking'
+      object tr_phsp: TMenuItem
+        Caption = 'Phase Space'
+        Enabled = False
+        OnClick = tr_phspClick
+      end
+      object tr_dyna: TMenuItem
+        Caption = 'Dynamic Aperture'
+        Enabled = False
+        OnClick = tr_dynaClick
+      end
+      object tr_ttau: TMenuItem
+        Caption = 'Touschek Lifetime'
+        Enabled = False
+        OnClick = tr_ttauClick
+      end
+    end
+    object mi_extr: TMenuItem
+      Caption = 'Extra'
+      object tm_diaglev: TMenuItem
+        Caption = 'Output'
+        object tm_di0: TMenuItem
+          Caption = 'none'
+          OnClick = tm_diClick
+        end
+        object tm_di1: TMenuItem
+          Tag = 1
+          Caption = 'essential'
+          OnClick = tm_diClick
+        end
+        object tm_di2: TMenuItem
+          Tag = 2
+          Caption = 'rich'
+          OnClick = tm_diClick
+        end
+        object tm_di3: TMenuItem
+          Tag = 3
+          Caption = 'all'
+          OnClick = tm_diClick
+        end
+      end
+      object tm_cur: TMenuItem
+        Caption = 'Magnet Currents '
+        Enabled = False
+        OnClick = tm_curClick
+      end
+      object tm_mag: TMenuItem
+        Caption = '(Magnet Parameters)'
+        OnClick = tm_magClick
+      end
+      object tm_test: TMenuItem
+        Caption = '(Test)'
+        OnClick = tm_testClick
+      end
+      object tm_bdpattern: TMenuItem
+        Caption = '(BDpattern)'
+      end
+      object tm_spectra: TMenuItem
+        Caption = '(spectra)'
+        OnClick = tm_spectraClick
+      end
+    end
+  end
+  object OpenDialog1: TOpenDialog
+    Title = 'select lattice file'
+    Filter = 'OPA File (*.opa)|*.opa|TRACY Lattice File (*.lat)|*.lat|Elegant Lattice File (*.lte)|*.lte|MAD Input File (*.mad)|*.mad|MAD sequence (*.seq)|*.seq'
+    Left = 240
+  end
+  object SaveDialog1: TSaveDialog
+    DefaultExt = '.opa'
+    Left = 320
+  end
+end
