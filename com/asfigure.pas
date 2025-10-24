@@ -9,7 +9,7 @@ interface
 
 uses
   LCLIntf, LCLType, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  ExtCtrls, StdCtrls, Vgraph, printers, AsAux;
+  ExtCtrls, StdCtrls, vgraph, printers, AsAux;
 
 type
   TFigure = class(TFrame)
@@ -97,7 +97,7 @@ const
 
 {  procedure TFigure.beginMetaPlot (fac: integer);
   begin
-    //replaced by PS_plot in Vgraph
+    //replaced by PS_plot in vgraph
   end;
 
   procedure TFigure.endMetaPlot (metaname: string);
