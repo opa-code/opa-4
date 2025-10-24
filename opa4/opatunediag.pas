@@ -5,7 +5,7 @@ interface
 
 uses
   LCLIntf, LCLType, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, ExtCtrls, globlib, ASfigure, ASaux;
+  StdCtrls, ExtCtrls, globlib, asfigure, asaux;
 
 type
 

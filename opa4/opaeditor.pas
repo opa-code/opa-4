@@ -7,7 +7,7 @@ interface
 uses
   LCLIntf, LCLType, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls,
-  globlib, ASaux,  oelecreate, oeleedit, osegedit;
+  globlib, asaux,  oelecreate, oeleedit, osegedit;
 
 type
 

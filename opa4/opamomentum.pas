@@ -6,7 +6,7 @@ interface
 
 uses
   momentumlib, LCLIntf, LCLType, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  globlib, ASaux, linoplib, ASfigure, opatunediag, StdCtrls, Grids, ExtCtrls, mathlib;
+  globlib, asaux, linoplib, asfigure, opatunediag, StdCtrls, Grids, ExtCtrls, mathlib;
 
 type
 

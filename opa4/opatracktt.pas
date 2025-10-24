@@ -16,8 +16,8 @@ interface
 
 uses
   LCLIntf, LCLType, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, ExtCtrls, Buttons, ASfigure, globlib, ASaux, mathlib, tracklib,
-  linoplib, Math, Vgraph;
+  StdCtrls, ExtCtrls, Buttons, asfigure, globlib, asaux, mathlib, tracklib,
+  linoplib, Math, vgraph;
 
 type
 
@@ -52,27 +52,25 @@ type
     butps: TButton;
     Butfile: TButton;
     butt_S: TButton;
-    butzap: TButton;
     butplotleft: TButton;
     butplotzomin: TButton;
     butplotzomot: TButton;
     butplotright: TButton;
     chkRFL: TCheckBox;
-    procedure butt_FClick(Sender: TObject);
-    procedure rbClicked(Sender:TObject);
-    procedure butexClick(Sender: TObject);
     procedure FormPaint(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure buttClick(Sender: TObject);
-    procedure butbreakClick(Sender: TObject);
-    procedure butpsClick(Sender: TObject);
-    procedure ButfileClick(Sender: TObject);
-    procedure butt_SClick(Sender: TObject);
+    procedure rbClicked(Sender:TObject);
     procedure figpPaint(Sender: TObject);
-    procedure butzapClick(Sender: TObject);
     procedure butplotzoomClick(Sender: TObject);
     procedure butplotvzoomClick(Sender: TObject);
+    procedure butpsClick(Sender: TObject);
+    procedure ButfileClick(Sender: TObject);
+    procedure buttClick(Sender: TObject);
+    procedure butt_SClick(Sender: TObject);
+    procedure butt_FClick(Sender: TObject);
+    procedure butbreakClick(Sender: TObject);
+    procedure butexClick(Sender: TObject);
   private
     plotmode, Nturns, my_width: integer;
     // beam values scaled by energy and coupling in SI units:
@@ -86,7 +84,6 @@ type
     procedure Output(inp:integer);
     procedure ResizeAll;
     procedure CalcBeta (delta_s: real);
-    procedure Print_zaplat;
     procedure InitSigma;
     procedure CalcSigma;
     procedure CalcVolume;
@@ -354,64 +351,6 @@ begin
   CalcAccEL;
 end;
 
-// ZAP outdated --> remove export
-procedure TtrackT.Print_zaplat;
-{to do [obsolete]
-- zeilenzahl auf 400 fixieren oder weniger
-- alpha & etap durch numdiff (idl/tmp/parabel.pro)
-}
-
-const
-  nzlat=400;
-  wf=-7; wd=2;
-type
-  partype = record
-    s, bx, by, eta, ax, ay, etap: real;
-  end;
-var
-  par: array of partype;
-  sold, deltas: real;
-  fname: string;
-  zapfi: textfile;
-  i: integer;
-  c: CurvePt;
-begin
-// sample curve with max resolution for ZAP limit of 400 points
-  deltas:=Beam.Circ/Glob.NPer/(nzlat-1);
-  fname:=ExtractFileName(FileName);
-  fname:=work_dir+Copy(fname,0,Pos('.',fname)-1);
-  fname:=fname+'_zaplat.dat';
-  assignFile(zapfi,fname);
-{$I-}
-  rewrite(zapfi);
-{$I+}
-  if IOResult =0 then begin
-    par:=nil;
-    sold:=-1.0;
-    c:=CurvePlot.ini;
-    while c <> nil do begin
-      if ((c^.spos -sold) > deltas) or (c^.nex=nil) then begin
-        setlength(par,length(par)+1);
-        with par[high(par)] do begin
-//! temp use normal mode for curly H
-          bx:=c^.beta;  by:=c^.betb; ax:=c^.alfa; ay:=c^.alfb; etap:=c^.disxp; eta:=c^.disx;  s :=c^.spos;
-          sold:=s;
-        end;
-      end;
-      c:=c^.nex;
-    end;
-    writeln(zapfi,length(par), ', ',ftos(beam.circ,12,6));
-    writeln(zapfi,filename);
-    for i:=0 to high(par) do with par[i] do begin
-      writeln(zapfi,ftos(s,wf,wd),' ', ftos(bx,wf,wd),' ',ftos(ax,wf,wd),' ', ftos(by,wf,wd),' ',ftos(ay,wf,wd),' ',ftos(eta,wf,wd),' ',ftos(etap,wf,wd),'  0.0');
-    end;
-    par:=nil;
-    CloseFile(zapfi);
-    MessageDlg('Data saved to text file '+fname, MtInformation, [mbOK],0);
-  end else begin
-    OPALog(1,'could not write '+fname);
-  end;
-end;
 
 procedure TtrackT.InitSigma;
 {creates array tsig, one point for every NONzero length element of Curve,
@@ -1003,7 +942,6 @@ var
 
 begin
   Screen.Cursor:=crHourGlass;
-  Beforetracking;
   nfp:=length(FloPdpp);
   nfa:=length(Flops);
   setlength(fpx, nfa+1); setlength(fpw, nfa+1);
@@ -1423,7 +1361,7 @@ begin
   inc(y,drby); butt_S.setbounds(x,y,colwh, dy); butt_F.setbounds(x+colwh+ds,y,colwh, dy);
   inc(y,drby); butbreak.setbounds(x,y,colwid, dy);
   inc(y,drby); butps.setbounds(x,y,colwid, dy);
-  inc(y,drby); butfile.setbounds(x,y,colwh, dy); butzap.setbounds(x+colwh+ds,y,colwh, dy);
+  inc(y,drby); butfile.setbounds(x,y,colwh, dy); //butzap.setbounds(x+colwh+ds,y,colwh, dy);
   inc(y,drby); butex.setbounds(x,y,colwid, dy);
 
   y:=hgt+2*dsr;
@@ -1670,10 +1608,6 @@ begin
    MakePlot;
 end;
 
-procedure TtrackT.butzapClick(Sender: TObject);
-begin
-  print_zaplat;
-end;
 
 procedure TtrackT.butplotzoomClick(Sender: TObject);
 var

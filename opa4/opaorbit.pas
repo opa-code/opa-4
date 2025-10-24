@@ -30,7 +30,7 @@ interface
 
 uses
   LCLIntf, LCLType, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  linoplib, globlib, StdCtrls,  knobframe, ASfigure, ostartmenu, asaux, mathlib, Math,
+  linoplib, globlib, StdCtrls,  knobframe, asfigure, ostartmenu, asaux, mathlib, Math,
   ExtCtrls;
 
 type

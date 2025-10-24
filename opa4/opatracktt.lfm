@@ -1,7 +1,7 @@
 object trackT: TtrackT
-  Left = 157
+  Left = 131
   Height = 816
-  Top = 229
+  Top = 350
   Width = 1535
   BorderWidth = 1
   Caption = 'Touschek tracking'
@@ -242,7 +242,7 @@ object trackT: TtrackT
     Height = 25
     Top = 384
     Width = 49
-    Caption = '--> PS'
+    Caption = '--> EPS'
     OnClick = butpsClick
     TabOrder = 7
   end
@@ -264,15 +264,6 @@ object trackT: TtrackT
     OnClick = butt_SClick
     TabOrder = 9
   end
-  object butzap: TButton
-    Left = 880
-    Height = 17
-    Top = 352
-    Width = 73
-    Caption = 'ZAPLAT'
-    OnClick = butzapClick
-    TabOrder = 10
-  end
   object butplotleft: TButton
     Left = 976
     Height = 17
@@ -287,7 +278,7 @@ object trackT: TtrackT
     Font.Quality = fqDraft
     OnClick = butplotzoomClick
     ParentFont = False
-    TabOrder = 11
+    TabOrder = 10
   end
   object butplotzomin: TButton
     Tag = 1
@@ -302,7 +293,7 @@ object trackT: TtrackT
     Font.Name = 'Fixedsys'
     OnClick = butplotzoomClick
     ParentFont = False
-    TabOrder = 12
+    TabOrder = 11
   end
   object butplotzomot: TButton
     Tag = 2
@@ -317,7 +308,7 @@ object trackT: TtrackT
     Font.Name = 'Fixedsys'
     OnClick = butplotzoomClick
     ParentFont = False
-    TabOrder = 13
+    TabOrder = 12
   end
   object butplotright: TButton
     Tag = 3
@@ -332,7 +323,7 @@ object trackT: TtrackT
     Font.Name = 'Fixedsys'
     OnClick = butplotzoomClick
     ParentFont = False
-    TabOrder = 14
+    TabOrder = 13
   end
   object chkRFL: TCheckBox
     Left = 800
@@ -344,7 +335,7 @@ object trackT: TtrackT
     Font.Height = -11
     Font.Name = 'MS Sans Serif'
     ParentFont = False
-    TabOrder = 15
+    TabOrder = 14
   end
   object butvzot: TBitBtn
     Tag = 1
@@ -391,7 +382,7 @@ object trackT: TtrackT
     }
     Layout = blGlyphBottom
     OnClick = butplotvzoomClick
-    TabOrder = 16
+    TabOrder = 15
   end
   object butvzin: TBitBtn
     Left = 1440
@@ -437,7 +428,7 @@ object trackT: TtrackT
     }
     Layout = blGlyphBottom
     OnClick = butplotvzoomClick
-    TabOrder = 17
+    TabOrder = 16
   end
   inline flofig: TFigure
     Left = 1062
@@ -446,7 +437,7 @@ object trackT: TtrackT
     Width = 160
     ClientHeight = 133
     ClientWidth = 160
-    TabOrder = 18
+    TabOrder = 17
   end
   object butt_F: TButton
     Left = 1115
@@ -455,6 +446,6 @@ object trackT: TtrackT
     Width = 55
     Caption = 'Track fast'
     OnClick = butt_FClick
-    TabOrder = 19
+    TabOrder = 18
   end
 end

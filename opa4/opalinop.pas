@@ -8,7 +8,7 @@ uses
   LCLIntf, LCLType, SysUtils, Classes, Graphics, Controls,
   Forms, Dialogs, Clipbrd, printers, ExtCtrls, {FGraph,} StdCtrls, Grids,
   globlib, knobframe, linoplib, ostartmenu, {OpticMom,} obetenvmag, otunematrix,
-  mathlib, oeleedit, opatunediag, asaux, Vgraph;
+  mathlib, oeleedit, opatunediag, asaux, vgraph;
 
 type
 

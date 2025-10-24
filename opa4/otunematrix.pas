@@ -6,7 +6,7 @@ interface
 
 uses
   LCLIntf, LCLType, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, ExtCtrls, linoplib, globlib, ASaux, MathLib;
+  StdCtrls, ExtCtrls, linoplib, globlib, asaux, MathLib;
 
 type
   TtuneMatrix = class(TForm)

@@ -6,7 +6,7 @@ interface
 
 uses
   LCLIntf, LCLType, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  globlib, MathLib, ASaux, Grids, StdCtrls;
+  globlib, MathLib, asaux, Grids, StdCtrls;
 
 type
   TCurrents = class(TForm)

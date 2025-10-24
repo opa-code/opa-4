@@ -7,7 +7,7 @@ interface
 uses
   LCLIntf, LCLType, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
 //  linoplib, // test
-  StdCtrls, ExtCtrls, ASfigure, globlib, ASaux, opatunediag, mathlib, tracklib, Math, Grids, Vgraph;
+  StdCtrls, ExtCtrls, asfigure, globlib, asaux, opatunediag, mathlib, tracklib, Math, Grids, vgraph;
 
 type
 

@@ -1,7 +1,7 @@
 object trackDA: TtrackDA
-  Left = 698
+  Left = 416
   Height = 346
-  Top = 256
+  Top = 70
   Width = 864
   Caption = 'Dynamic Aperture Tracking'
   ClientHeight = 346
@@ -251,7 +251,7 @@ object trackDA: TtrackDA
     Height = 25
     Top = 280
     Width = 73
-    Caption = '--> PS'
+    Caption = '--> EPS'
     Font.Color = clWindowText
     Font.Height = -13
     Font.Name = 'MS Sans Serif'

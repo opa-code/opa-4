@@ -26,7 +26,7 @@ interface
 
 uses
   LCLIntf, LCLType, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  ASfigure, globlib, ASaux, mathlib, tracklib, Math, Vgraph, StdCtrls, ComCtrls,
+  asfigure, globlib, asaux, mathlib, tracklib, Math, vgraph, StdCtrls, ComCtrls,
   ExtCtrls; //!, generics.Collections;
 
 type

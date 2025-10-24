@@ -6,7 +6,7 @@ unit opalgbedit;
 interface
 
 uses
-  lgbeditlib, Graphics, Controls, Sysutils, Forms, globlib, ASaux, ASfigure,
+  lgbeditlib, Graphics, Controls, Sysutils, Forms, globlib, asaux, asfigure,
   StdCtrls, mathlib, Classes, Dialogs, ExtCtrls;
 
 

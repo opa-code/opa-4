@@ -12,7 +12,7 @@ interface
 
 uses
   LCLIntf, LCLType, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, ASfigure, Buttons, Grids, globlib, ASaux, MathLib, Math, linoplib,
+  StdCtrls, asfigure, Buttons, Grids, globlib, asaux, MathLib, Math, linoplib,
   ExtCtrls;
 
 type
