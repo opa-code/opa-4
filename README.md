@@ -7,9 +7,7 @@ Storage ring design with OPA starts from scratch and ends at a bare (i.e. error 
 **Content of this repository**
 
 Folder /opa4 contains the source files, *.pas and *.lfm for Lazarus Free Pascal. They work both for Linux and Windows. Further there are some icons for buttons, and the text file changelog.txt which contains a record of ongoing modifications.
-
 Folder /com contains additional files used by OPA (and other codes).
-
 opa.exe is an executable for Windows.
 
 **History and Acknowledgements**
