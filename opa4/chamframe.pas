@@ -6,7 +6,7 @@ interface
 
 uses
   LCLIntf, LCLType, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, ExtCtrls, globlib, ASaux, chromlib, chromelelib;
+  StdCtrls, ExtCtrls, globlib, asaux, chromlib, chromelelib;
 
 
 type

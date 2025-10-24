@@ -16,7 +16,7 @@ interface
 
 uses
   LCLIntf, LCLType, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, ExtCtrls, globlib, ASaux, linoplib, Math, Grids, knobframe, omatchscan,
+  StdCtrls, ExtCtrls, globlib, asaux, linoplib, Math, Grids, knobframe, omatchscan,
   asfigure;
 
 type

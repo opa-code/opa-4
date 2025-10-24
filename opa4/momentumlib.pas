@@ -4,7 +4,7 @@ unit momentumlib;
 interface
 
 uses
-  Graphics, Controls, globlib, ASaux, linoplib, ASfigure, opatunediag, StdCtrls, Grids, ExtCtrls, mathlib;
+  Graphics, Controls, globlib, asaux, linoplib, asfigure, opatunediag, StdCtrls, Grids, ExtCtrls, mathlib;
 
 const
 //  nfordmax=12; --> is now global constant to enable fit coefficients

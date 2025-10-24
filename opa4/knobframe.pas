@@ -6,7 +6,7 @@ interface
 
 uses
   LCLIntf, LCLType, SysUtils, Classes, Controls, Graphics,Forms, Dialogs,
-  StdCtrls, ExtCtrls, globlib, ASaux, linoplib, mathlib, math;
+  StdCtrls, ExtCtrls, globlib, asaux, linoplib, mathlib, math;
 
 type
   Tknob = class(TFrame)

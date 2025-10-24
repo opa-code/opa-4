@@ -28,7 +28,7 @@ unit chromlib;
 {$MODE Delphi}
 interface
 
-uses stdctrls, globlib, ASaux, Vgraph, graphics, linoplib, elemlib, opatunediag,
+uses stdctrls, globlib, asaux, vgraph, graphics, linoplib, elemlib, opatunediag,
       MathLib, Forms, Sysutils, Controls;
 
 const

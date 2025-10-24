@@ -5,7 +5,7 @@ unit lgbeditlib;
 interface
 
 uses
-  Math, Graphics, globlib, ASfigure, asaux, SysUtils;
+  Math, Graphics, globlib, asfigure, asaux, SysUtils;
 
 
 const

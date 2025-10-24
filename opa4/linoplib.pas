@@ -7,7 +7,7 @@ unit linoplib;
                                                              
 interface
 
-uses Vgraph, Graphics, elemlib, globlib, opatunediag, ASaux, mathLib, grids, sysutils, stdctrls, forms;
+uses vgraph, Graphics, elemlib, globlib, opatunediag, asaux, mathLib, grids, sysutils, stdctrls, forms;
 
 const
   ncurvesmax=3;

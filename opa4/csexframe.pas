@@ -6,7 +6,7 @@ interface
 
 uses
   LCLIntf, LCLType, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, globlib, ASaux, chromlib, chromreslib, chromelelib, ochromsvector;
+  StdCtrls, globlib, asaux, chromlib, chromreslib, chromelelib, ochromsvector;
 
 type
   TCSex = class(TFrame)

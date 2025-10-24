@@ -29,7 +29,7 @@
         <PackageName Value="LCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="38">
+    <Units Count="40">
       <Unit0>
         <Filename Value="opa.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -252,6 +252,15 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="OPALatticeFiles"/>
       </Unit37>
+      <Unit38>
+        <Filename Value="opacurrents.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+      </Unit38>
+      <Unit39>
+        <Filename Value="..\com\vgraph.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit39>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

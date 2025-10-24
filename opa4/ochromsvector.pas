@@ -6,7 +6,7 @@ interface
 
 uses
   LCLIntf, LCLType, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  chromlib, ASfigure, globlib, MathLib;
+  chromlib, asfigure, globlib, MathLib;
 
 type
   TSVectorPlot = class(TForm)

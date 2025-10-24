@@ -6,7 +6,7 @@ interface
 
 uses
   LCLIntf, LCLType, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  linoplib, StdCtrls, globlib, ASaux;
+  linoplib, StdCtrls, globlib, asaux;
 
 type
   TsetMatchScan = class(TForm)

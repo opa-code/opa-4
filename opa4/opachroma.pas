@@ -18,7 +18,7 @@ interface
 
 uses
   LCLIntf, LCLType,  SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  chamframe, csexframe, ExtCtrls, chromlib, chromreslib, chromelelib, globlib, ASaux, MathLib,
+  chamframe, csexframe, ExtCtrls, chromlib, chromreslib, chromelelib, globlib, asaux, MathLib,
   StdCtrls, opatunediag, ochromsvector;
 
 type
