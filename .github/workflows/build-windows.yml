@@ -27,8 +27,10 @@ jobs:
       - name: Download Lazarus installer
         shell: powershell
         run: |
-            curl -L -o lazarus-installer.exe "https://sourceforge.net/projects/lazarus/files/Lazarus%20Windows%2064%20bits/Lazarus%204.2/lazarus-4.2-fpc-3.2.2-win64.exe/download"
-
+          $url = "https://sourceforge.net/projects/lazarus/files/Lazarus%20Windows%2064%20bits/Lazarus%204.2/lazarus-4.2-fpc-3.2.2-win64.exe/download"
+          $output = "lazarus-installer.exe"
+          Invoke-WebRequest -Uri $url -OutFile $output -UseBasicParsing
+          
       - name: Install Lazarus silently
         shell: powershell
         run: |
