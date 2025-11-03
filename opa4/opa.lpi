@@ -29,7 +29,7 @@
         <PackageName Value="LCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="38">
+    <Units Count="40">
       <Unit0>
         <Filename Value="opa.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -42,35 +42,35 @@
         <ResourceBaseClass Value="Form"/>
       </Unit1>
       <Unit2>
-        <Filename Value="EdElCreate.pas"/>
+        <Filename Value="oelecreate.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="EditElemCreate"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit2>
       <Unit3>
-        <Filename Value="EdElSet.pas"/>
+        <Filename Value="oeleedit.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="EditElemSet"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit3>
       <Unit4>
-        <Filename Value="texteditor.pas"/>
+        <Filename Value="opatexteditor.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormTxtEdt"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit4>
       <Unit5>
-        <Filename Value="EdSgSet.pas"/>
+        <Filename Value="osegedit.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="EditSegSet"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit5>
       <Unit6>
-        <Filename Value="opticview.pas"/>
+        <Filename Value="opalinop.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="optic"/>
         <HasResources Value="True"/>
@@ -78,50 +78,50 @@
         <UnitName Value="OpticView"/>
       </Unit6>
       <Unit7>
-        <Filename Value="opticplot.pas"/>
+        <Filename Value="linoplib.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="OpticPlot"/>
       </Unit7>
       <Unit8>
-        <Filename Value="Opticstart.pas"/>
+        <Filename Value="ostartmenu.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="startsel"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit8>
       <Unit9>
-        <Filename Value="OpticEnvel.pas"/>
+        <Filename Value="obetenvmag.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="setEnvel"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit9>
       <Unit10>
-        <Filename Value="OpticMatchScan.pas"/>
+        <Filename Value="omatchscan.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
       </Unit10>
       <Unit11>
-        <Filename Value="OpticMatch.pas"/>
+        <Filename Value="omatching.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="Match"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit11>
       <Unit12>
-        <Filename Value="OpticWOMK.pas"/>
+        <Filename Value="owriteomrk.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
       </Unit12>
       <Unit13>
-        <Filename Value="CHamLine.pas"/>
+        <Filename Value="chamframe.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="CHam"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
       </Unit13>
       <Unit14>
-        <Filename Value="OPAChroma.pas"/>
+        <Filename Value="opachroma.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="Chroma"/>
         <HasResources Value="True"/>
@@ -133,7 +133,7 @@
         <UnitName Value="ChromLib"/>
       </Unit15>
       <Unit16>
-        <Filename Value="OPAtrackP.pas"/>
+        <Filename Value="opatrackps.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="trackp"/>
         <HasResources Value="True"/>
@@ -144,65 +144,65 @@
         <IsPartOfProject Value="True"/>
       </Unit17>
       <Unit18>
-        <Filename Value="OPACurrents.pas"/>
+        <Filename Value="opaurrents.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
       </Unit18>
       <Unit19>
-        <Filename Value="OpticTune.pas"/>
+        <Filename Value="otunematrix.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
       </Unit19>
       <Unit20>
-        <Filename Value="OPAmomentum.pas"/>
+        <Filename Value="opamomentum.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="momentum"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit20>
       <Unit21>
-        <Filename Value="OPAGeometry.pas"/>
+        <Filename Value="opageometry.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="Geometry"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit21>
       <Unit22>
-        <Filename Value="OPAtune.pas"/>
+        <Filename Value="opatunediag.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="tuneplot"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit22>
       <Unit23>
-        <Filename Value="OPAtrackT.pas"/>
+        <Filename Value="opatracktt.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="trackT"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit23>
       <Unit24>
-        <Filename Value="OPAtrackDA.pas"/>
+        <Filename Value="opatrackda.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="trackDA"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit24>
       <Unit25>
-        <Filename Value="OPAChromaSVector.pas"/>
+        <Filename Value="ochromsvector.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
       </Unit25>
       <Unit26>
-        <Filename Value="ChromGUILib1.pas"/>
+        <Filename Value="chromreslib.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit26>
       <Unit27>
-        <Filename Value="ChromGUILib2.pas"/>
+        <Filename Value="chromelelib.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit27>
       <Unit28>
-        <Filename Value="OPAorbit.pas"/>
+        <Filename Value="opaorbit.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="Orbit"/>
         <HasResources Value="True"/>
@@ -224,20 +224,20 @@
         <IsPartOfProject Value="True"/>
       </Unit31>
       <Unit32>
-        <Filename Value="opatest.pas"/>
+        <Filename Value="testcode.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit32>
       <Unit33>
-        <Filename Value="LGBeditorLib.pas"/>
+        <Filename Value="lgbeditlib.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit33>
       <Unit34>
-        <Filename Value="LGBeditor.pas"/>
+        <Filename Value="opalgbedit.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
       </Unit34>
       <Unit35>
-        <Filename Value="Bucket.pas"/>
+        <Filename Value="opabucket.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="BucketView"/>
         <HasResources Value="True"/>
@@ -248,10 +248,19 @@
         <IsPartOfProject Value="True"/>
       </Unit36>
       <Unit37>
-        <Filename Value="opalatticefiles.pas"/>
+        <Filename Value="latfilelib.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="OPALatticeFiles"/>
       </Unit37>
+      <Unit38>
+        <Filename Value="opacurrents.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+      </Unit38>
+      <Unit39>
+        <Filename Value="..\com\vgraph.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit39>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

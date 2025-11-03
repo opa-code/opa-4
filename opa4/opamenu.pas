@@ -7,9 +7,9 @@ interface
 uses
   LCLIntf, LCLType, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   Menus, StdCtrls, ComCtrls, printers,                                                 
-  OPALatticeFiles, OPAEditor, OPAglobal, TextEditor, OpticView, OPAChroma,
-  OPAtrackP, OPACurrents, OPAmomentum, OPAGeometry, OPAtune, OPAtrackT,
-  OPAtrackDA, OPAorbit, LGBeditor, Bucket, opatest, ExtCtrls,
+  latfilelib, opaeditor, globlib, opatexteditor, opalinop, opachroma,
+  opatrackps, opacurrents, opamomentum, opageometry, opatunediag, opatracktt,
+  opatrackda, opaorbit, opalgbedit, opabucket, testcode, ExtCtrls,
   Imglist, ActnList, Buttons;
 
 

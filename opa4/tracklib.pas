@@ -25,7 +25,7 @@ unit tracklib;
 interface
 
 uses
-  Dialogs, OPAglobal, OpticPlot, OPAElements, mathlib;
+  Dialogs, globlib, linoplib, elemlib, mathlib;
 
 const
   minturns=16;
@@ -458,7 +458,7 @@ Var
 
   {   misalignments for UncuCut not yet implemented! --> To Do !}
   procedure UnduCut  (sposin, l, B, lam, gap, fill1, fill2, rot, d, axmm, aymm : real; half: boolean; idir: shortint);
-  {shortcut of OPAelements/undulator}
+  {shortcut of elemlib/undulator}
   var
     sini, phi, drsh, drb, irho0, sumphi, polphi, kedge : real;
     Nuper, iph, ip: integer;
@@ -694,7 +694,7 @@ var
   orb5: vektor_5;
 
   procedure ccprop (var siga, sigb, cc: matrix_2; var d: vektor_4; tmt: matrix_5);
-  // short version of opaElements/mcc_prop, since tmt may be coupling; updates in place
+  // short version of elemlib/mcc_prop, since tmt may be coupling; updates in place
   var
     arg, g1, gT, cdet: double;
     sigat, sigbt, mm, m, n, nn, e1T, f1T, CCT: matrix_2;

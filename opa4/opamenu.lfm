@@ -1,9 +1,9 @@
 object MenuForm: TMenuForm
-  Left = 295
+  Left = 680
   Height = 375
-  Top = 243
+  Top = 592
   Width = 647
-  Caption = 'OPA 4.1.1'
+  Caption = 'OPA 4.2.2'
   ClientHeight = 354
   ClientWidth = 647
   Color = clMenu

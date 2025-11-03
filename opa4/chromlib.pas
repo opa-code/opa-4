@@ -23,12 +23,12 @@ as-april-08
 }
 
 
-unit ChromLib;
+unit chromlib;
 
 {$MODE Delphi}
 interface
 
-uses stdctrls, OPAglobal, ASaux, Vgraph, graphics, OpticPlot, OPAElements, OPAtune,
+uses stdctrls, globlib, asaux, vgraph, graphics, linoplib, elemlib, opatunediag,
       MathLib, Forms, Sysutils, Controls;
 
 const

@@ -1,3 +1,64 @@
+4.2.2 Sep. 18, 2025
+- opatracktt
+  ZAP export removed, obsolete
+
+4.2.1 Sep. 4, 2025
+- vgraph
+  Changed Vgraph to vgraph to have all file names lowercase
+- opa.lpr
+  clean-up
+
+4.2.0 Aug. 30, 2025
+Renaming of all files and units, because some names were not meaningful and
+capitalization was inconsistent. Now names are all small caps and systematic:
+  opa* is a first level GUI, i.e. one of the main design programs,
+  o*   is a second level GUI, launched by the first level GUI, e.g.  a start menu,
+  *lib is a plain Pascal unit,
+  *frame is a frame.
+Replacement table new - old:
+            globlib           OPAglobal
+            opamenu           opamenu
+            mathlib           mathlib
+            latfilelib        opalatticefiles
+            opatexteditor     texteditor
+            opaeditor         OPAEditor
+            oelecreate        EdElCreate
+            oeleedit          EdEdSet
+            osegedit          EdSgSet
+            opalinop          opticview
+            knobframe         knobframe
+            ostartmenu        Opticstart
+            obetenvmag        OpticEnvel
+            otunematrix       OpticTune
+            owriteomrk        OpticWOMK
+            linoplib          opticplot
+            elemlib           OPAElements
+            omatching         OpticMatch
+            omatchscan        OpticMatchScan
+            opatunediag       OPAtune
+            opamomentum       OPAmomentum
+            momentumlib       momentumlib
+            opabucket         Bucket
+            opachroma         OPAChroma
+            csexframe         CSexLine
+            chamframe         CHAmLine
+            chromreslib       ChromGUILib1
+            chromelelib       ChromGUILib2
+            ochromsvector     OPAChromaSVector
+            chromlib          chromlib
+            opaorbit          OPAorbit
+            opatrackps        OPAtrackP
+            opatrackda        OPAtrackDA
+            opatracktt        OPAtrackT
+            tracklib          tracklib
+            opalgbedit        LGBeditor
+            lgbeditlib        LGBeditorLib
+            opageometry       OPAGeometry
+            opacurrents       OPACurrents
+            testcode          opatest
+Files in the ../com folder were not changed, they are still named
+            Vgraph, asfigure, asaux, conrect
+
 4.1.1   June/July 2025
 Some clean-up during documentation. Removed procs are found in v.4.063=v.4.1.0
 - OPAOrbit
