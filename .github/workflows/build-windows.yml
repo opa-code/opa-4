@@ -34,23 +34,12 @@ jobs:
         run: |
           Start-Process -FilePath "lazarus-installer.exe" -ArgumentList "/VERYSILENT" -Wait
 
-      - name: Add Lazarus to PATH
-        shell: powershell
-        run: |
-          $env:PATH += ";C:\lazarus\"
-          [Environment]::SetEnvironmentVariable("PATH", $env:PATH, "Machine")
-          lazbuild --version
-
-              #shell: bash
-              #run: |
-              #  choco install lazarus --version=3.0 --yes
-              #  echo "Lazarus installed."
-              #  lazbuild --version
-
       - name: Build Lazarus project
         shell: powershell
         run: |
           echo "Building project..."
+          $env:PATH += ";C:\lazarus\"
+          lazbuild --version
           lazbuild --build-mode=Release opa4/opa.lpi
 
       - name: Upload built executable
