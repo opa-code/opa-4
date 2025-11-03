@@ -47,15 +47,15 @@ jobs:
               #  echo "Lazarus installed."
               #  lazbuild --version
 
-      #- name: 🏗️ Build Lazarus project
-      #  shell: bash
-      #  run: |
-      #    echo "Building project..."
-      #    lazbuild --build-mode=Release opa4/opa.lpi
+      - name: Build Lazarus project
+        shell: powershell
+        run: |
+          echo "Building project..."
+          lazbuild --build-mode=Release opa4/opa.lpi
 
-      #- name: 📦 Upload built executable
-      #  uses: actions/upload-artifact@v4
-      #  with:
-      #    name: opa-exe
-      #    path: |
-      #      opa4/*.exe
+      - name: Upload built executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: opa-exe
+          path: |
+            opa4/*.exe
