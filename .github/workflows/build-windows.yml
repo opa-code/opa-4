@@ -24,12 +24,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Free Pascal and Lazarus
+      - name: Download Lazarus installer
         shell: powershell
         run: |
           $url = "https://sourceforge.net/projects/lazarus/files/Lazarus%20Windows%2064%20bits/Lazarus%204.2/lazarus-4.2-fpc-3.2.2-win64.exe/download"
           $output = "lazarus-installer.exe"
           Invoke-WebRequest -Uri $url -OutFile $output
+
+      - name: Install Lazarus silently
+        shell: powershell
+        run: |
+          Start-Process -FilePath "lazarus-installer.exe" -ArgumentList "/VERYSILENT" -Wait
+
+      - name: Add Lazarus to PATH
+        shell: powershell
+        run: |
+          $env:PATH += ";C:\lazarus\"
+          [Environment]::SetEnvironmentVariable("PATH", $env:PATH, "Machine")
+          lazbuild --version
 
               #shell: bash
               #run: |
