@@ -1,0 +1,51 @@
+# Build Windows version using Lazarus
+
+name: Build Windows executable
+
+# Controls when the workflow will run
+# Triggers the workflow on push or pull request events but only for the "main" branch
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel     
+jobs:
+  build:
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+
+  # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+        # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Free Pascal and Lazarus
+        shell: powershell
+        run: |
+          $url = "https://sourceforge.net/projects/lazarus/files/Lazarus%20Windows%2064%20bits/Lazarus%204.2/lazarus-4.2-fpc-3.2.2-win64.exe/download"
+          $output = "lazarus-installer.exe"
+          Invoke-WebRequest -Uri $url -OutFile $output
+
+              #shell: bash
+              #run: |
+              #  choco install lazarus --version=3.0 --yes
+              #  echo "Lazarus installed."
+              #  lazbuild --version
+
+      #- name: 🏗️ Build Lazarus project
+      #  shell: bash
+      #  run: |
+      #    echo "Building project..."
+      #    lazbuild --build-mode=Release opa4/opa.lpi
+
+      #- name: 📦 Upload built executable
+      #  uses: actions/upload-artifact@v4
+      #  with:
+      #    name: opa-exe
+      #    path: |
+      #      opa4/*.exe
