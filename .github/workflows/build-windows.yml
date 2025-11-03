@@ -47,4 +47,4 @@ jobs:
         with:
           name: opa-exe
           path: |
-            opa4/*.exe
+            opa4/**/*.exe
