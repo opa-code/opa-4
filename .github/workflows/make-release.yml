@@ -8,6 +8,9 @@ on:
       - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
       #- "v*.*.*"
 
+permissions:
+  contents: write # Required to create releases      
+
 jobs:
   build:
     runs-on: ubuntu-latest
