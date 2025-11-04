@@ -58,6 +58,9 @@ jobs:
         with:
           name: opa_${{ github.ref_name }}
           path: windows_exe
+          
+      - name: Show downloaded files
+        run: ls -R windows_exe
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
