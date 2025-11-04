@@ -57,7 +57,7 @@ jobs:
         uses: actions/download-artifact@v5
         with:
           name: opa_${{ github.ref_name }}
-          path: windows_exe
+          path: windows_exe/opa_${{ github.ref_name }}
           
       - name: Show downloaded files
         run: ls -R windows_exe
