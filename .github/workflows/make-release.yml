@@ -52,6 +52,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
+        
+      - name: Download Windows executable
+        uses: actions/download-artifact@v5
+        with:
+          name: opa_${{ github.ref_name }}
+          path: windows_exe
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
@@ -59,14 +65,5 @@ jobs:
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
           draft: false
-          #files: ${{ needs.windows-build.outputs.artifact-path }}
-        #env:
-        #  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-#           steps:
-#      - uses: actions/checkout@v4
-#      - uses: actions/download-artifact@v4
-#        with:
-#          name: my-artifact
-#          path: path/to/artifact
-#      - run: cat path/to/artifact/world.txt
+          files: windows_exe
+          
