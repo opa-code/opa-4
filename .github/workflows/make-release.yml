@@ -65,5 +65,5 @@ jobs:
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
           draft: true
-          files: windows_exe
+          files: windows_exe/**/*
           
