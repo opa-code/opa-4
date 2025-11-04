@@ -61,6 +61,11 @@ jobs:
           
       - name: Show downloaded files
         run: ls -R windows_binary
+        
+        - name: Zip the artifact
+          run: |
+            cd windows_binary
+            zip -r opa_opa_${{ github.ref_name }}.zip opa_opa_${{ github.ref_name }}        
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
@@ -68,5 +73,5 @@ jobs:
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
           draft: true
-          files: windows_binary/opa_${{ github.ref_name }}
+          files: windows_binary/opa_${{ github.ref_name }}.zip
           
