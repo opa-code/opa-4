@@ -29,6 +29,12 @@ jobs:
         shell: powershell
         run: |
           Start-Process -FilePath "lazarus-installer.exe" -ArgumentList "/VERYSILENT" -Wait
+          
+      - name: Strip leading v from tag
+        shell: bash
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Build Lazarus project
         shell: powershell
@@ -36,8 +42,8 @@ jobs:
           $env:PATH += ";C:\lazarus\"
           lazbuild --version
           lazbuild opa4/opa.lpi
-          mkdir build\opa_${{ github.ref_name#v }}
-          copy opa4\lib\*\*.exe build\opa_${{ github.ref_name#v }}
+          mkdir build\opa_$VERSION
+          copy opa4\lib\*\*.exe build\opa_$VERSION
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -62,16 +68,22 @@ jobs:
       - name: Show downloaded files
         run: ls -R windows_binary
         
+      - name: Strip leading v from tag
+        shell: bash
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV        
+        
       - name: Zip the artifact
         run: |
-          cd windows_binary/opa_${{ github.ref_name#v }}
-          zip -r opa_${{ github.ref_name#v }}.zip ./*        
+          cd windows_binary/opa_$VERSION
+          zip -r opa_$VERSION.zip ./*        
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
-          name: OPA ${{ github.ref_name#v }}
+          name: OPA $VERSION
           draft: true
-          files: windows_binary/opa_${{ github.ref_name#v }}/opa_${{ github.ref_name#v }}.zip
+          files: windows_binary/opa_$VERSION/opa_$VERSION.zip
           
