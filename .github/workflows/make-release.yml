@@ -80,5 +80,5 @@ jobs:
           tag_name: ${{ github.ref_name }}
           name: OPA ${{ env.VERSION }}
           draft: true
-          files: windows_binary/opa_${{ env.VERSION }}/opa_$${{ env.VERSION }}.zip
+          files: windows_binary/opa_${{ env.VERSION }}/opa_${{ env.VERSION }}.zip
           
