@@ -64,8 +64,8 @@ jobs:
         
       - name: Zip the artifact
         run: |
-          cd windows_binary
-          zip -r opa_${{ github.ref_name }}.zip opa_${{ github.ref_name }}        
+          cd windows_binary/opa_${{ github.ref_name }}
+          zip -r opa_${{ github.ref_name }}.zip ./*        
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
