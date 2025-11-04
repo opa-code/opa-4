@@ -34,7 +34,7 @@ jobs:
         shell: powershell
         run: |
           $VERSION = $env:GITHUB_REF_NAME -replace '^v', ''
-          Add-Content -Path $env:GITHUB_ENV -Value "VERSION=$version"
+          Add-Content -Path $env:GITHUB_ENV -Value "VERSION=$VERSION"
 
       - name: Build Lazarus project
         shell: powershell
