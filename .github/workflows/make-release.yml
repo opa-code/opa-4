@@ -37,7 +37,7 @@ jobs:
           lazbuild --version
           lazbuild opa4/opa.lpi
           mkdir build\opa_${{ github.ref_name }}
-          copy opa4\lib\*\*.exe opa_${{ github.ref_name }}
+          copy opa4\lib\*\*.exe build\opa_${{ github.ref_name }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
