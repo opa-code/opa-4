@@ -31,10 +31,10 @@ jobs:
           Start-Process -FilePath "lazarus-installer.exe" -ArgumentList "/VERYSILENT" -Wait
           
       - name: Strip leading v from tag
-        shell: bash
+        shell: powershell
         run: |
-          VERSION="${GITHUB_REF_NAME#v}"
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          $VERSION = $env:GITHUB_REF_NAME -replace '^v', ''
+          echo "VERSION=$VERSION" >> $env:GITHUB_ENV
 
       - name: Build Lazarus project
         shell: powershell
