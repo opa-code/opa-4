@@ -62,10 +62,10 @@ jobs:
       - name: Show downloaded files
         run: ls -R windows_binary
         
-        - name: Zip the artifact
-          run: |
-            cd windows_binary
-            zip -r opa_opa_${{ github.ref_name }}.zip opa_opa_${{ github.ref_name }}        
+      - name: Zip the artifact
+        run: |
+          cd windows_binary
+          zip -r opa_opa_${{ github.ref_name }}.zip opa_opa_${{ github.ref_name }}        
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
