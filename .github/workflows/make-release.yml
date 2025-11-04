@@ -1,4 +1,4 @@
-# Release
+# Build and release
 
 name: Make Release
 
@@ -12,18 +12,61 @@ permissions:
   contents: write # Required to create releases      
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+
+  windows-build:
+    name: Build Windows executable
+    runs-on: windows-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
-        
-      - name: Build Windows
-        run: echo ${{ github.sha }} > Release.txt
-        
-      - name: Release
+
+      - name: Download Lazarus installer
+        shell: powershell
+        run: |
+          curl.exe -L -o lazarus-installer.exe "https://sourceforge.net/projects/lazarus/files/Lazarus%20Windows%2064%20bits/Lazarus%204.2/lazarus-4.2-fpc-3.2.2-win64.exe/download"
+      
+      - name: Install Lazarus silently
+        shell: powershell
+        run: |
+          Start-Process -FilePath "lazarus-installer.exe" -ArgumentList "/VERYSILENT" -Wait
+
+      - name: Build Lazarus project
+        shell: powershell
+        run: |
+          $env:PATH += ";C:\lazarus\"
+          lazbuild --version
+          lazbuild opa4/opa.lpi
+          mkdir build\opa_${{ github.ref_name }}
+          copy opa4\lib\*\*.exe opa_${{ github.ref_name }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: opa_${{ github.ref_name }}
+          path: build\opa_${{ github.ref_name }} 
+             
+  release:
+    name: Create Release
+    needs: windows-build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          name: OPA ${{ github.ref_name }}
-          draft: True
-          files: Release.txt
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          draft: false
+          #files: ${{ needs.windows-build.outputs.artifact-path }}
+        #env:
+        #  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+#           steps:
+#      - uses: actions/checkout@v4
+#      - uses: actions/download-artifact@v4
+#        with:
+#          name: my-artifact
+#          path: path/to/artifact
+#      - run: cat path/to/artifact/world.txt
