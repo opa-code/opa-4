@@ -72,13 +72,13 @@ jobs:
       - name: Zip the artifact
         run: |
           cd windows_binary/opa_$VERSION
-          zip -r opa_$VERSION.zip ./*        
+          zip -r opa_${{ env.VERSION }}.zip ./*        
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
-          name: OPA $VERSION
+          name: OPA $${{ env.VERSION }}
           draft: true
-          files: windows_binary/opa_$VERSION/opa_$VERSION.zip
+          files: windows_binary/opa_${{ env.VERSION }}/opa_$${{ env.VERSION }}.zip
           
