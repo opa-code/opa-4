@@ -73,5 +73,5 @@ jobs:
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
           draft: true
-          files: windows_binary/opa_${{ github.ref_name }}.zip
+          files: windows_binary/opa_${{ github.ref_name }}/opa_${{ github.ref_name }}.zip
           
