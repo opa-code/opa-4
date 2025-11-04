@@ -36,8 +36,8 @@ jobs:
           $env:PATH += ";C:\lazarus\"
           lazbuild --version
           lazbuild opa4/opa.lpi
-          mkdir build\opa_${{ github.ref_name }}
-          copy opa4\lib\*\*.exe build\opa_${{ github.ref_name }}
+          mkdir build\opa_${{ github.ref_name#v }}
+          copy opa4\lib\*\*.exe build\opa_${{ github.ref_name#v }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -64,14 +64,14 @@ jobs:
         
       - name: Zip the artifact
         run: |
-          cd windows_binary/opa_${{ github.ref_name }}
-          zip -r opa_${{ github.ref_name }}.zip ./*        
+          cd windows_binary/opa_${{ github.ref_name#v }}
+          zip -r opa_${{ github.ref_name#v }}.zip ./*        
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
-          name: Release ${{ github.ref_name }}
+          name: OPA ${{ github.ref_name#v }}
           draft: true
-          files: windows_binary/opa_${{ github.ref_name }}/opa_${{ github.ref_name }}.zip
+          files: windows_binary/opa_${{ github.ref_name#v }}/opa_${{ github.ref_name#v }}.zip
           
