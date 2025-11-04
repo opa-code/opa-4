@@ -1,4 +1,4 @@
-# Build Windows version using Lazarus
+# Test compiling Windows version using Lazarus
 
 name: Build Windows executable
 
