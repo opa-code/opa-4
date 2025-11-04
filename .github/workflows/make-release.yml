@@ -42,8 +42,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: opa_${{ github.ref_name }}
-          path: build\opa_${{ github.ref_name }} 
+          name: windows_binary
+          path: build
              
   release:
     name: Create Release
@@ -56,11 +56,11 @@ jobs:
       - name: Download Windows executable
         uses: actions/download-artifact@v5
         with:
-          name: opa_${{ github.ref_name }}
-          path: windows_exe/opa_${{ github.ref_name }}
+          name: windows_binary
+          path: windows_binary
           
       - name: Show downloaded files
-        run: ls -R windows_exe
+        run: ls -R windows_binary
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
@@ -68,5 +68,5 @@ jobs:
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
           draft: true
-          files: windows_exe/opa_${{ github.ref_name }}/*
+          files: windows_binary/opa_${{ github.ref_name }}
           
