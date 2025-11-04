@@ -20,5 +20,5 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          name: OPA ${{ github.ref }}
+          name: OPA ${{ github.ref_name }}
           draft: True
