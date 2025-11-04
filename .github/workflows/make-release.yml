@@ -30,18 +30,13 @@ jobs:
         run: |
           Start-Process -FilePath "lazarus-installer.exe" -ArgumentList "/VERYSILENT" -Wait
           
-      - name: Strip leading v from tag
-        shell: powershell
-        run: |
-          $VERSION = $env:GITHUB_REF_NAME -replace '^v', ''
-          Add-Content -Path $env:GITHUB_ENV -Value "VERSION=$VERSION"
-
       - name: Build Lazarus project
         shell: powershell
         run: |
           $env:PATH += ";C:\lazarus\"
           lazbuild --version
           lazbuild opa4/opa.lpi
+          $VERSION = $env:GITHUB_REF_NAME -replace '^v', ''
           mkdir build\opa_$VERSION
           copy opa4\lib\*\*.exe build\opa_$VERSION
 
