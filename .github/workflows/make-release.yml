@@ -1,4 +1,4 @@
-# Release
+# Build and release
 
 name: Make Release
 
@@ -6,22 +6,79 @@ on:
   push:
     tags:
       - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+      #- "v*.*.*"
+
+permissions:
+  contents: write # Required to create releases      
 
 jobs:
-  build:
-    name: Create Release
-    runs-on: ubuntu-latest
+
+  windows-build:
+    name: Build Windows executable
+    runs-on: windows-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Create Release
-        id: create_release
-        uses: comnoco/create-release@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        uses: actions/checkout@v5
+
+      - name: Download Lazarus installer
+        shell: powershell
+        run: |
+          curl.exe -L -o lazarus-installer.exe "https://sourceforge.net/projects/lazarus/files/Lazarus%20Windows%2064%20bits/Lazarus%204.2/lazarus-4.2-fpc-3.2.2-win64.exe/download"
+      
+      - name: Install Lazarus silently
+        shell: powershell
+        run: |
+          Start-Process -FilePath "lazarus-installer.exe" -ArgumentList "/VERYSILENT" -Wait
+          
+      - name: Build Lazarus project
+        shell: powershell
+        run: |
+          $env:PATH += ";C:\lazarus\"
+          lazbuild --version
+          lazbuild opa4/opa.lpi
+          $VERSION = $env:GITHUB_REF_NAME -replace '^v', ''
+          mkdir build\opa_$VERSION
+          copy opa4\lib\*\*.exe build\opa_$VERSION
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
         with:
-          tag_name: ${{ github.ref }}
-          release_name: OPA ${{ github.ref }}
-          body: # Describe changes in this release.
+          name: windows_binary
+          path: build
+             
+  release:
+    name: Create Release
+    needs: windows-build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        
+      - name: Download Windows executable
+        uses: actions/download-artifact@v5
+        with:
+          name: windows_binary
+          path: windows_binary
+          
+      - name: Show downloaded files
+        run: ls -R windows_binary
+        
+      - name: Strip leading v from tag
+        shell: bash
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV        
+        
+      - name: Zip the artifact
+        run: |
+          cd windows_binary/opa_$VERSION
+          zip -r opa_${{ env.VERSION }}.zip ./*        
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: OPA ${{ env.VERSION }}
           draft: true
-          prerelease: false
+          files: windows_binary/opa_${{ env.VERSION }}/opa_${{ env.VERSION }}.zip
+          
