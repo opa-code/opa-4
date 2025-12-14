@@ -1,3 +1,9 @@
+4.2.3 Dec. 14, 2025
+- opalinop, omatching, omatchscan, otunematrix, owriteomrk
+  call of modal GUIs modified: try showmodal finally freeandnil end
+  inside modal GUI: close (no release, no :=nil)
+  Previous procedure caused access violation with Laz 4.4, was tolerated by Laz 2.2
+
 4.2.2 Sep. 18, 2025
 - opatracktt
   ZAP export removed, obsolete
