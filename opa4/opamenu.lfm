@@ -3,7 +3,7 @@ object MenuForm: TMenuForm
   Height = 375
   Top = 592
   Width = 647
-  Caption = 'OPA 4.2.2'
+  Caption = 'OPA 4.2.3'
   ClientHeight = 354
   ClientWidth = 647
   Color = clMenu

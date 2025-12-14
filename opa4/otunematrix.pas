@@ -152,7 +152,7 @@ end;
 procedure TtuneMatrix.Exit;
 begin
   Close;
-  tuneMatrix:=nil;
+//  tuneMatrix:=nil;
 end;
 
 {---------------------------------------------------------------}

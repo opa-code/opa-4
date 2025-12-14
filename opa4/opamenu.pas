@@ -555,6 +555,7 @@ begin
   CloseFile(diagfil);
   GlobDefSet('diaglev',diaglevel);
   GlobDefWriteFile;
+//  Free; not needed?
 end;
 
 //----------------------------------------------------------------------------

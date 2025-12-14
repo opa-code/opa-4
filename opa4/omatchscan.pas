@@ -58,7 +58,7 @@ end;
 procedure TsetMatchScan.Exit;
 begin
   Close;
-  setMatchScan:=nil;
+//  setMatchScan:=nil;
 end;
 
 procedure TsetMatchScan.butcanClick(Sender: TObject);

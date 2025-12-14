@@ -780,16 +780,6 @@ begin
   if OpticPlotMode=EnvPlot then PlotEnv else if OpticPlotMode=BetPlot then PlotBeta;
 end;
 
-{
-procedure Toptic.butmomtClick(Sender: TObject);
-begin
-  if setMomentum= nil then setMomentum:=TsetMomentum.Create(Application);
-  setMomentum.Load;
-  setMomentum.ShowModal;
-  if MomMode then tablewidth:=twidthMom else tablewidth:=twidth;
-  FormSize
-end;
-}
 
 procedure Toptic.butenvlClick(Sender: TObject);
 begin
@@ -997,21 +987,31 @@ var
   knarr: array of TKnob;
   i:integer;
 begin
-  if Match=nil then Match:= TMatch.Create(Application);
+  if Match=nil then begin
+    Match:= TMatch.Create(Application);
+  end;
   setlength(knarr, nknobs);
   for i:=1 to nknobs do begin
     knarr[i-1]:=TKnob(FindComponent('kn_'+IntToStr(i)));
   end;
   Match.Load(pw,knarr);
-  Match.ShowModal;
+  try
+    Match.ShowModal;
+  finally
+    FreeAndNil(Match);
+  end;
 end;
 
 procedure Toptic.butwomkClick(Sender: TObject);
 begin
   // current optic data store in optics marker, select menue
-  womk:=TWOMK.Create(Application);
+  if womk=nil then womk:=TWOMK.Create(Application);
   womk.Load;
-  womk.ShowModal;
+  try
+    womk.ShowModal;
+  finally
+    FreeAndNil(womk);
+  end;
 end;
 
 {
@@ -1023,7 +1023,11 @@ procedure Toptic.buttuneClick(Sender: TObject);
 begin
   if tuneMatrix= nil then tuneMatrix:=TtuneMatrix.Create(Application);
   tuneMatrix.Load;
-  tuneMatrix.ShowModal;
+  try
+    tuneMatrix.ShowModal;
+  finally
+    FreeAndNil(tuneMatrix);
+  end;
 end;
 
 

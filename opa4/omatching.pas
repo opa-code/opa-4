@@ -286,8 +286,8 @@ begin
   DefSet('match/prec',Precision);
 
   Close;
-  Match:=nil;
-  Release;
+//  Match:=nil;
+//  Release;
 end;
 
 {startup prodecure
@@ -1189,7 +1189,11 @@ begin
   end;
   if setMatchScan=nil then setMatchScan:= TsetMatchScan.Create(Application);
   setMatchScan.Load;
-  setMatchScan.ShowModal;
+  try
+    setMatchScan.ShowModal;
+  finally
+    FreeAndNil(setMatchScan);
+  end;
   iscanloop:=-1; nscanloop:=0;
   Valscan:=nil; FScan:=nil; Kscan:=nil; statscan:=nil;
   if iscan > 0 then begin

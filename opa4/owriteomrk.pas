@@ -88,7 +88,7 @@ begin
     if comk <> nil then comk.free;
   end;
   Close;
-  WOMK:=nil;
+//  WOMK:=nil;
 end;
 
 
