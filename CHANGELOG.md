@@ -3,7 +3,7 @@
   removed obsolete wmf export button and procs
   removed obsolete paintbox p
   proc edg_enable moved from public to private
--opacurrents
+- opacurrents
   removed obsolete proc getcurrentsGLOB
 
 4.2.3 Dec. 14, 2025
@@ -472,3 +472,4 @@ WARNING: TGtk2WidgetSet.InvalidateRect refused invalidating during paint message
   KB=h*h+k was not updated without radiation integrals and gave wrong periodic solution.
 
 ChangeLog started Feb 9, 2022
+
