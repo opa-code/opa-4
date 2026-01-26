@@ -26,7 +26,6 @@ type
     ButZoomFull: TBitBtn;
     ButSForward: TBitBtn;
     ButSBackward: TBitBtn;
-    Butwmf: TButton;
     butlist: TButton;
     chkOrbit: TCheckBox;
     chkAsprat: TCheckBox;
@@ -36,7 +35,6 @@ type
     ButRight: TBitBtn;
     ButUp: TBitBtn;
     ButDown: TBitBtn;
-    p: TPaintBox;
     PanParam: TPanel;
     PanGeo: TPanel;
     GridParam: TStringGrid;
@@ -46,31 +44,30 @@ type
     rbinifin: TRadioButton;
     rbfinini: TRadioButton;
     butgoal: TButton;
-    procedure ButexClick(Sender: TObject);
-    procedure butmatchClick(Sender: TObject);
     procedure FormPaint(Sender: TObject);
     procedure FormResize(Sender: TObject);
 //    procedure ButRedoClick(Sender: TObject);
-    procedure GridParamKeyPress(Sender: TObject; var Key: Char);
     procedure ButZoomFullClick(Sender: TObject);
     procedure ButSForwardClick(Sender: TObject);
     procedure ButSBackwardClick(Sender: TObject);
-    procedure ButwmfClick(Sender: TObject);
-    procedure butlistClick(Sender: TObject);
-    procedure chkOrbitClick(Sender: TObject);
-    procedure chkMarkerClick(Sender: TObject);
-    procedure chkAspratClick(Sender: TObject);
-    procedure geopPaint(Sender: TObject);
-    procedure ButReadClick(Sender: TObject);
     procedure ButLeftClick(Sender: TObject);
     procedure ButRightClick(Sender: TObject);
     procedure ButUpClick(Sender: TObject);
     procedure ButDownClick(Sender: TObject);
-    procedure edg_enable;
+    procedure geopPaint(Sender: TObject);    //called by OnPaint event of geo.p
+    procedure chkOrbitClick(Sender: TObject);
+    procedure chkAspratClick(Sender: TObject);
+    procedure GridParamKeyPress(Sender: TObject; var Key: Char);
+    procedure butlistClick(Sender: TObject);
+    procedure ButReadClick(Sender: TObject);
+
     procedure rbdrawClick(Sender: TObject);
     procedure butgoalClick(Sender: TObject);
     procedure chkg_Click(Sender: TObject);
     procedure chkgvar_Click(Sender: TObject);
+    procedure butmatchClick(Sender: TObject);
+
+    procedure ButexClick(Sender: TObject);
 
   private
     xmin, xmax, ymin, ymax, xmid, ymid, xwidth, ywidth,
@@ -99,6 +96,7 @@ type
     procedure FindSpos;
     procedure SposShift;
     procedure ReadFiles;
+    procedure edg_enable;
     procedure edg_setgoal (i: integer);
     procedure matchenable;
 
@@ -403,7 +401,7 @@ begin
   butwid:=(gridwid-2*margin) div 3;
   dist:=butwid+margin;
   buthgt:=24;
-  ButWMF.setbounds(margin,ypos, butwid,buthgt);
+//  ButWMF.setbounds(margin,ypos, butwid,buthgt);
   ButList.setbounds(margin+dist,ypos, butwid,buthgt);
   ButRead.setbounds(margin+2*dist,ypos, butwid,buthgt);
   ypos:=ypos+buthgt+margin;
@@ -1263,20 +1261,6 @@ begin
   SposShift;
 end;
 
-procedure TGeometry.ButwmfClick(Sender: TObject);
-var
-  mfname: string;
-begin
-//insufficient precision!!
-{  geo.beginMetaPlot(10);
-  MakePlot;
-  mfname:=ExtractFileName(FileName);
-  mfname:=work_dir+Copy(mfname,0,Pos('.',mfname)-1);
-  geo.endMetaPlot(mfname+'_geometry.wmf');
-  MakePlot;
-}
-end;
-
 procedure TGeometry.butlistClick(Sender: TObject);
 
 const
@@ -1601,11 +1585,6 @@ end;
 
 
 procedure TGeometry.chkOrbitClick(Sender: TObject);
-begin
-  MakePlot;
-end;
-
-procedure TGeometry.chkMarkerClick(Sender: TObject);
 begin
   MakePlot;
 end;

@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <Version Value="12"/>
+    <BuildModes Active="Default"/>
+    <Units Count="42">
+      <Unit0>
+        <Filename Value="opa.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="49"/>
+        <CursorPos Y="82"/>
+        <UsageCount Value="29"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="opamenu.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="MenuForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <TopLine Value="59"/>
+        <CursorPos X="20" Y="74"/>
+        <UsageCount Value="29"/>
+        <Loaded Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="oelecreate.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="EditElemCreate"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UsageCount Value="29"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="oeleedit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="EditElemSet"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UsageCount Value="29"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="opatexteditor.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormTxtEdt"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UsageCount Value="29"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="osegedit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="EditSegSet"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UsageCount Value="29"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="opalinop.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="optic"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="720"/>
+        <CursorPos X="33" Y="729"/>
+        <UsageCount Value="29"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="linoplib.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="OpticPlot"/>
+        <UsageCount Value="29"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="ostartmenu.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="startsel"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="29"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="obetenvmag.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="setEnvel"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UsageCount Value="29"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="omatchscan.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="45"/>
+        <CursorPos X="13" Y="59"/>
+        <UsageCount Value="29"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="omatching.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Match"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1160"/>
+        <CursorPos X="30" Y="1195"/>
+        <UsageCount Value="29"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="owriteomrk.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="58"/>
+        <CursorPos X="3" Y="91"/>
+        <UsageCount Value="29"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="chamframe.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="CHam"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UsageCount Value="29"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="opachroma.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Chroma"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UsageCount Value="29"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="chromlib.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ChromLib"/>
+        <UsageCount Value="29"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="opatrackps.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="trackp"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UsageCount Value="29"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="tracklib.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UsageCount Value="29"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="opaurrents.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UsageCount Value="29"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="otunematrix.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="122"/>
+        <CursorPos X="3" Y="155"/>
+        <UsageCount Value="29"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="opamomentum.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="momentum"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UsageCount Value="29"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="opageometry.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Geometry"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="183"/>
+        <CursorPos X="59" Y="202"/>
+        <UsageCount Value="29"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="opatunediag.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="tuneplot"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UsageCount Value="29"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="opatracktt.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="trackT"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UsageCount Value="29"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="opatrackda.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="trackDA"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UsageCount Value="29"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="ochromsvector.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UsageCount Value="29"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="chromreslib.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UsageCount Value="29"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="chromelelib.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UsageCount Value="29"/>
+      </Unit27>
+      <Unit28>
+        <Filename Value="opaorbit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Orbit"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UsageCount Value="29"/>
+      </Unit28>
+      <Unit29>
+        <Filename Value="../com/asaux.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UsageCount Value="29"/>
+      </Unit29>
+      <Unit30>
+        <Filename Value="../com/asfigure.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Figure"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="277"/>
+        <CursorPos X="12" Y="314"/>
+        <UsageCount Value="29"/>
+        <Loaded Value="True"/>
+      </Unit30>
+      <Unit31>
+        <Filename Value="../com/Vgraph.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UsageCount Value="29"/>
+      </Unit31>
+      <Unit32>
+        <Filename Value="testcode.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="14"/>
+        <CursorPos X="47" Y="20"/>
+        <UsageCount Value="29"/>
+        <Loaded Value="True"/>
+      </Unit32>
+      <Unit33>
+        <Filename Value="lgbeditlib.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UsageCount Value="29"/>
+      </Unit33>
+      <Unit34>
+        <Filename Value="opalgbedit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UsageCount Value="29"/>
+      </Unit34>
+      <Unit35>
+        <Filename Value="opabucket.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="BucketView"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UsageCount Value="29"/>
+      </Unit35>
+      <Unit36>
+        <Filename Value="../com/conrect.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UsageCount Value="29"/>
+      </Unit36>
+      <Unit37>
+        <Filename Value="latfilelib.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="OPALatticeFiles"/>
+        <UsageCount Value="29"/>
+      </Unit37>
+      <Unit38>
+        <Filename Value="opacurrents.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Currents"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="254"/>
+        <CursorPos X="29" Y="292"/>
+        <UsageCount Value="29"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit38>
+      <Unit39>
+        <Filename Value="../com/vgraph.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UsageCount Value="29"/>
+      </Unit39>
+      <Unit40>
+        <Filename Value="../CHANGELOG.md"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="6"/>
+        <CursorPos X="40" Y="7"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="None"/>
+      </Unit40>
+      <Unit41>
+        <Filename Value="globlib.pas"/>
+        <EditorIndex Value="3"/>
+        <CursorPos X="20" Y="2202"/>
+        <UsageCount Value="14"/>
+        <Loaded Value="True"/>
+      </Unit41>
+    </Units>
+    <JumpHistory Count="30" HistoryIndex="29">
+      <Position1>
+        <Filename Value="../com/asfigure.pas"/>
+        <Caret Line="216" Column="51" TopLine="184"/>
+      </Position1>
+      <Position2>
+        <Filename Value="opageometry.pas"/>
+        <Caret Line="2" Column="35"/>
+      </Position2>
+      <Position3>
+        <Filename Value="opageometry.pas"/>
+        <Caret Line="38" Column="14" TopLine="6"/>
+      </Position3>
+      <Position4>
+        <Filename Value="opageometry.pas"/>
+        <Caret Line="6" Column="41"/>
+      </Position4>
+      <Position5>
+        <Filename Value="opageometry.pas"/>
+        <Caret Line="38" Column="14" TopLine="6"/>
+      </Position5>
+      <Position6>
+        <Filename Value="opageometry.pas"/>
+        <Caret Line="48" Column="24" TopLine="16"/>
+      </Position6>
+      <Position7>
+        <Filename Value="opageometry.pas"/>
+        <Caret Line="63" Column="24" TopLine="32"/>
+      </Position7>
+      <Position8>
+        <Filename Value="opageometry.pas"/>
+        <Caret Line="1142" Column="30" TopLine="1110"/>
+      </Position8>
+      <Position9>
+        <Filename Value="opageometry.pas"/>
+        <Caret Line="1144" Column="42" TopLine="1112"/>
+      </Position9>
+      <Position10>
+        <Filename Value="opageometry.pas"/>
+        <Caret Line="60" Column="27" TopLine="40"/>
+      </Position10>
+      <Position11>
+        <Filename Value="opageometry.pas"/>
+        <Caret Line="64" Column="25" TopLine="47"/>
+      </Position11>
+      <Position12>
+        <Filename Value="opageometry.pas"/>
+        <Caret Line="1740" Column="31" TopLine="1702"/>
+      </Position12>
+      <Position13>
+        <Filename Value="opageometry.pas"/>
+        <Caret Line="4" Column="52"/>
+      </Position13>
+      <Position14>
+        <Filename Value="opageometry.pas"/>
+        <Caret Line="64" Column="25" TopLine="33"/>
+      </Position14>
+      <Position15>
+        <Filename Value="opageometry.pas"/>
+        <Caret Line="1724" Column="31" TopLine="1692"/>
+      </Position15>
+      <Position16>
+        <Filename Value="opageometry.pas"/>
+        <Caret Line="1762" Column="13" TopLine="1730"/>
+      </Position16>
+      <Position17>
+        <Filename Value="opageometry.pas"/>
+        <Caret Line="1807" Column="15" TopLine="1775"/>
+      </Position17>
+      <Position18>
+        <Filename Value="opageometry.pas"/>
+        <Caret Line="1961" Column="13" TopLine="1930"/>
+      </Position18>
+      <Position19>
+        <Filename Value="opageometry.pas"/>
+        <Caret Line="64" Column="26" TopLine="49"/>
+      </Position19>
+      <Position20>
+        <Filename Value="opageometry.pas"/>
+        <Caret Line="65" Column="27" TopLine="44"/>
+      </Position20>
+      <Position21>
+        <Filename Value="opageometry.pas"/>
+        <Caret Line="1823" Column="33" TopLine="1785"/>
+      </Position21>
+      <Position22>
+        <Filename Value="opageometry.pas"/>
+        <Caret Line="66" Column="25" TopLine="44"/>
+      </Position22>
+      <Position23>
+        <Filename Value="opageometry.pas"/>
+        <Caret Line="275" Column="34" TopLine="244"/>
+      </Position23>
+      <Position24>
+        <Filename Value="opageometry.pas"/>
+        <Caret Line="70" Column="25" TopLine="44"/>
+      </Position24>
+      <Position25>
+        <Filename Value="opacurrents.pas"/>
+        <Caret Line="6" Column="48"/>
+      </Position25>
+      <Position26>
+        <Filename Value="opacurrents.pas"/>
+        <Caret Line="27" Column="32"/>
+      </Position26>
+      <Position27>
+        <Filename Value="opacurrents.pas"/>
+        <Caret Line="23" Column="30"/>
+      </Position27>
+      <Position28>
+        <Filename Value="opacurrents.pas"/>
+        <Caret Line="25" Column="29" TopLine="16"/>
+      </Position28>
+      <Position29>
+        <Filename Value="opacurrents.pas"/>
+        <Caret Line="20" Column="25"/>
+      </Position29>
+      <Position30>
+        <Filename Value="opacurrents.pas"/>
+        <Caret Line="21" Column="23"/>
+      </Position30>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+</CONFIG>

@@ -1,7 +1,7 @@
 object Geometry: TGeometry
-  Left = 863
+  Left = 1003
   Height = 603
-  Top = 240
+  Top = 234
   Width = 876
   Caption = 'Geometry'
   ClientHeight = 603
@@ -362,15 +362,6 @@ object Geometry: TGeometry
     OnClick = ButSBackwardClick
     TabOrder = 4
   end
-  object Butwmf: TButton
-    Left = 0
-    Height = 25
-    Top = 216
-    Width = 49
-    Caption = '---> WMF'
-    OnClick = ButwmfClick
-    TabOrder = 5
-  end
   object butlist: TButton
     Left = 56
     Height = 25
@@ -378,7 +369,7 @@ object Geometry: TGeometry
     Width = 75
     Caption = '---> Data'
     OnClick = butlistClick
-    TabOrder = 6
+    TabOrder = 5
   end
   object chkOrbit: TCheckBox
     Left = 0
@@ -394,7 +385,7 @@ object Geometry: TGeometry
     OnClick = chkOrbitClick
     ParentColor = False
     ParentFont = False
-    TabOrder = 7
+    TabOrder = 6
   end
   object chkAsprat: TCheckBox
     Left = 0
@@ -405,7 +396,7 @@ object Geometry: TGeometry
     Checked = True
     OnClick = chkAspratClick
     State = cbChecked
-    TabOrder = 8
+    TabOrder = 7
   end
   object ButRead: TButton
     Left = 136
@@ -414,7 +405,7 @@ object Geometry: TGeometry
     Width = 75
     Caption = '<-- Data'
     OnClick = ButReadClick
-    TabOrder = 9
+    TabOrder = 8
   end
   object ButLeft: TBitBtn
     Left = 8
@@ -522,7 +513,7 @@ object Geometry: TGeometry
       E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0
     }
     OnClick = ButLeftClick
-    TabOrder = 10
+    TabOrder = 9
   end
   object ButRight: TBitBtn
     Left = 56
@@ -630,7 +621,7 @@ object Geometry: TGeometry
       E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0
     }
     OnClick = ButRightClick
-    TabOrder = 11
+    TabOrder = 10
   end
   object ButUp: TBitBtn
     Left = 104
@@ -738,7 +729,7 @@ object Geometry: TGeometry
       E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0
     }
     OnClick = ButUpClick
-    TabOrder = 12
+    TabOrder = 11
   end
   object ButDown: TBitBtn
     Left = 152
@@ -846,7 +837,7 @@ object Geometry: TGeometry
       E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0E0
     }
     OnClick = ButDownClick
-    TabOrder = 13
+    TabOrder = 12
   end
   object PanParam: TPanel
     Left = 8
@@ -855,7 +846,7 @@ object Geometry: TGeometry
     Width = 216
     ClientHeight = 233
     ClientWidth = 216
-    TabOrder = 14
+    TabOrder = 13
     object GridParam: TStringGrid
       Left = 6
       Height = 209
@@ -884,7 +875,7 @@ object Geometry: TGeometry
     Width = 233
     ClientHeight = 265
     ClientWidth = 233
-    TabOrder = 15
+    TabOrder = 14
     object rgdraw: TGroupBox
       Left = 6
       Height = 41
@@ -903,6 +894,7 @@ object Geometry: TGeometry
         Checked = True
         OnClick = rbdrawClick
         TabOrder = 0
+        TabStop = True
       end
       object rbinifin: TRadioButton
         Tag = 1
@@ -934,7 +926,7 @@ object Geometry: TGeometry
     Caption = ' '
     ClientHeight = 273
     ClientWidth = 233
-    TabOrder = 16
+    TabOrder = 15
     object butgoal: TButton
       Left = 70
       Height = 25

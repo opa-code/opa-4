@@ -1,7 +1,7 @@
 object Currents: TCurrents
-  Left = 721
+  Left = 1048
   Height = 448
-  Top = 552
+  Top = 47
   Width = 763
   Caption = 'Currents'
   ClientHeight = 448
@@ -10,7 +10,7 @@ object Currents: TCurrents
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
-  LCLVersion = '2.0.6.0'
+  LCLVersion = '2.2.0.4'
   object cgrid: TStringGrid
     Left = 8
     Height = 385
@@ -25,10 +25,6 @@ object Currents: TCurrents
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRowSelect]
     ParentFont = False
     TabOrder = 0
-    TitleFont.Color = clWindowText
-    TitleFont.Height = -13
-    TitleFont.Name = 'MS Sans Serif'
-    TitleFont.Style = [fsBold]
     OnDrawCell = DrawCell
     OnSelectCell = cgridSelectCell
   end
@@ -43,7 +39,7 @@ object Currents: TCurrents
   end
   object edps: TEdit
     Left = 320
-    Height = 28
+    Height = 29
     Top = 8
     Width = 153
     Enabled = False
