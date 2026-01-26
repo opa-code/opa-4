@@ -1,6 +1,14 @@
+4.2.4 Jan. 8, 2026
+- opageometry
+  removed obsolete wmf export button and procs
+  removed obsolete paintbox p
+  proc edg_enable moved from public to private
+-opacurrents
+  removed obsolete proc getcurrentsGLOB
+
 4.2.3 Dec. 14, 2025
 - opalinop, omatching, omatchscan, otunematrix, owriteomrk
-  call of modal GUIs modified: try showmodal finally freeandnil end
+  call of modal GUIs modified: (try showmodal finally freeandnil end)
   inside modal GUI: close (no release, no :=nil)
   Previous procedure caused access violation with Laz 4.4, was tolerated by Laz 2.2
 
