@@ -1,120 +1,120 @@
 4.2.4 Jan. 8, 2026
-opageometry
-  removed obsolete wmf export button and procs
-  removed obsolete paintbox p
+- opageometry\
+  removed obsolete wmf export button and procs\
+  removed obsolete paintbox p\
   proc edg_enable moved from public to private
-opacurrents
+- opacurrents\
   removed obsolete proc getcurrentsGLOB
 
 4.2.3 Dec. 14, 2025
-- opalinop, omatching, omatchscan, otunematrix, owriteomrk
-  call of modal GUIs modified: (try showmodal finally freeandnil end)
-  inside modal GUI: close (no release, no :=nil)
+- opalinop, omatching, omatchscan, otunematrix, owriteomrk\
+  call of modal GUIs modified: (try showmodal finally freeandnil end)\
+  inside modal GUI: close (no release, no :=nil)\
   Previous procedure caused access violation with Laz 4.4, was tolerated by Laz 2.2
 
 4.2.2 Sep. 18, 2025
-- opatracktt
+- opatracktt\
   ZAP export removed, obsolete
 
 4.2.1 Sep. 4, 2025
-- vgraph
+- vgraph\
   Changed Vgraph to vgraph to have all file names lowercase
-- opa.lpr
+- opa.lpr\
   clean-up
 
 4.2.0 Aug. 30, 2025
-Renaming of all files and units, because some names were not meaningful and
-capitalization was inconsistent. Now names are all small caps and systematic:
-  opa* is a first level GUI, i.e. one of the main design programs,
-  o*   is a second level GUI, launched by the first level GUI, e.g.  a start menu,
-  *lib is a plain Pascal unit,
+- Renaming of all files and units, because some names were not meaningful and
+capitalization was inconsistent. Now names are all small caps and systematic:\
+  opa* is a first level GUI, i.e. one of the main design programs,\
+  o*   is a second level GUI, launched by the first level GUI, e.g.  a start menu,\
+  *lib is a plain Pascal unit,\
   *frame is a frame.
-Replacement table new - old:
-            globlib           OPAglobal
-            opamenu           opamenu
-            mathlib           mathlib
-            latfilelib        opalatticefiles
-            opatexteditor     texteditor
-            opaeditor         OPAEditor
-            oelecreate        EdElCreate
-            oeleedit          EdEdSet
-            osegedit          EdSgSet
-            opalinop          opticview
-            knobframe         knobframe
-            ostartmenu        Opticstart
-            obetenvmag        OpticEnvel
-            otunematrix       OpticTune
-            owriteomrk        OpticWOMK
-            linoplib          opticplot
-            elemlib           OPAElements
-            omatching         OpticMatch
-            omatchscan        OpticMatchScan
-            opatunediag       OPAtune
-            opamomentum       OPAmomentum
-            momentumlib       momentumlib
-            opabucket         Bucket
-            opachroma         OPAChroma
-            csexframe         CSexLine
-            chamframe         CHAmLine
-            chromreslib       ChromGUILib1
-            chromelelib       ChromGUILib2
-            ochromsvector     OPAChromaSVector
-            chromlib          chromlib
-            opaorbit          OPAorbit
-            opatrackps        OPAtrackP
-            opatrackda        OPAtrackDA
-            opatracktt        OPAtrackT
-            tracklib          tracklib
-            opalgbedit        LGBeditor
-            lgbeditlib        LGBeditorLib
-            opageometry       OPAGeometry
-            opacurrents       OPACurrents
-            testcode          opatest
+- Replacement table new < old:\
+            globlib   <        OPAglobal\
+            opamenu   <        opamenu\
+            mathlib    <       mathlib\
+            latfilelib  <      opalatticefiles\
+            opatexteditor <     texteditor\
+            opaeditor    <     OPAEditor\
+            oelecreate   <     EdElCreate\
+            oeleedit    <      EdEdSet\
+            osegedit    <      EdSgSet\
+            opalinop    <      opticview\
+            knobframe   <      knobframe\
+            ostartmenu   <     Opticstart\
+            obetenvmag   <     OpticEnvel\
+            otunematrix  <     OpticTune\
+            owriteomrk   <     OpticWOMK\
+            linoplib     <     opticplot\
+            elemlib     <      OPAElements\
+            omatching   <      OpticMatch\
+            omatchscan   <     OpticMatchScan\
+            opatunediag  <     OPAtune\
+            opamomentum   <    OPAmomentum\
+            momentumlib  <     momentumlib\
+            opabucket    <     Bucket\
+            opachroma    <     OPAChroma\
+            csexframe    <     CSexLine\
+            chamframe    <     CHAmLine\
+            chromreslib   <    ChromGUILib1\
+            chromelelib   <    ChromGUILib2\
+            ochromsvector  <   OPAChromaSVector\
+            chromlib    <      chromlib\
+            opaorbit     <     OPAorbit\
+            opatrackps   <     OPAtrackP\
+            opatrackda   <     OPAtrackDA\
+            opatracktt   <     OPAtrackT\
+            tracklib     <     tracklib\
+            opalgbedit   <     LGBeditor\
+            lgbeditlib    <    LGBeditorLib\
+            opageometry   <    OPAGeometry\
+            opacurrents   <    OPACurrents\
+            testcode     <     opatest\
 Files in the ../com folder were not changed, they are still named
             Vgraph, asfigure, asaux, conrect
 
-4.1.1   June/July 2025
+4.1.1   June/July 2025\
 Some clean-up during documentation. Removed procs are found in v.4.063=v.4.1.0
-- OPAOrbit
-  no passing of form handles to asfigure instances, not needed.
-  removed "txt" button to print text file, was no action behind, not needed.
+- OPAOrbit\
+  no passing of form handles to asfigure instances, not needed.\
+  removed "txt" button to print text file, was no action behind, not needed.\
   removed procedure butreadcorClick, was temporary to read Tracy data ("cormis")
-- OPAChroma, CSExLine
-  removed load button and corresponding procs to read values from a temp file
+- OPAChroma, CSExLine\
+  removed load button and corresponding procs to read values from a temp file\
   and set families (was once implemented to import data from MOGA runs).
-- Bucket
+- Bucket\
   empty proc pPaint removed
-- OPAElements
+- OPAElements\
   GetBAT moved to opticplot/NormalMode, because it is only used there.
-- opticplot
+- opticplot\
   removed PlotGNU, became obsolete due to EPS export
-- OPAglobal, OPACurrents
+- OPAglobal, OPACurrents\
   Moved procedures getkfromI and getIfromK to OPACurrents
 
 4.1.0 = 4.063
-- new version numbering following semantic versioning https://semver.org/
+- new version numbering following semantic versioning https://semver.org/\
   SemVer is for APIs - not applicable to OPA yet since it is standalone, so
-  define a bit differently:
+  define a bit differently:\
   MAJOR change with regard to compatibility with old lattice files, or a
-    big step like conversion from Delphi to Lazarus (version 3 --> 4)
+    big step like conversion from Delphi to Lazarus (version 3 --> 4)\
   MINOR change adding/modifying functionality which may affect the user,
-    like the different weighting of Hamiltonians in 4.061
+    like the different weighting of Hamiltonians in 4.061\
   PATCH is a bug fix or a minor modification/improvement not visible to the user
 
 4.063 25.3.225
-- EdSgSet
+- EdSgSet\
   bug fix: need to append a new line to segment list before writing to
   (was tolerated by Delphi before)
 
 4.062 11.2.2025
-- mathlib/PowR
+- mathlib/PowR\
   correction: case 0^0=1 not 0
-- ChromLib/Hamscaling
+- ChromLib/Hamscaling\
   new index arrays jklmp to make code more clear.
--
+
 4.061 6.2.2025
-- ChromLib/HamScaling
-  .changed the internal weighting of nonlinear terms: before the Hamiltonian
+- ChromLib/HamScaling\
+   changed the internal weighting of nonlinear terms: before the Hamiltonian
    modes included the amplitudes with correspomnding powers, however this was not done
    for chromaticities, and the resonant terms needed an extra factor to become
    comparable. Considering dphi/dt = dH/dJ in action angle variables, we now use the
@@ -122,27 +122,29 @@ Some clean-up during documentation. Removed procs are found in v.4.063=v.4.1.0
    obsolete and terms are compared at relevant amplitudes.
 
 4.060 18.10.2024
-- OpticPlot
-  . export of transfer matrix included in lattice data .txt file,
+- OpticPlot\
+    export of transfer matrix included in lattice data .txt file,
     html export disabled
 
 4.059 25.7.2024
-- OPALatticeFiles, OPAGlobal, opatest
-  . *new unit* OPALatticeFiles now contains procedures for reading and writing
+- OPALatticeFiles, OPAGlobal, opatest\
+    *new unit* OPALatticeFiles now contains procedures for reading and writing
     lattices including exports to and imports from other codes, removed from
     OPAGlobal, which is too large containing too many different things, and
     from opatest, which is meant for temporary stuff only.
 
 4.058 24.7.2024
-- opamenu and OPAGlobal/WriteLattice
-  . support only .lte elegant files, sext kicks included too
-  . Decimals for exporting lengths and bending angles increased
-- opatest/lteconvert
-  . improvement: exporting opa->lte and reading back .lte reproduces almost the .opa file.
-    reading multipole order and strength from .lte file for proper conversion
-  . bug fix for monitors and correctors
-- OPATrackT
+- opamenu and OPAGlobal/WriteLattice\
+   support only .lte elegant files, sext kicks included too\
+   Decimals for exporting lengths and bending angles increased
+- opatest/lteconvert\
+   improvement: exporting opa->lte and reading back .lte reproduces almost the .opa file.\
+   reading multipole order and strength from .lte file for proper conversion\
+   bug fix for monitors and correctors
+- OPATrackT\
   . warning message and info when clicking FTT without DA before
+
+  _reformatting of plain text to .md file only up to here_
 
 4.057 21-23.7.2024
 - VGraph/AxisPrivate
@@ -472,5 +474,6 @@ WARNING: TGtk2WidgetSet.InvalidateRect refused invalidating during paint message
   KB=h*h+k was not updated without radiation integrals and gave wrong periodic solution.
 
 ChangeLog started Feb 9, 2022
+
 
 
