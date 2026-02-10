@@ -36,3 +36,5 @@ Here are instruction for how to make a release of OPA.
    git push origin vMAJOR.MINOR.PATCH
    ```
    In case the same tag already exists on Github you can overwrite it with the option `-f`.
+
+In case you want to see which tags you already have you can do it with the command `git tag`. On Github you can also see it on https://github.com/opa-code/opa-4/tags.
