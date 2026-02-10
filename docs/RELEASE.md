@@ -29,6 +29,7 @@
       ```
       In case you need to push an existing tag you can do this with the option `-f`.
 
-5. The GitHub workflow for making a release will now run. It will not make the release directly but just a draft.
+5. The GitHub workflow for making a release will now run. It takes a little while since it needs to compile and build the code. When it's done it will not make the release directly but just a draft.
+   The draft will end up on https://github.com/opa-code/opa-4/releases.
 
-6. Go to the draft, add the release notes you would want and approve the release.
+7. Click on the draft and the edit button, add the release notes you would want and finally on "Publish release".
