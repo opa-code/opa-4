@@ -4,8 +4,31 @@
 
 2. Test locally so the main branch compiles and runs correctly.
 
-3. Add a version tag. This you can do either in the terminal or in the web interface.
+3. Add a Git version tag. This you can do either locally or in the web interface.
 
-4. The GitHub workflow for making a release will now run. It will not make the release directly but just a draft.
+   **Locally:**
 
-5. Go to the draft, add the release notes you would want and approve the release.
+   1. Checkout the main branch and pull the latest changes from GitHub so everything is up-to-date.
+   
+      ```bash
+      git checkout main
+      git pull origin main
+      ```
+   2. Create a tag for the new version. Replace MAJOR.MINOR.PATCH with the version number you want.
+
+      ```bash
+      git tag -a vMAJOR.MINOR.PATCH -m "Version MAJOR.MINOR.PATCH."
+      ```
+      
+      In case you need to update an existing tag you can do this with the option `-af`.
+      
+   4. Push the tag to GitHub.
+  
+      ```bash
+      git push origin v4.2.4
+      ```
+      In case you need to push an existing tag you can do this with the option `-f`.
+
+5. The GitHub workflow for making a release will now run. It will not make the release directly but just a draft.
+
+6. Go to the draft, add the release notes you would want and approve the release.
