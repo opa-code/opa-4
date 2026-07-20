@@ -1,0 +1,26 @@
+object Figure: TFigure
+  Left = 0
+  Height = 159
+  Top = 0
+  Width = 177
+  ClientHeight = 159
+  ClientWidth = 177
+  Color = clGray
+  ParentBackground = False
+  ParentColor = False
+  TabOrder = 0
+  DesignTop = 25
+  object p: TPaintBox
+    Cursor = crCross
+    Left = 16
+    Height = 65
+    Top = 16
+    Width = 81
+    Color = clWhite
+    ParentColor = False
+    OnDblClick = pDblClick
+    OnMouseDown = pMouseDown
+    OnMouseMove = pMouseMove
+    OnMouseUp = pMouseUp
+  end
+end
