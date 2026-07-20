@@ -42,7 +42,7 @@ jobs:
           echo "Building project..."
           $env:PATH += ";C:\lazarus\"
           lazbuild --version
-          lazbuild opa4/opa.lpi
+          lazbuild opa-4/opa.lpi
 
       - name: Upload built executable
         uses: actions/upload-artifact@v4
