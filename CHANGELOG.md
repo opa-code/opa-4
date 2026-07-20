@@ -1,3 +1,49 @@
+4.3.0 April-June 2026
+Refactoring: introducing new units to disentangle things and move them to the right place
+- globlib\
+  many data and procs moved to new units, only keeping the basic data here,
+  the opa initialization procs and a few procs which are used from very many places.
+- varlib  **NEW** \
+  contains procs for evaluating arithmetic expressions in variables \
+  used by opaeditor, opageometry, latfilelib, linoplib, lgbeditlib, oeleedit, knobframe
+- editorlib **NEW** \
+  contains procs to initialize elements, string representation, text buffer, update segment combo
+  expansion of undulator,  handling segments and for building the lattice  \
+  used by opamenu, opaeditor, opatexteditor, oelecreate, oeleedit, osegedit, latfilelib, lgbeditlib \\
+  proc expandUndulator moved here, before was in from opaeditor
+- georblib **NEW** \
+  contains procs for orbit correction, injection and geometry plot\
+  used by opaorbit and opageometry  (only proc girder_setup is used by both)
+- elemlib \
+  variables and procs for optics calc moved here
+
+In the process some modifications and corrections were done
+- editorlib/expandundulator\
+  bug fix, new segment replacing undulator was not flagged as segment
+- globlib\
+  set strkparam[cundu] to enable dragging undulator to knobs
+- opageometry\
+  filter for reading geo files set to lowercase, now looking for *geo.txt\
+  added a "reset" button for geo matching
+
+Refactoring was NOT done for following units:
+- opabucket\
+  Logically proc CalcBucket should be in momentumlib, but the bucket
+  calculation and plot is almost a standalone program, while momentumlib still
+  needs clean-up to remove the optimization procedures which are useless for
+  ring design.
+- opacurrents\
+  Current calculation contains EPICS and SLS specific issues and should be
+  redone in a proper way, but this is low priority.
+
+Reorganization: units located in the parallel folder /com were renamed and moved to
+the /opa4 folder. This includes
+- comfigureframe (former /com/asfigure)
+- comvgraphlib (former /com/vgraph)
+- comauxlib (former /com/asaux)
+- comcontourlib (former /com/concrect).
+
+
 4.2.4 Jan. 8, 2026
 - opageometry\
   removed obsolete wmf export button and procs\

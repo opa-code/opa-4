@@ -6,9 +6,11 @@ name: Build Windows executable
 # Triggers the workflow on push or pull request events but only for the "main" branch
 on:
   push:
-    branches: [ "main" ]
+    branches:
+    - '**'
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - '**'
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -40,11 +42,11 @@ jobs:
           echo "Building project..."
           $env:PATH += ";C:\lazarus\"
           lazbuild --version
-          lazbuild opa4/opa.lpi
+          lazbuild opa-4/opa.lpi
 
       - name: Upload built executable
         uses: actions/upload-artifact@v4
         with:
           name: opa-exe
           path: |
-            opa4/**/*.exe
+            opa-4/**/*.exe

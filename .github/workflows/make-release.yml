@@ -35,10 +35,10 @@ jobs:
         run: |
           $env:PATH += ";C:\lazarus\"
           lazbuild --version
-          lazbuild opa4/opa.lpi
+          lazbuild opa-4/opa.lpi
           $VERSION = $env:GITHUB_REF_NAME -replace '^v', ''
           mkdir build\opa_$VERSION
-          copy opa4\lib\*\*.exe build\opa_$VERSION
+          copy opa-4\lib\*\*.exe build\opa_$VERSION
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
