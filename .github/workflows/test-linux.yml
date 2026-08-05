@@ -28,13 +28,13 @@ jobs:
             mkdir lazarus
             cd lazarus
 
-            curl -L -o fpc-laz.deb \
+            curl -sSL -o fpc-laz.deb \
             "https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20amd64%20DEB/Lazarus%204.2/fpc-laz_3.2.2-210709_amd64.deb/download"
 
-            curl -L -o fpc-src.deb \
+            curl -sSL -o fpc-src.deb \
             "https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20amd64%20DEB/Lazarus%204.2/fpc-src_3.2.2-210709_amd64.deb/download"
 
-            curl -L -o lazarus-project.deb \
+            curl -sSL -o lazarus-project.deb \
             "https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20amd64%20DEB/Lazarus%204.2/lazarus-project_4.2.0-0_amd64.deb/download"
 
 
