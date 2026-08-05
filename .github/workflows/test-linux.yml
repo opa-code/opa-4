@@ -49,7 +49,7 @@ jobs:
 
       - name: Build AppImage
         run: |
-          chmod +x opa-4/build-appimage.sh
+          chmod +x ./build-appimage.sh
           ./build-appimage.sh
 
       - name: Upload AppImage
