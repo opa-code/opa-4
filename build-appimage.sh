@@ -17,7 +17,7 @@ set -euo pipefail
 APP_NAME="opa"
 
 # Root directory for the source code
-ROOT_DIR="./opa4"
+ROOT_DIR="./opa-4"
 
 # Path to the .lpi file
 LPI_FILE="$ROOT_DIR/opa.lpi" 
@@ -35,10 +35,10 @@ BUILD_DIR="$ROOT_DIR/lib/$PLATFORM"
 BINARY_REL="${BUILD_DIR}/${APP_NAME}" 
 
 # Path to Linuxdeploy
-LINUXDEPLOY="./linuxdeploy-x86_64.AppImage"
+LINUXDEPLOY="$HOME/linuxdeploy/linuxdeploy-x86_64.AppImage"
 
 if [[ "${ARCH}" == "aarch64" ]]; then
- LINUXDEPLOY="./linuxdeploy-aarch64.AppImage"
+  LINUXDEPLOY="$HOME/linuxdeploy/linuxdeploy-aarch64.AppImage"
 fi
 
 # AppDir folder to create
@@ -64,7 +64,7 @@ if ! command -v lazbuild >/dev/null 2>&1; then
 fi
 
 # Check so linuxdeploy exists
-if ! command -v $LINUXDEPLOY >/dev/null 2>&1; then
+if [[ ! -x "$LINUXDEPLOY" ]]; then
   echo "ERROR: linuxdeploy not found. Download it or set correct path."
   exit 3
 fi
