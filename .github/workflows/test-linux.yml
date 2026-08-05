@@ -1,0 +1,69 @@
+# Test compiling and build AppImage for Linux version
+
+name: Build Linux AppImage
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+    branches:
+      - "**"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download Lazarus installation packages
+        run: |
+            mkdir lazarus
+            cd lazarus
+
+            curl -sSL -o fpc-laz.deb \
+            "https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20amd64%20DEB/Lazarus%204.2/fpc-laz_3.2.2-210709_amd64.deb/download"
+
+            curl -sSL -o fpc-src.deb \
+            "https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20amd64%20DEB/Lazarus%204.2/fpc-src_3.2.2-210709_amd64.deb/download"
+
+            curl -sSL -o lazarus-project.deb \
+            "https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20amd64%20DEB/Lazarus%204.2/lazarus-project_4.2.0-0_amd64.deb/download"
+
+      - name: Install Lazarus
+        run: |
+            sudo dpkg -i \
+            lazarus/fpc-laz.deb \
+            lazarus/fpc-src.deb \
+            lazarus/lazarus-project.deb || true
+
+            sudo apt-get update
+            sudo apt-get install -f -y            
+
+      - name: Check Lazarus installation
+        run: |
+          lazbuild --version
+
+      - name: Download linuxdeploy
+        run: |
+            mkdir -p "$HOME/linuxdeploy"
+
+            curl -sSL \
+            -o "$HOME/linuxdeploy/linuxdeploy-x86_64.AppImage" \
+            "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage"
+
+            chmod +x "$HOME/linuxdeploy/linuxdeploy-x86_64.AppImage"      
+
+      - name: Build AppImage
+        run: |
+          chmod +x ./build-appimage.sh
+          ./build-appimage.sh
+
+      - name: Upload AppImage
+        uses: actions/upload-artifact@v4
+        with:
+            name: opa-appimage
+            path: OPA-x86_64.AppImage
