@@ -52,27 +52,8 @@ jobs:
           chmod +x opa-4/build-appimage.sh
           ./opa-4/build-appimage.sh
 
-    #   - name: Find produced AppImage
-    #     id: find_appimage
-    #     run: |
-    #       APPIMAGE_FILE="$(find . -maxdepth 1 -name '*.AppImage' | head -n 1)"
-    #       if [ -z "$APPIMAGE_FILE" ]; then
-    #         echo "No AppImage produced"
-    #         exit 1
-    #       fi
-    #       echo "appimage=$APPIMAGE_FILE" >> "$GITHUB_OUTPUT"
-    #       echo "Built: $APPIMAGE_FILE"
-
-    #   - name: Test AppImage by extracting and running AppRun
-    #     run: |
-    #       chmod +x "${{ steps.find_appimage.outputs.appimage }}"
-    #       "${{ steps.find_appimage.outputs.appimage }}" --appimage-extract
-    #       chmod +x squashfs-root/AppRun
-    #       ./squashfs-root/AppRun
-
-    #   - name: Upload AppImage
-    #     uses: actions/upload-artifact@v4
-    #     with:
-    #       name: opa-appimage
-    #       path: |
-    #         *.AppImage
+      - name: Upload AppImage
+        uses: actions/upload-artifact@v4
+        with:
+            name: opa-appimage
+            path: OPA-x86_64.AppImage
