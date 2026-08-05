@@ -1,0 +1,69 @@
+# Test compiling and build AppImage for Linux version
+
+name: Build Linux AppImage
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+    branches:
+      - "**"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+
+      - name: Download Lazarus installer
+        run: |
+            curl -L \
+            -o lazarus-installer \
+            "https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20amd64/Lazarus%204.2/fpc-3.2.2/lazarus-4.2-fpc-3.2.2-x86_64-linux-gtk2.run/download"
+            chmod +x lazarus-installer
+
+      - name: Install Lazarus silently
+        run: |
+          ./lazarus-installer --mode unattended --prefix /opt/lazarus
+
+      - name: Check Lazarus installation
+        run: |
+          lazbuild --version
+
+    #   - name: Build AppImage
+    #     run: |
+    #       chmod +x opa-4/build-appimage.sh
+    #       ./opa-4/build-appimage.sh
+
+    #   - name: Find produced AppImage
+    #     id: find_appimage
+    #     run: |
+    #       APPIMAGE_FILE="$(find . -maxdepth 1 -name '*.AppImage' | head -n 1)"
+    #       if [ -z "$APPIMAGE_FILE" ]; then
+    #         echo "No AppImage produced"
+    #         exit 1
+    #       fi
+    #       echo "appimage=$APPIMAGE_FILE" >> "$GITHUB_OUTPUT"
+    #       echo "Built: $APPIMAGE_FILE"
+
+    #   - name: Test AppImage by extracting and running AppRun
+    #     run: |
+    #       chmod +x "${{ steps.find_appimage.outputs.appimage }}"
+    #       "${{ steps.find_appimage.outputs.appimage }}" --appimage-extract
+    #       chmod +x squashfs-root/AppRun
+    #       ./squashfs-root/AppRun
+
+    #   - name: Upload AppImage
+    #     uses: actions/upload-artifact@v4
+    #     with:
+    #       name: opa-appimage
+    #       path: |
+    #         *.AppImage
