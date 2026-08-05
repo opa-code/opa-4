@@ -99,9 +99,10 @@ fi
 # -------------
 # Build the application
 # -------------
+rm -rf "${APPDIR}" squashfs-root *.AppImage
 echo
 echo "Building the application"
-run lazbuild --build-all "${LPI_FILE}"
+run lazbuild --widgetset=gtk2 --build-all "${LPI_FILE}"
 
 # Check so the binary was created
 if [[ ! -f "${BINARY_REL}" ]]; then
@@ -157,6 +158,8 @@ chmod +x "${BINARY_REL}"
 # -------------
 # Run linuxdeploy to create AppImage
 # -------------
+
+
 echo
 echo "Running linuxdeploy to bundle libraries and build AppImage"
 run "${LINUXDEPLOY}" \
@@ -164,7 +167,10 @@ run "${LINUXDEPLOY}" \
   --executable "${BINARY_REL}" \
   --desktop-file "$DESKTOP_FILE" \
   --icon-file "$ICON_FILE" \
+  --exclude-library 'libgtk-x11-2.0.so*' \
+  --exclude-library 'libgdk-x11-2.0.so*' \
   --output appimage 
+
   
 ## linuxdeploy will call the plugin/appimagetool when --output appimage is used
 #run "${LINUXDEPLOY}" \
