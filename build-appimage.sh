@@ -13,6 +13,20 @@ set -euo pipefail
 ## CONFIG
 ## -------------------------
 
+echo "=== Debug ==="
+echo "Current directory:"
+pwd
+
+echo
+echo "Contents:"
+ls -la
+
+echo
+echo "Directory tree (depth 2):"
+find . -maxdepth 2
+
+echo "============="
+
 APP_NAME="opa" # Application name
 ROOT_DIR="./opa4" # Root directory for the source code
 LPI_FILE="$ROOT_DIR/opa.lpi" # Path to the .lpi file
