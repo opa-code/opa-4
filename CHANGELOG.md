@@ -1,3 +1,49 @@
+4.3.3 Aug 2026
+- comfigureframe \
+  renamed proc assignScreen to openPlot \
+  add proc closePlot to destroy internal vplot object, inserted in all GUIs using comfigureframe: \
+  opaorbit, opatrackps, opatrackda, opatracktt, opabucket, opalgbedit, opamomentum, oeleedit, omatching, opatunediag
+- opatunediag \
+  moved openPlot from creator to .Diagram to create/destroy plot when tune diagram is opened/closed
+- opalinop \
+  explicit freeandnil of plot at close since it does not use comfigureframe \
+  check TEditElemSet object <> nil before .Close, because Close will call TFigure.plotClose
+- all units \
+  diagnostics file diagopa.txt removed, all diagnostics is handled by globlib/OpaLog \
+  all write-to-console statements removed/commented out; to be used only temp for development
+- opatrackda \
+  DAraySetup: bug fix in xp mode: introduced interpolation to get x(dpp) from geodpp array
+- omatchscan \
+  bug fix: check input nstep > 0 to avoid div 0 crash
+- opamomentum, momentumlib \
+  added show/notshow tune diagram on start and when switching per/noper mode, and overplot analytical chroma if available \
+  bug fix: set radio button for plotmode at start from user settings
+- chamframe \
+  plotting the bar only via invalidate() and OnPaint event; xor mode removed.
+- fixes of range check errors in linoplib, opaeditor
+- opageometry \
+  included girder setup export (file *_gir.txt) with geo files, added message to confirm export
+- latlib \
+  expect lower case file names for allocation and calibration data (was upper before, Win does't care but linux)
+- opaorbit \
+  bug fix: set "keep max" flag at start
+
+4.3.2 July 2026
+- comvgraphlib, comfigureframe, opageometry \
+  fix of geometry plot bug lead to modified architecture: \
+  opageometry/Makeplot now plots to BitMap \
+  comvgraphlib/setCanvasBitMap directs plot to Bitmap and keeps original canvas (paintbox,screen) \
+  comvgraphlib/btmshow copies bitmap to screen (original canvas) \
+  comfigureframe/pMouseMove does not plot but via p.Invalidate triggers opageometry/geoppaint to show the saved bitmap and overplot on screen the dragging rectangle (geo.plot.btmshow). \
+  comfigureframe/pMouseUp via p.Invalidate triggers opageometry/geoppaint to create a new plot (MakePLot) and show it. \
+  comvgraphlib: destructor Destroy; override; introduced to free bitmap and related resources.
+- opageometry, comvgraphlib \
+  added eps export for geometry plot, modified polygon proc in comvgraphlib
+
+4.3.1. July 2026
+- ostartmenu\
+  bug fix: avoid range check error if >20 optics markers.
+
 4.3.0 April-June 2026
 Refactoring: introducing new units to disentangle things and move them to the right place
 - globlib\
