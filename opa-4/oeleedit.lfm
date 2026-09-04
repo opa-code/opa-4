@@ -10,6 +10,7 @@ object EditElemSet: TEditElemSet
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
+  OnClose = FormClose
   Position = poDefaultPosOnly
   LCLVersion = '2.2.0.4'
   object Label1: TLabel

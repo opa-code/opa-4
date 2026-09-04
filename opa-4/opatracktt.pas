@@ -185,8 +185,8 @@ var
   i, j: integer;
 begin
 // restore defaults
-  fig.assignScreen;
-  flofig.assignScreen;
+  fig.openPlot;
+  flofig.openPlot;
   flofig.Visible:=status.FloPoly;
   butt_F.enabled:=true; //tmp status.FloPoly;
   edin_val[iiener]:=Glob.Energy;
@@ -325,6 +325,8 @@ begin
   ClearOpval;
   CurvePlot.enable:=False;
   SaveDefaults;
+  fig.closePlot;
+  flofig.closePlot;
   Close;
   TrackT:=nil;
 end;
@@ -476,7 +478,6 @@ begin
   end;
   sby:=sby/tsig[high(tsig)].s; // = <beta_y>
   sbx:=sbx/tsig[high(tsig)].s; // = <beta_x>
-  // writeln(diagfil, sbx, sby, ' average betas');
   accx:=1e6;     accy:=1e6;
   // how valid is this with coupling?
   for i:=1 to Glob.NLatt do begin
@@ -497,8 +498,6 @@ begin
         Tgaselacc:=sby/accy* (pi+(1+sqr(rho))*sin(2*ArcTan(rho))+(2*sqr(rho)-2)*ArcTan(rho))/pi;
   }
   end else Tgaselacc:=1e20; // almost infinity
-//  writeln(diagfil,'avg beta x/y and accx/accy rho f =',sbx, sby, accx, accy, rho, f);
-//  writeln(diagfil,'tgaselacc, bx/ax, by/ay',tgaselacc, sbx/accx, sby/accy);
 end;
 
 

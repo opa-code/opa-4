@@ -34,7 +34,7 @@ implementation
 
 procedure TSVectorPlot.FormCreate(Sender: TObject);
 begin
-  VDiag.assignScreen;
+  VDiag.openPlot;
   Width :=IDefGet('svect/size');
 //pass a handle to chromlib for plotting
   VDPH:=VDiag.plot;
@@ -46,6 +46,7 @@ procedure TSVectorPlot.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
   SaveDefaults;
+  VDiag.closePlot;
 end;
 
 procedure TSVectorPlot.FormResize(Sender: TObject);

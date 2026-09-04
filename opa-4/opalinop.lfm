@@ -1,7 +1,7 @@
 object optic: Toptic
-  Left = 1242
+  Left = 634
   Height = 430
-  Top = 325
+  Top = 328
   Width = 668
   Caption = 'Optics Design'
   ClientHeight = 430

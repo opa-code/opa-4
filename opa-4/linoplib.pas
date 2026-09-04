@@ -346,7 +346,6 @@ begin
   dpp:=oBeam[jcu].dppset*0.01;
   ModeFlip:=false;
 
-
   for i:=1 to Glob.NLatt do begin
     j:=FindEl(i);
     Opi:=Opval[jcu,i-1];
@@ -711,7 +710,7 @@ subtract position and phases from their final values:}
   if istart<Glob.NLatt then begin {forward from istart to end of lattice}
     IniVal(istart, goForward, jom);
     StoVar(jcu,istart);
-    for i:=istart{+1} to Glob.NLatt do begin
+    for i:=istart+1 to Glob.NLatt do begin
       Lattel (i, j, latmode, dpp);
       StoVar(jcu,i);
     end;
@@ -765,7 +764,7 @@ subtract position and phases from their final values:}
       sigmaNorm[5,5]:=sqr(sigmaE);
       sigmaPhys:=MatMul5(Norm2Sigma, Matmul5(sigmaNorm, MatTra5(Norm2Sigma)));
 //      PrintMat5(sigmaPhys);
-//      writeln(diagfil, sqrt(sigmaPhys[1,1]), sqrt(sigmaPhys[3,3]));
+//      writeln(sqrt(sigmaPhys[1,1]), sqrt(sigmaPhys[3,3]));
     end;
   end
   else begin { dummy settings for lattice without dipoles:}
@@ -937,7 +936,7 @@ begin
     writeln(outfi,'# Optics parameters after each element:');
     writeln(outfi,'#          s,     beta-a,     beta-b,     alfa-a,     alfa-b,      eta-x,     eta`-x,      eta-y,     eta`-y,   mu-x/2pi,   mu-y/2pi,   Name');
     writeln(outfi, Glob.NLatt);
-    for i:=0 to Glob.NLatt do with Opval[0,i] do begin
+    for i:=1 to Glob.NLatt do with Opval[0,i] do begin
        j:=Findel(i);
        writeln(outfi, spos:12:6, beta:12:6, betb:12:6, alfa:12:6, alfb:12:6, disx:12:6, dipx:12:6, disy:12:6, dipy:12:6, phia:12:6, phib:12:6, Ella[j].ax:9:3, Ella[j].ay:9:3, Ella[j].cod:3, ' ', Ella[Findel(i)].nam);
     end; {for}
@@ -1477,13 +1476,13 @@ begin
   if xautoscale then begin
     envelmaxx:=0.001;
     envelmaxy:=0.001;
-    for i:=1 to CurvePlot.ncurve do begin
+    for i:=1 to CurvePlot.ncurve-1 do begin
       if sx[i]+abs(sox[i]) > envelmaxx then envelmaxx:=sx[i]+abs(sox[i]);
       if sy[i]+abs(soy[i]) > envelmaxy then envelmaxy:=sy[i]+abs(soy[i]);
     end;
 //    if envelmaxx > envelmaxy then envelmaxy:=envelmaxx else envelmaxx:=envelmaxy;
   end;
-  for i:=1 to CurvePlot.ncurve do begin
+  for i:=1 to CurvePlot.ncurve-1 do begin
     if (abs(sox[i]) > 0.001) then xcent:=1;
     if (abs(soy[i]) > 0.001) then ycent:=1;
   end;
@@ -2075,7 +2074,7 @@ begin
   beamLost:=False;  mfail:=false; j:=0;
   for i:=1 to 4 do dx[i]:=0;
   for k:=1 to 4 do x[k]:=Glob.Op0.orb[k];
-//writeln(diagfil, 'CO init : ', x[1], x[2], x[3], x[4]);
+//writeln('CO init : ', x[1], x[2], x[3], x[4]);
   it:=0;
   repeat
     inc(it);
@@ -2087,11 +2086,11 @@ begin
       Inc(i);
       Lattel(i, j, latmode, dpp);
     until (i=Glob.NLatt) or BeamLost;
-//if beamlost then writeln(diagfil,'CO beam lost!');
+//if beamlost then writeln('CO beam lost!');
     x :=Orbit2;
     f:=VecSub4(x, x0);        {f:=x-x0}
     A:=MatCut54(TransferMatrix);                    {A=4x4 matrix, ignore Dispersion}
-//writeln(diagfil,'closed orbit iteration ',it);
+//writeln('closed orbit iteration ',it);
 //printmat5(transfermatrix0);
     for i:=1 to 4 do A[i,i]:=A[i,i]-1.0;
 //    testmat:=a;
@@ -2101,7 +2100,7 @@ begin
     dx:=LinTra4(A, f);
     x:=VecSub4 (x0, dx);
     fail:=fail or (it=itmax);
-//writeln(diagfil, 'CO it=',it:2,' : ', x[1], x[2], x[3], x[4], vecabs4(dx));
+//writeln('CO it=',it:2,' : ', x[1], x[2], x[3], x[4], vecabs4(dx));
   until (VecAbs4(dx) < eps) or fail;
   if not fail then begin
     for k:=1 to 4 do Glob.Op0.orb[k]:=x[k];
@@ -2109,9 +2108,9 @@ begin
     for k:=1 to 4 do Orbit0[k]:=x[k];
     OrbitE:=Orbit0;
   end else begin
-//writeln(diagfil,'C.O. failed. dpp =', dpp:14:9);
+//writeln('C.O. failed. dpp =', dpp:14:9);
   end;
-//writeln(diagfil, 'CO exit: dpp =',dpp:14:9, ' X orb 0 =',glob.op0.orb[1]*1000:14:9);
+//writeln('CO exit: dpp =',dpp:14:9, ' X orb 0 =',glob.op0.orb[1]*1000:14:9);
 end;
 
 {---------------------------------------------------------}
@@ -2162,7 +2161,7 @@ begin
     end;
   end;
   CoupMatrix0:=MatNul2;
-//  writeln(diagfil, 'flatperiodic transfermatrix:');
+//  writeln('flatperiodic transfermatrix:');
 //  printmat5(Transfermatrix);
 
 end;
@@ -2248,26 +2247,26 @@ begin
 
     ccp:=MatSyc2(cc);
 {    if diag(nmdiag) then begin
-      writeln(diagfil,'Transfer Matrix');
+      writeln('Transfer Matrix');
       printmat5(TransferMatrix);
-      writeln(diagfil, '|H|, Tr(M-N), Tr(M-N)^2+4|H| : ', hhdet, trmn, den); writeln(diagfil);
-      writeln(diagfil, 'gamma, angle: ', gamma, 0.5*arccos(gamma));
+      writeln('|H|, Tr(M-N), Tr(M-N)^2+4|H| : ', hhdet, trmn, den);
+      writeln('gamma, angle: ', gamma, 0.5*arccos(gamma));
     end;
 }
 
     if hhdet>zero then begin // only then 2nd sol exists
       gamma2:=sqrt(0.5-0.5*abs(trmn)/den);
 {      if diag(nmdiag) then begin
-        writeln(diagfil);
-        writeln(diagfil,'second solution: ');
-        writeln(diagfil, 'gamma2, angle: ', gamma2, 0.5*arccos(gamma2));
-        writeln(diagfil);
+        writeln;
+        writeln('second solution: ');
+        writeln('gamma2, angle: ', gamma2, 0.5*arccos(gamma2));
+        writeln;
       end;
 }
 
 //        if gamma2 < gamma then begin // choose smaller gamma as principal mode
       if ExchangeModes then begin
-//writeln(diagfil,'exchanged solutions', gamma, gamma2);
+//writeln('exchanged solutions', gamma, gamma2);
         tmp:=gamma;  gamma:=gamma2; gamma2:=tmp;
         cc2 :=cc;
         ccp2:=ccp;
@@ -2286,7 +2285,7 @@ begin
 //    vv   :=MatCmp24( MatSca2(gamma,MatUni2),cc, MatSca2(-1,ccp), MatSca2(gamma,MatUni2));
 
 //    if diag(nmdiag) then begin
-//      writeln(diagfil, 'VV-1 transformation matrix'); printmat4(vvinv);
+//      writeln('VV-1 transformation matrix'); printmat4(vvinv);
 //    end;
 
 //  A=gamma^2 M - gamma*(C n + m C+) + C N C+
@@ -2303,7 +2302,7 @@ begin
     normfail:=normfail or GetBAT (aa, betaa, alfaa, fractunea);
     normfail:=normfail or GetBAT (bb, betab, alfab, fractuneb);
 
-    //    writeln(diagfil,'NM tunes a/b, g, |C| ', fractunea:10:5,fractuneb:10:5, gamma:10:5, (1-sqr(gamma)):10:5);
+    //    writeln('NM tunes a/b, g, |C| ', fractunea:10:5,fractuneb:10:5, gamma:10:5, (1-sqr(gamma)):10:5);
 //circle transformations --> normalize normalmode and coupling matrices:
 {+
     sq:=sqrt(betaa);    ggainv := MatSet2(sq, 0, -alfaa/sq, 1/sq);
@@ -2314,7 +2313,7 @@ begin
 {   aa:=MatMul2(gga,MatMul2(aa,MatSyc2(gga)));
     bb:=MatMul2(ggb,MatMul2(bb,MatSyc2(ggb)));
     uu:=MatCmp24 (aa, MatNul2, MatNul2, bb);
-    writeln(diagfil, 'test for normalized normalmode matrix UU: from gg matrix:');
+    writeln('test for normalized normalmode matrix UU: from gg matrix:');
     printmat4(uu);
                 --> cheaper this way:
 }
@@ -2323,10 +2322,9 @@ begin
    ccbar:=MatMul2(gga,MatMul2(cc,MatSyc2(ggb)));
 
     if diag then begin
-      writeln(diagfil);
-      writeln(diagfil, 'test for normalized normalmode matrix UUbar:');
+      writeln('test for normalized normalmode matrix UUbar:');
       printmat4(uubar);
-      writeln(diagfil, 'test gamma = sqrt(1- |C|) :', gamma, ' = ', sqrt(1-MatDet2(cc)));
+      writeln('test gamma = sqrt(1- |C|) :', gamma, ' = ', sqrt(1-MatDet2(cc)));
     end;
 }
 
@@ -2388,10 +2386,10 @@ begin
   dd:=MatSub4(MatUni4,tt);
   ddinv:=Matinv4(dd, dispfail);
 
-{    if dispfail then writeln(diagfil, 'Inversion DD failed') else begin
-      writeln(diagfil,'inverse DD matrix:');
+{    if dispfail then writeln('Inversion DD failed') else begin
+      writeln('inverse DD matrix:');
       printmat4(ddinv);
-      writeln(diagfil, 'test on inverse');
+      writeln('test on inverse');
       printmat4(matmul4(ddinv, dd));
     end;
 }
@@ -2399,8 +2397,8 @@ begin
   if not dispfail then begin
     dper:=LinTra4(ddinv, dprod);
 {    if diag(nmdiag) then begin
-      writeln(diagfil, 'periodic dispersion:');
-      for i:=1 to 4 do write(diagfil, dper[i]); writeln(diagfil);
+      writeln('periodic dispersion:');
+      for i:=1 to 4 do write(dper[i]);
     end;
 }
     with Glob.Op0 do begin
@@ -2418,8 +2416,8 @@ begin
 
       end;
 {      if diag(nmdiag) then begin
-        writeln(diagfil, 'normal mode dispersion:');
-        for i:=1 to 4 do write(diagfil, dpern[i]); writeln(diagfil);
+        writeln('normal mode dispersion:');
+        for i:=1 to 4 do write(dpern[i]);
       end;
 }
     end;
@@ -2573,7 +2571,7 @@ begin
    if FailFlag then setStatusLabel(stlab_orb,status_failure) else setStatusLabel(stlab_orb,status_success);
   end else setStatusLabel(stlab_orb,status_forward);
 
-//  with Glob.Op0 do writeln(diagfil,'after c.o.',' ',orb[1], orb[3]);
+//  with Glob.Op0 do writeln('after c.o.',' ',orb[1], orb[3]);
 
 
   latmode:=do_misal+do_lpath;

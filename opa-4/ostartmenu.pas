@@ -105,7 +105,7 @@ const
 var
   startsel: Tstartsel;
   ioma, joma: array[1..maxnomk] of integer;
-  lablocs: array[1..maxnomk] of Elemstr;
+  lablocs: array[1..maxnomk+4] of Elemstr;
   enable_chk: boolean;
 
 implementation
@@ -162,7 +162,7 @@ begin
     if Ella[j].cod=comrk then begin
       fnd:=false;
       for k:=1 to nomk do fnd:=fnd or (joma[k]=j);
-      if not fnd then begin
+      if (not fnd) and (nomk < maxnomk) then begin
         inc(nomk);
         joma[nomk]:=j;
         ioma[nomk]:=i;
@@ -208,6 +208,7 @@ begin
   chk_dpp.visible:=(ooimode=0);
   chk_flip.visible:=(not status.uncoupled) and (ooimode=0);
   but_propper.visible:=(not status.uncoupled) and (ooimode=0);
+//writeln('butpropper ',but_propper.visible, but_propper.left);
 
   set_pan_ini;
          {form was set "always on top" -> messageDlg appears BEHIND this form, to avoid hiding

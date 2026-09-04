@@ -1,5 +1,5 @@
 object Geometry: TGeometry
-  Left = 764
+  Left = 649
   Height = 603
   Top = 224
   Width = 1261
@@ -963,6 +963,15 @@ object Geometry: TGeometry
       OnClick = butresetClick
       TabOrder = 2
     end
+  end
+  object buteps: TButton
+    Left = 7
+    Height = 26
+    Top = 214
+    Width = 38
+    Caption = '--> EPS'
+    OnClick = butepsClick
+    TabOrder = 16
   end
   object OpenDialogLoad: TOpenDialog
     Filter = 'Geometry data|*geo.txt'

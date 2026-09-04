@@ -184,7 +184,6 @@ end;
 
 procedure TCSex.SetVal;
 begin
-//writeln('myval, myfam:', myval,'  ', myfam);
 //  myval:=getSexkval(SexFam[myfam].jel);
   case i_am of
     sext: with SexFam[myfam] do myval:=ml*nslice;

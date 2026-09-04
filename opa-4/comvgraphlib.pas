@@ -15,7 +15,7 @@ uses LCLIntf, LCLType, Graphics, Classes, Clipbrd, Dialogs, sysutils, Math;
 type
   VPlot = class (TObject)
     private
-      cnv: TCanvas;                        // canvas to plot
+      cnv, cnvOrig: TCanvas;               // canvas to plot (screen or btm) and original canvas (screen)
       pxbot, pxtop, pybot, pytop,          //bottom and top margins of plot area
       pxrange, pyrange, pxtotal, pytotal,  //width and height of plot, resp. canvas
 //      pxoffset, pyoffset,                  //offset of whole plot to canvas (0,0)
@@ -26,18 +26,20 @@ type
       pxsym, pysym, symtyp: integer;       //symbol size and type
       PS: boolean;                         //postscript mode
       fps: textfile;
+      btm: TBitMap;                        //bitmap representation of plot
       procedure AxisPrivate (mode: Integer; ra1, ra2: real; col:TColor; caption: string; var LabelSpace:integer);
       function ps_color(col: TColor): string;
 
     public
       constructor Create (chandle:TCanvas);
-//      destructor  Close;
+      destructor  Destroy; override;
       procedure PS_start (psfile, opacom: string; var errmsg: string);
       procedure PS_stop;
 
       procedure SetDefaultDrawPen;
       procedure SetDefaultDragPen;
       procedure SetCanvas(chandle: TCanvas);
+      procedure SetCanvasBitmap;
 
 //      procedure SetOffset(xoff, yoff: integer);
       procedure SetArea(iwidth, iheight: integer);
@@ -46,7 +48,7 @@ type
       function  GetFactor: integer;
       procedure SetFontFactor(fontfac    : real);
 
-      procedure ScaleByFactor(fac,fontfac: integer);
+ //     procedure ScaleByFactor(fac,fontfac: integer);
 
       procedure SetMarginX(bottom, top: integer);
       procedure SetMarginY(bottom, top: integer);
@@ -119,6 +121,11 @@ type
       procedure Circle (xorg, yorg, rad: real; col: TColor);
       procedure Ellipse (Be, Al, Em, Orb, OrbP, skal, skalP: real; col: TColor);
 
+
+//      procedure btmcopy;
+      procedure btmshow;
+//      procedure btmfree;
+
       procedure GrabImage;
 
     end;
@@ -142,26 +149,31 @@ implementation
 
 
   constructor VPlot.Create(chandle:TCanvas);
+{
+   creates a vplot object with some default settings, and a bit map to
+   copy the plot. Usually called from TFigure.openPlot
+   chandle is the canvas for plotting, usually it is the paintbox of TFigure
+   (but not in opalinop, there it is a paintbox of TOptic.)
+}
   begin
-  {
-   construct with canvas and size, this is a must,
-   for margins etc set some reasonable defaults:
-  }
-
-//OPAMessage(0,'vplot.create');
-    SetCanvas(chandle);
-//    SetOffset(0,0);
+    btm:=TBitMap.Create;
     SetArea(100,100);
     SetFactor(1);
     SetFontFactor(1);
     SetMargin(10,10,10,10);
     SetRange (0.0, 1.0, 0.0, 1.0);
     PS:=false;
+    SetCanvas(chandle);
   end;
 
-//destructor VPlot.Close;
-//begin
-//end;
+  destructor VPlot.Destroy;
+{  frees the bitmap and everything else which was allocated by vgraph
+   is executed on freeandnil([vplot object]), usually called from TFigure.closePlot
+}
+  begin
+     FreeAndNil(btm);
+     inherited Destroy;
+  end;
 
   procedure VPlot.PS_start (psfile, opacom: string; var errmsg: string);
   begin
@@ -211,15 +223,27 @@ implementation
   end;
 
   procedure VPlot.SetCanvas(chandle: TCanvas);
+  //set canvas to input (=paintbos canvas) and keep copy cnvOrig
   begin
-//    if chandle=nil then writeln('vplot setcanvas nil');
-    cnv:=chandle;
+    cnv:=chandle; cnvORig:=cnv;
     with cnv.Font do begin
       Color:=clblack;
       Size:=defaultFontSize;
       Name:=defaultFontName;
     end;
   end;
+
+  procedure VPlot.SetCanvasBitMap;
+  //set canvas to bitmap, and direct btmshow to original canvas cnvOrig (screen)
+  begin
+    cnv:=btm.Canvas;
+    with cnv.Font do begin
+      Color:=clblack;
+      Size:=defaultFontSize;
+      Name:=defaultFontName;
+    end;
+  end;
+
 
   procedure VPlot.SetDefaultDrawPen;
   begin
@@ -231,7 +255,7 @@ implementation
     end;
   end;
 
-  procedure VPlot.SetDefaultDragPen;
+  procedure VPlot.SetDefaultDragPen;    //used nowhere
   begin
     with cnv.Pen do begin
       Mode:=pmNotXor; Color:=clBlack; Style:=psDash; Width:=1;
@@ -246,9 +270,11 @@ implementation
   end;
 }
   procedure VPlot.SetArea(iwidth, iheight: integer);
+  //set size of plot region and corresponding bitmap
   begin
     pxtotal:=iwidth;
     pytotal:=iheight;
+    btm.setSize(pxtotal,pytotal);
   end;
 
   procedure VPlot.SetFactor(fac: integer);
@@ -265,21 +291,6 @@ implementation
   begin
     fontFactor:=fontFac;
   end;
-
-  // scale an existing plot to a new size
-  procedure VPlot.ScaleByFactor(fac, fontfac: integer);
-  var
-    r: real;
-  begin
-    r     :=fac/factor; // ratio new factor to old one
-    setFactor(fac);
-    setFontFactor(fontFac);
-    SetArea(round(r*pxtotal), round(r*pytotal));
-    SetMargin(round(r*pxbot),round(r*pxtop),round(r*pybot),round(r*pytop));
-    SetRange (xmin,xmax,ymin,ymax);
-//?    cnv.Font.Size:=Round(r*cnv.Font.Size);
-  end;
-
 
   procedure VPlot.SetMarginX(bottom, top: integer);
   begin
@@ -444,12 +455,12 @@ implementation
   end;
 
   procedure VPlot.IRectangle(px1,py1,px2,py2:integer);
-  //rectangle in pixel
+  //rectangle in pixel on ORIGINAL screen
   begin
-    with cnv do begin
-      SetDefaultDragPen;
+    with cnvOrig do begin
+      SetDefaultDrawPen;
       Brush.Style:=bsClear;
-      Rectangle(Rect(px1,py1,px2,py2));
+      Rectangle(Rect(px1,py1,px2,py2)); //this calls rectangle method of TCanvas
     end;
   end;
 
@@ -459,31 +470,55 @@ implementation
   end;
 
 
+
+
   procedure VPlot.Polygon(x,y: array of real; start, count: integer; LineCol, FillCol: TColor);
   var
     p: array of TPoint;
     i: integer;
     prevPenstyle: TPenStyle;
     prevBrushstyle: TBrushStyle;
+    sx1, sx2, sy1, sy2: string;
   begin
     if count > 2 then begin
       setLength(p,count);
-      for i:=0 to count-1 do begin
-        p[i].x:=GetPx(x[start+i]);
-        p[i].y:=GetPy(y[start+i]);
-      end;
-      with cnv do begin
-        prevPenstyle:=Pen.Style; prevBrushstyle:=Brush.Style;
-        if LineCol =-1 then Pen.Style :=psClear else begin
-          Pen.Color:=LineCol;
-          Pen.Style:=psSolid;
+      if PS then begin
+        writeln(fps, ps_color(Fillcol));
+        sx1:=PS_getpx(x[start]); sy1:=PS_getpy(y[start]);
+        writeln(fps, sx1, sy1, 'moveto');
+        for i:=1 to High(p) do begin
+           sx1:=PS_getpx(x[start+i]); sy1:=PS_getpy(y[start+i]);
+           writeln(fps, sx1, sy1, 'lineto');
         end;
-        if FillCol =-1 then Brush.style :=bsClear else begin
-          Brush.Color :=FillCol;
-          Brush.Style :=bssolid;
+        writeln(fps, 'closepath fill');
+        writeln(fps, ps_color(LineCol));
+        sx1:=PS_getpx(x[start]); sy1:=PS_getpy(y[start]);
+        writeln(fps, sx1, sy1, 'moveto');
+        for i:=1 to High(p) do begin
+           sx1:=PS_getpx(x[start+i]); sy1:=PS_getpy(y[start+i]);
+           writeln(fps, sx1, sy1, 'lineto');
         end;
-        Polygon(p);
-        Pen.style:=prevPenstyle;  Brush.style:=prevBrushstyle;
+        sx1:=PS_getpx(x[start]); sy1:=PS_getpy(y[start]);
+        writeln(fps, sx1, sy1, 'lineto');
+        writeln(fps, 'stroke');
+      end else begin
+        for i:=0 to count-1 do begin
+          p[i].x:=GetPx(x[start+i]);
+          p[i].y:=GetPy(y[start+i]);
+        end;
+        with cnv do begin
+          prevPenstyle:=Pen.Style; prevBrushstyle:=Brush.Style;
+          if LineCol =-1 then Pen.Style :=psClear else begin
+            Pen.Color:=LineCol;
+            Pen.Style:=psSolid;
+          end;
+          if FillCol =-1 then Brush.style :=bsClear else begin
+            Brush.Color :=FillCol;
+            Brush.Style :=bssolid;
+          end;
+          Polygon(p);
+          Pen.style:=prevPenstyle;  Brush.style:=prevBrushstyle;
+        end;
       end;
       p:=nil;
     end;
@@ -778,20 +813,21 @@ implementation
     fac, mid, del: real;
 
   begin
+//    writeln('asprat xy, pxy ',xrange:9:3, yrange:9:3,pxrange:9, pyrange:9);
     fac:=(yrange/xrange)/(pyrange/pxrange); //= user asprat / pixel asprat
-//OPAMessage(0,ftos(xmin,9,3)+' X '+ftos(xmax,9,3)+' | '+ftos(ymin,9,3)+' y '+ftos(ymax,9,3)+ ' | '+ftos(fac,9,4));
+//writeln('asprat ',xmin:9:3, xmax:9:3,' | ',ymin:9:3, ymax:9:3, ' | ', fac:9:4);
     if fac > 1 then begin //stretch x
       mid :=(xmax+xmin)/2;
       del :=(xmax-xmin)/2*fac;
       xmin:=mid-del; xmax:=mid+del;
       SetRangeX(xmin,xmax);
-//OPAMessage(0,ftos(xmin,9,3)+' X '+ftos(xmax,9,3));
+//writeln('stretch x',xmin:9:3, xmax:9:3);
     end else if fac < 1 then begin //stretch y
       mid :=(ymax+ymin)/2;
       del :=(ymax-ymin)/2/fac;
       ymin:=mid-del; ymax:=mid+del;
       SetRangeY(ymin,ymax);
-//OPAMessage(0,ftos(ymin,9,3)+' Y '+ftos(ymax,9,3));
+//writeln('stretch y', ymin:9:3, ymax:9:3);
     end;
     axmin:=xmin; aymin:=ymin; axmax:=xmax; aymax:= ymax;
   end;
@@ -1251,18 +1287,42 @@ begin
   SetColor(prev_col);
 end;
 
+{procedure VPlot.btmcopy;
+//copy plot image to bitmap variable
+var
+  rec: TRect;
+begin
+//  btm:=TBitmap.Create;
+  btm.setSize(pxtotal,pytotal);
+  rec := Rect(0,0,pxtotal,pytotal);
+  btm.Canvas.CopyRect(rec, cnv, rec);
+end;
+}
 
-// copy image from screen to clipboard - remove? (function provided by system)
-  {clipbrd and dialogs uses ONLY for grabimage!}
+procedure VPlot.btmshow;
+  //copy bitmap to orignal canvas (paintbox on screen)
+var
+  rec: TRect;
+begin
+  rec:=Rect(0,0,pxtotal,pytotal);
+  cnvOrig.CopyRect(rec, btm.Canvas, rec);
+end;
 
+{procedure VPlot.btmfree;
+begin
+//   FreeAndNil(btm);
+end;
+}
+
+// copy image from screen to clipboard
+// clipbrd and dialogs uses ONLY for grabimage!
 procedure VPlot.GrabImage;
 var
   pic: TBitmap;
   rec: TRect;
 begin
   pic:=TBitmap.Create;
-  pic.height:=pytotal;
-  pic.width :=pxtotal;
+  pic.setsize(pxtotal,pytotal);
   rec := Rect(0,0,pxtotal,pytotal);
   pic.Canvas.CopyRect(rec, cnv, rec);
   ClipBoard.Assign(pic);

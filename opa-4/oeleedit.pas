@@ -27,6 +27,7 @@ type
     procedure ButcancelClick(Sender: TObject);
     procedure EditNameKeyPress(Sender: TObject; var Key: Char);
     procedure butApplyClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure pPaint(Sender: TObject);
     procedure tabDrawCell(Sender: TObject; ACol, ARow: Integer;
       Rect: TRect; State: TGridDrawState);
@@ -72,8 +73,9 @@ begin
   getJelem:=jelem;
 end;
 
-procedure TEditElemSet.Exit;
+procedure TEditElemSet.Exit; //???
 begin
+  figpro.closePlot;
   if EditElemSet<>nil then begin
     Release;
     EditElemSet:=nil;
@@ -205,7 +207,7 @@ begin
     if cod in [cquad, cbend, ccomb] then begin
       width:= 540+panpro.width;
       panpro.visible:=true;
-      figpro.assignscreen;
+      figpro.openPlot;
       figpro.setsize  (5, 5, panpro.width-10, panpro.height-10);
       figpro.setbounds(5, 5, panpro.width-10, panpro.height-10);
       butApply.Enabled:=true; // **... except for update of profile plot.
@@ -383,6 +385,12 @@ end;
 procedure TEditElemSet.butApplyClick(Sender: TObject);
 begin
   if jelem >-1 then SetElem else if jvar > -1 then Setvar;
+end;
+
+procedure TEditElemSet.FormClose(Sender: TObject; var CloseAction: TCloseAction
+  );
+begin
+  Exit;
 end;
 
 
