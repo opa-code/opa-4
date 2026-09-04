@@ -77,7 +77,13 @@ begin
   if iscan > -1 then begin
     if TEReadVal(edMin,val,8,4) then scanpar[iscan].minval:=val else flag:=true;
     if TEReadVal(edMax,val,8,4) then scanpar[iscan].maxval:=val else flag:=true;
-    if TEReadVal(edNstep,val,8,0) then scanpar[iscan].nstep:=round(val) else flag:=true;
+    if TEReadVal(edNstep,val,8,0) then begin
+      scanpar[iscan].nstep:=round(val);
+      if scanpar[iscan].nstep < 1 then begin
+        scanpar[iscan].nstep:=1;
+        edNstep.Text:=FtoS(scanpar[iscan].nstep,4,0);
+      end;
+    end else flag:=true;
   end;
   if not flag then Exit;
 end;

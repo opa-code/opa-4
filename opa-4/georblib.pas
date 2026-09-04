@@ -210,7 +210,7 @@ procedure TransPoly; //transform orbit and faces (translation and rotation)
 procedure TransRot;
 procedure geoMinMax;
 
-procedure WriteGeoFiles;
+procedure WriteGeoFiles (var outstr:string);
 procedure ReadGeoFiles;
 
 procedure gsetedgval;
@@ -409,25 +409,29 @@ begin
   end;
 
 
-//  if true then begin
+{
   if diag(3) then begin
-    writeln(diagfil,'# Girder Setup ############################################################');
-    writeln(diagfil,'#Name of girder (generated)');
-    writeln(diagfil,'#type : 1 primary, 2 secondary, 3 container');
-    writeln(diagfil,'#supporting girder[2] : -1 for primary girder / supporting girder number for secondary');
-    writeln(diagfil,'#termination type[2]: 0 monument, 1 link to previous, 2,3 2-point and 3-point support');
-    writeln(diagfil,'#sposition[2]: start/end');
-    writeln(diagfil,'#lattice element[2]: start/end'); writeln(diagfil,'#');
+    OpaLog(0, 'Girder Setup -----------------------------------------');
+    OpaLog(0, '  Name of girder (generated)');
+    OpaLog(0, '  type : 1 primary, 2 secondary, 3 container');
+    OpaLog(0, '  supporting girder[2] : -1 for primary girder / supporting girder number for secondary');
+    OpaLog(0, '  termination type[2]: 0 monument, 1 link to previous, 2,3 2-point and 3-point support');
+    OpaLog(0, '  sposition[2]: start/end');
+    OpaLog(0, '  lattice element[2]: start/end');
     if girder<>nil then begin
-      for i:=0 to High(girder) do with Girder[i] do writeln(diagfil,'gir',i,' ',level,' ', igir[0],' ',igir[1],' ',gco[0],' ',gco[1],' ',gsp[0],' ',gsp[1], ' ',ilat[0],' ', ilat[1]);
+      for i:=0 to High(girder) do with Girder[i] do OpaLog(0, 'gir'+inttostr(i)
+        +' '+inttostr(level)+' '+inttostr(igir[0])+' '+inttostr(igir[1])
+        +' '+inttostr(gco[0])+' '+inttostr(gco[1])+' '+ftos(gsp[0],8,3)+' '+ftos(gsp[1],8,3)
+        +' '+inttostr(ilat[0])+' '+inttostr(ilat[1]));
     end;
     for i:=1 to Glob.NLatt do begin
       with lattice[i] do begin
-        if igir> -1          then writeln(diagfil, 'pos',i,' ',elnam,' GIR ', igir:4, ' lev ',Girder[igir].level) else
-                                  writeln(diagfil, 'pos',i,' ',elnam,' --- ----');
+        if igir> -1  then OpaLog(0, 'pos '+inttostr(i)+' '+elnam+' GIR '+inttostr(igir)+' lev '+inttostr(Girder[igir].level))
+                     else OpaLog(0, 'pos '+inttostr(i)+' '+elnam+' --- ----');
       end
     end;
   end;
+  }
 end;
 
 //------------------------------------------------------------
@@ -845,11 +849,6 @@ and elements may receive additional individual errors later]}
     end;
   end;
 
-{  for i:=1 to Glob.NLatt do with Lattice[i] do begin
-    j:=Findel(i);
-    writeln(diagfil, i, ' dx =', ftos(dx*1e6,12,2), ' dy =',ftos(dy*1e6,12,2),' dt =', ftos(dt*1e6,12,2), ' ', ella[j].nam);
-  end;
-}
 end;
 
 
@@ -906,9 +905,9 @@ begin
         Op2BpmCor(jel);
       end;
 {
-      for i:=0 to High(bpm) do with bpm[i] do writeln(diagfil,ilat,' ',ella[jella].nam,spos,betax,betay,mux,muy);
-      for i:=0 to High(icorx) do with cor[icorx[i]] do writeln(diagfil,'H ',ilat,' ',ella[jella].nam, spos, beta, mu);
-      for i:=0 to High(icory) do with cor[icory[i]] do writeln(diagfil,'V ',ilat,' ',ella[jella].nam, spos, beta, mu);
+      for i:=0 to High(bpm) do with bpm[i] do writeln(dilat,' ',ella[jella].nam,spos,betax,betay,mux,muy);
+      for i:=0 to High(icorx) do with cor[icorx[i]] do writeln('H ',ilat,' ',ella[jella].nam, spos, beta, mu);
+      for i:=0 to High(icory) do with cor[icory[i]] do writeln('V ',ilat,' ',ella[jella].nam, spos, beta, mu);
 }
       setlength(ocoAUx,nocom*nocox);
       setlength(ocoWx,nocox+1);
@@ -984,8 +983,8 @@ begin
       ocoSVDdone:=true; // check for success...?
       if ocowPlot=-1 then ocowplot:=0;
 
-//      for i:=0 to High(ocoWx) do writeln(diagfil,'H ',i,'   ',ocoWx[i]);
-//      for i:=0 to High(ocoWy) do writeln(diagfil,'V ',i,'   ',ocoWy[i]);
+//      for i:=0 to High(ocoWx) do writeln('H ',i,'   ',ocoWx[i]);
+//      for i:=0 to High(ocoWy) do writeln('V ',i,'   ',ocoWy[i]);
 
 {  end; }
   GetResponseMatrix:=status.perOrbit;       //return true per orbit exists
@@ -1440,7 +1439,7 @@ var
   procedure makesolid (color: TColor; hlen, hwid, hhgt: real);
   begin
     nface:=1;
-    setLength(face, Length(face)+nface);   //writeln(diagfil, 'high ',High(face), ' ', nface)
+    setLength(face, Length(face)+nface);
     // for the moment, only top face of magnet:
     with face[High(face)] do begin
       npt:=4;
@@ -1588,7 +1587,7 @@ begin
               tmp:=edge1; edge1:=edge2; edge2:=tmp;
             end;
             nface:=nphi;
-            setlength(face, length(face)+nface);    //writeln(diagfil, 'high ',High(face), ' ', nface);
+            setlength(face, length(face)+nface);
             rho:=-1.0/midpt[im].cur;
             //entry point
             yorb:=-rho*sin(phi/2); xorb:=rho*(1-cos(phi/2)); angedge:=phi/2-edge1;
@@ -1601,7 +1600,7 @@ begin
             then p2outer:=Pi-cang_m else p2outer:= phi/2;
             if IntersectLineCircle(xorb,yorb,angedge,  rho,0,rho-hwid, cang_p, cang_m)=2
             then p2inner:=Pi-cang_m else p2inner:= phi/2;
-            iface:=High(face)-nface+1;       //writeln(diagfil, '    iface ', iface, nphi);
+            iface:=High(face)-nface+1;
             setlength(xinner,nphi+1);   setlength(yinner,nphi+1);
             setlength(xouter,nphi+1);   setlength(youter,nphi+1);
             for iphi:=0 to nphi do begin
@@ -1659,7 +1658,7 @@ begin
         end;
         cmoni: begin
           nface:=2;
-          setLength(face, Length(face)+nface);   //writeln(diagfil, 'high ',High(face), ' ', nface)
+          setLength(face, Length(face)+nface);
           for i:=0 to 1 do with face[High(face)-i] do begin
             ipm:=1-2*i;
             npt:=3;
@@ -1766,7 +1765,6 @@ begin
       morf:=MatMul3(moriact, morfin0);
 
       angbendoffset:=angy-angini0; // offset for accumulated bending angle
-//      writeln(diagfil, 'setdrawmode angy angbendoffset ',degrad*angy, degrad*angbendoffset);
     end;
 
     2: begin
@@ -1817,7 +1815,7 @@ begin
   ycenter:=(ymin+ymax)/2;
 end;
 
-procedure WriteGeoFiles;
+procedure WriteGeoFiles (var outstr:string);
 const
   i2stop=999999;
   null=0.0;
@@ -1830,21 +1828,70 @@ var
   realname, typename:string;
   gmode: boolean;
   gt3list: array of integer;
-  fname: string;
+  fname0, fname, fname1: string;
   El: elementtype;
   dang, ein, eot, kv: real;
 
 begin
+  outstr:='';
   fname:=ExtractFileName(FileName);
   fname:=Copy(fname,0,Pos('.',fname)-1);
-  fname:=work_dir+fname;
+  fname0:=work_dir+fname;
 
-//Positions file, list of elements and positions from start to end
-  AssignFile(f,fname+'_pos.txt');
+  //Geometry file of polygons, to be read again to combine/compare lattices
+  fname:=fname0+'_geo.txt' ;
+  AssignFile(f,fname);
 {$I-}
   rewrite(f);
 {$I+}
   if IOResult =0 then begin
+    outstr:=outstr+'_geo';
+    writeln(f,'# Table of polygons');
+    for i:=0 to High(fPoly) do with fPoly[i] do begin
+      writeln( f, isp, ' ', npp, ' ', c, ' ',cf);
+      for k:=0 to npp-1 do writeln(f, ptx[isp+k]:12:6, pty[isp+k]:12:6);
+    end;
+    closefile(f);
+  end  else  OPALog(2,'Could not write '+fname);
+
+  //Girder setup
+
+  if girder<>nil then begin
+    fname:=fname0+'_gir.txt';
+    AssignFile(f,fname);
+{$I-}
+    rewrite(f);
+{$I+}
+    if IOResult =0 then begin
+      outstr:=outstr+', _gir';
+      writeln(f,'# Girder Setup ############################################################');
+      writeln(f,'#Name of girder (generated)');
+      writeln(f,'#type : 1 primary, 2 secondary, 3 container');
+      writeln(f,'#supporting girder[2] : -1 for primary girder / supporting girder number for secondary');
+      writeln(f,'#termination type[2]: 0 monument, 1 link to previous, 2,3 2-point and 3-point support');
+      writeln(f,'#sposition[2]: start/end');
+      writeln(f,'#lattice element[2]: start/end'); writeln(f,'#');
+      if girder<>nil then begin
+        for i:=0 to High(girder) do with Girder[i] do writeln(f,'gir',i,' ',level,' ', igir[0],' ',igir[1],' ',gco[0],' ',gco[1],' ',gsp[0]:10:6,' ',gsp[1]:10:6, ' ',ilat[0],' ', ilat[1]);
+      end;
+      for i:=1 to Glob.NLatt do begin
+        with lattice[i] do begin
+          if igir> -1          then writeln(f, 'pos',i,' ',elnam,' GIR ', igir:4, ' lev ',Girder[igir].level) else
+                                    writeln(f, 'pos',i,' ',elnam,' --- ----');
+        end
+      end;
+    end  else  OPALog(2,'Could not write '+fname);
+  end;
+
+
+//Positions file, list of elements and positions from start to end
+  fname:=fname0+'_pos.txt';
+  AssignFile(f,fname);
+{$I-}
+  rewrite(f);
+{$I+}
+  if IOResult =0 then begin
+    outstr:=outstr+', _pos';
     writeln(f,'# Table of elements and orbit coordinates');
     writeln(f,'#  Name                  X0[mm]      Y0[mm]      S0[mm]     W0[deg]         X1[mm]      Y1[mm]      S1[mm]     W1[deg]      1/R[1/m]');
     writeln(f,'#-----------------------------------------------------------------------------------------------------------------------------------');
@@ -1853,13 +1900,15 @@ begin
       writeln(f, v0[1]:12:6, v0[2]:12:6, s0:12:6, radtodeg(ang0):12:6, '   ', v1[1]:12:6, v1[2]:12:6, s1:12:6, radtodeg(ang1):12:6,'  ', cur:12:9);
     end;
     closefile(f);
-  end;
+  end  else  OPALog(2,'Could not write '+fname);
 
+{
 //Temporary output of positions and element parameters (for cross-check with other code)
-AssignFile(f,fname+'_mpo.txt');
-{$I-}
-rewrite(f);
-{$I+}
+fname:=fname0+'_mpo.txt'
+AssignFile(f,fname);
+[$I-]
+//rewrite(f);
+[$I+]
 if IOResult =0 then begin
   writeln(f,'# Table of elements and orbit coordinates');
   writeln(f,'#c Name                  L[m]     dW[deg]  GL[Tm^(2-n)]   W1[deg]     W2[deg]     Spos[m]       XV[m]       YV[m]');
@@ -1885,21 +1934,9 @@ if IOResult =0 then begin
     end;
   end;
   closefile(f);
-end;
+end  else  OPALog(2,'Could not write '+fname);
+}
 
-//Geometry file of polygons, to be read again to combine/compare lattices
-  AssignFile(f,fname+'_geo.txt');
-{$I-}
-  rewrite(f);
-{$I+}
-  if IOResult =0 then begin
-    writeln(f,'# Table of polygons');
-    for i:=0 to High(fPoly) do with fPoly[i] do begin
-      writeln( f, isp, ' ', npp, ' ', c, ' ',cf);
-      for k:=0 to npp-1 do writeln(f, ptx[isp+k]:12:6, pty[isp+k]:12:6);
-    end;
-    closefile(f);
-  end;
 
 {"Holy List" and radiation files to construct excel table of devices
  combines compound devices (i.e. element line-up with either zero drift spaces between) or
@@ -1907,13 +1944,16 @@ end;
  output sorted by element type.
  radiation file lists all bends (compound bends in slices) with their radiated energy
 }
-  AssignFile(f,fname+'_holy.txt');
-  AssignFile(fr,fname+'_srad.txt');
+  fname:=fname0+'_holy.txt';
+  fname1:=fname0+'_srad.txt';
+  AssignFile(f,fname);
+  AssignFile(fr,fname1);
 {$I-}
   rewrite(f);
   rewrite(fr);
 {$I+}
   if IOResult =0 then begin
+    outstr:=outstr+', _holy, _srad';
     writeln(f,'  #Holy List');
     writeln(f,'#C     Name         Type    MidPos[mm]  ArcLen[mm]    Angle[°]    P1PV[mm]    PVP2[mm]	      X1[mm]      Y1[mm]      X2[mm]      Y2[mm]   Ang1[deg]   Ang2[deg]');
     writeln(f,'#---------------------------------------------------------------------------------------------------------------------------------------------------------------');
@@ -2059,7 +2099,8 @@ end;
     end; //for...if etc.
     closefile(f);
     closefile(fr);
-  end; //IOResult
+  end  else  OPALog(2,'Could not write '+fname+' and/or '+fname1);
+  if length(outstr)>0 then outstr:=fname0+outstr+'.txt';
 end;
 
 procedure ReadGeoFiles;
@@ -2204,8 +2245,8 @@ begin
 
   SVDCMP(AUmat, Nmatchfunc, Nmatchknob, Wvec, Vmat);
 
-{   writeln(diagfil, 'weight factors'); // leading zero value
-    for jk:=1 to Nmatchknob do write(diagfil, wvec[jk]); writeln(diagfil); writeln(diagfil);
+{   writeln('weight factors'); // leading zero value
+    for jk:=1 to Nmatchknob do write(wvec[jk]);
 }
 
   for jk:=0 to Nmatchknob do wvecu[jk]:=wvec[jk];  //filter here if needed

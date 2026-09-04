@@ -50,7 +50,6 @@ begin
         nind:=Extractword(1,line,[' ']);
         while length(nind)<3 do nind:='0'+nind;
         nind:=oco_csname+nind;
-//        writeln(diagfil, nind);
         for j:=1 to Glob.Nella do if Ella[j].cod=cquad then if Ella[j].nam=nind then begin
           sval:=Extractword(4,line,[' ']);
           {$R-}
@@ -82,7 +81,6 @@ kval:=kval*csmul;
         nind:=Extractword(2,line,[' ']);
         while length(nind)<3 do nind:='0'+nind;
         nind:=oco_qaname+nind;
-//        writeln(diagfil, nind);
         for j:=1 to Glob.Nella do if Ella[j].cod=cquad then if Ella[j].nam=nind then begin
           sval:=Extractword(3,line,[' ']);
           {$R-}
@@ -273,7 +271,6 @@ begin
           jel:=findel(iupre);// do the export  after iupre
           with Ella[jel] do begin
             writeln(fsp, 'Name    ', nam);
-            //writeln(diagfil, jel,' ', iupre, ' ', i, ' ',ella[jel].nam);
             npole:=round(2*l/lam);
             lamu:=2*l/npole;
             kvaly:=bmax*lamu/2/pi/electron_mc2*speed_of_light;
@@ -397,76 +394,6 @@ begin
 end;
 
 
-
-
-{ ************* DEAD BODIES ********************** }
-
-
-{
-// das war nur eine Tabellierung der Touschek Funktion --> kann weg
-procedure Ctouschek_table;
-var
-  i, n: integer;
-  z: double;
-
-begin
-  n:=1000;
-  for i:=0 to n do begin
-    z:=PowR(10,-3.5+5.5*i/n);
-    writeln(diagfil,z, Ctouschek(z), Ctouschek_pol(z));
-  end;
-end;
-}
-
-{
-// test der Euler Winkel --> kann weg
-procedure Eulertest;
-var
-  rom: matrix_3;
-  ainy, ainx, ains, ay, ax, ass: double;
-begin
-  ainy:=12;
-  ainx:=90;
-  ains:=13;
-
-  rom:=MatMul3(RotMat3(1,raddeg*ains), MatMul3(RotMat3(2,raddeg*ainx), RotMat3(3,raddeg*ainy)));
-  EulerAng(rom, ay, ax, ass, false);
-  writeln(diagfil, 'input ', ainy:8:2, ainx:8:2, ains:8:2);
-  writeln(diagfil, 'eulr1 ', ay*degrad:8:2, ax*degrad:8:2, ass*degrad:8:2);
-  EulerAng(rom, ay, ax, ass, true);
-  writeln(diagfil, 'eulr2 ', ay*degrad:8:2, ax*degrad:8:2, ass*degrad:8:2);
-  writeln(diagfil);
-  printmat3(rom);
-  writeln(diagfil);
-
-
-end;
-}
-
-
-{
-//only a test for efficient calculation of binominal coefficients, not used in OPA.
-//becomes wrong for very large numbers, probably due to round-off, to be improved using other data types.
-//but ok tested for n~50
-function combination(n,k: integer): double;
-var
-  g,s,i: integer; x: double;
-begin
-  if k > n /2 then begin
-    g:=k; s:=n-k;
-  end else begin
-     g:=n-k; s:=k;
-  end;
-  if s < 0 then combination:=0 else if s = 0 then combination:=1 else begin
-    x:=1;
-    for i:=1 to s do begin
-      x:=x*(g+i);
-      x:=x/i;
-    end;
-    combination:=x;
-  end;
-end;
-}
 
 
 end.

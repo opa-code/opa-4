@@ -27,6 +27,7 @@ type
     labdacc: TLabel;
     labsigs: TLabel;
     procedure butepsClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure FormPaint(Sender: TObject);
     procedure butexClick(Sender: TObject);
@@ -136,7 +137,10 @@ begin
   end;
 end;
 
-
+procedure TBucketView.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  fig.closePlot;
+end;
 
 
 procedure TBucketView.butexClick(Sender: TObject);
@@ -273,7 +277,7 @@ begin
   butcon.setbounds(5,y,butwid,20);
   buteps.setbounds(12+butwid,y,butwid,20);
   butex.setbounds(19+2*butwid,y,butwid,20);
-  fig.assignScreen;
+  fig.openPlot;
   fig.setsize(220,2,500,420);
   fig.setbounds(220,2,500,420);
   self.Clientwidth:=fig.left+fig.width+5;
@@ -545,7 +549,7 @@ Attention: afterwards ordering does not correspond any longer to delzero etc.!}
       end;
       tmp:=seplevel[j]; seplevel[j]:=seplevel[k]; seplevel[k]:=tmp;
     end;
-//  for i:=0 to high(seplevel) do writeln(diagfil, i,' seplevel ', seplevel[i]);
+//  for i:=0 to high(seplevel) do writeln(i,' seplevel ', seplevel[i]);
     ConRec(Ham, 0, nphi-1, 0, ndel-1, phi , del, Length(seplevel), seplevel, CLsep);
   end;
 

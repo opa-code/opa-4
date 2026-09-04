@@ -246,7 +246,7 @@ object momentum: Tmomentum
       Height = 25
       Top = 8
       Width = 67
-      Caption = '--> PS'
+      Caption = '--> EPS'
       OnClick = butpsClick
       TabOrder = 1
     end

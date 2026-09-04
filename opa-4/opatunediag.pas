@@ -29,7 +29,7 @@ type
     butcen: TButton;
     edper: TEdit;
     LabPer: TLabel;
-    p: TPaintBox;
+ //   p: TPaintBox;
     procedure FormClose(Sender: TObject; var mycloseAction: TCloseAction);
     procedure FormResize(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -39,7 +39,7 @@ type
     procedure ChkSkewClick(Sender: TObject);
     procedure ButZinClick(Sender: TObject);
     procedure ButZotClick(Sender: TObject);
-    procedure FormPaint(Sender: TObject);
+//    procedure FormPaint(Sender: TObject);
     procedure ButepsClick(Sender: TObject);
     procedure diagpPaint(Sender: TObject);
     procedure butshlClick(Sender: TObject);
@@ -108,12 +108,13 @@ var
   
 {$R *.lfm}
 procedure Ttuneplot.FormCreate(Sender: TObject);
+//creator only called once at opa start from opa.lpr
 var
   i:integer;
   lab:TLabel;
   str: string;
 begin
-// create colors and labels
+  // create colors and labels
   ResCol[1]:=clGray;
   for i:=2 to MaxMaxOrd do begin
     if i<3 then ResCol[i]:=clGray else ResCol[i]:=ColorCircle((i-3)/MaxMaxOrd);
@@ -129,10 +130,9 @@ begin
     end;
   end;
 
-  //assignscreen called first, creates paintbox
-  Diag.assignScreen;
-  Width :=IDefGet('tdiag/size');
+{! Diag.openPlot;  was wrong place , moved to Diagram 11.8.2026}
 
+  Width :=IDefGet('tdiag/size');
   Qrange:=FDefGet('tdiag/qrang');
   dQx:=0.0; dQy:=0.0;
   MaxOrd:=IDefGet('tdiag/order');
@@ -148,6 +148,7 @@ begin
   QPoints:=nil;
   ResLin:=nil;
   Tushx:=nil; Tushm:=nil; Tushy:=nil;
+  Diag.ClosePlot;
   SaveDefaults;
 end;
 
@@ -162,11 +163,9 @@ procedure Ttuneplot.Diagram (qxin, qyin: real);
 begin
   visible:=status.periodic;
   if visible then begin
-
 // move it to the default location:
     Top:=5;
     Left:=Screen.Width-Width-5;
-
     Qx0:=qxin;
     Qy0:=qyin;
     dQx:=0.0; dQy:=0.0; //center on working point
@@ -176,13 +175,16 @@ begin
     useper:=Glob.NPer;
     Edper.Text:=Inttostr(useper);
     getLines;
-    MakePlot;
+{!} Diag.openPlot;
+    Resizeall; //plot has to exist before resize
+    Diag.Invalidate();
+//    MakePlot;
   end;
 end;
 
 procedure TtunePlot.Refresh;
 // same like Diagram, but no input of tune and no getlines,
-// only clear the points
+// only clear the points   , presently 11.8.2026 only used by opatrackps and momentumlib
 begin
   visible:=status.periodic;
   if visible then begin
@@ -552,10 +554,11 @@ begin
 end;
 
 
-procedure Ttuneplot.FormPaint(Sender: TObject);
+{procedure Ttuneplot.FormPaint(Sender: TObject);
 begin
 //  MakePlot;
 end;
+}
 
 procedure Ttuneplot.ButepsClick(Sender: TObject);
 var

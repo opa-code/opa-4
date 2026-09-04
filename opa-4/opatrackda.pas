@@ -179,7 +179,7 @@ var
 
 procedure TtrackDA.Start;
 begin
-  fig.assignScreen;
+  fig.openPlot;
 // restore defaults
   dpprange:=FDefGet('trackd/dppr');
   nturns  :=IDefGet('trackd/ntur');
@@ -269,6 +269,7 @@ end;
 
 procedure TtrackDA.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  fig.closePlot;
   TrackExit;
   dagrid:=nil;
   dagord:=nil;
@@ -352,9 +353,9 @@ begin
   if but.Tag =1 then Inc(nnr) else Dec(nnr);
   if nnr<nr_min then nnr:=nr_min;  if nnr>nr_max then nnr:=nr_max;
   nrays:=Round(Power(2,nnr)+1);
-  LabNr.caption:=InttoStr(nrays);
   LabNr.Width:=labg_width;
-  //Acc_dpp (dpprange, aper_x, aper_y, ngeodpp, cbxaper.checked);
+  LabNr.caption:=InttoStr(nrays);
+//  Acc_dpp (dpprange, aper_x, aper_y, ngeodpp, cbxaper.checked);
   TrackDone:=false;
   MakePlot;
 end;
@@ -594,7 +595,7 @@ begin
 // contour point of geometric acceptance polygon relative to orbit (--> makeplot)
     axk[ika]:=1000*sqrt(amp*(1-ka)*Opstart.beta);
     ayk[ika]:=1000*sqrt(amp*ka*Opstart.betb);
-// writeln(diagfil, 'pka, kappa, amp, ax, ay :', ika,' ',pka*180/Pi, ka, amp, axk[ika], ayk[ika]);
+// writeln('pka, kappa, amp, ax, ay :', ika,' ',pka*180/Pi, ka, amp, axk[ika], ayk[ika]);
   end;
 end;
 
@@ -1070,8 +1071,23 @@ end;
 
 procedure TtrackDA.DARaySetup;
 var
-  ang, ang1, ang2, xorb: real;
+  ang, ang1, ang2, xorb, xtest, ptest: real;
   i, ipm: integer;
+
+  function getxorb(dpp:real): real;
+  var i: integer; r: real;
+  begin
+    getxorb:=geodpp[High(geodpp)].dpp;
+    if dpp <= geodpp[0].dpp then getxorb:=geodpp[0].xorb else begin
+      for i:=1 to High(geodpp) do begin
+        if (dpp-geodpp[i].dpp)*(dpp-geodpp[i-1].dpp)<=0 then begin
+          r:=(dpp-geodpp[i-1].dpp)/(geodpp[i].dpp-geodpp[i-1].dpp);
+          getxorb:=r*geodpp[i].xorb+(1-r)*geodpp[i-1].xorb;
+        end;
+      end;
+    end;
+  end;
+
 begin
   case da_mode of
     0: begin //uv=xy
@@ -1095,11 +1111,15 @@ begin
     end;
     1: begin //uv=xp
       setlength(darays,2*nrays);
-      for i:=0 to nrays-1 do for ipm:=0 to 1 do with darays[2*i+ipm] do begin
-        v1:=gpmin+i*(gpmax-gpmin)/(nrays-1); v2:=v1;
-        u1:=geodpp[i].xorb*1000;
-        u2:=gxmin*(1-ipm)+gxmax*ipm;
-        ur:=u1; vr:=v1;
+      for i:=0 to nrays-1 do begin
+        ptest:= gpmin+i*(gpmax-gpmin)/(nrays-1);
+        xtest:= getxorb(ptest/100)*1000;
+        for ipm:=0 to 1 do with darays[2*i+ipm] do begin
+          v1:=ptest; v2:=v1;
+          u1:=xtest;
+          u2:=gxmin*(1-ipm)+gxmax*ipm;
+          ur:=u1; vr:=v1;
+        end;
       end;
 {
       for i:=0 to nrays-1 do with darays[nrays+i] do begin

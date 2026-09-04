@@ -130,7 +130,7 @@ const
   dythick=10; dythin=20; dyband=25;
   fxcor=0.05; //width for correctors ?????preliminary
   sidespace=6; midspace=10; kgheight=120; twidth=210; pgheight=20;
-  fontn='Courier New'; fonts=12; fontc=clBlue;
+//  fontn='Courier New'; fonts=12; fontc=clBlue;
   ZoomBase=0.7; maxZoomfac=20; betafac=0.7;
 
 var
@@ -144,7 +144,7 @@ var
   knobF: TKnob;
   varbut:TLabel;
 begin
-//  bts.free;
+  FreeAndNil(vp);
   FreeAndNil(bts);
   pjtk:=nil; pjth:=nil; pilk:=nil; pilh:=nil;
 
@@ -164,15 +164,15 @@ begin
   ClearOpval;
   CurvePlot.enable:=False;
 
-//close tune diagram (in optic plot)
+//close tune diagram (in linoplib)
   CloseTuneDiagram;
 
 // enable main menu buttons: sextupoles and tracking if per/sym was found
   MainButtonEnable;
   status.tuneshifts:=false; //have changed most likely
   status.alphas:=false;
-  EditElemSet.Exit;
-  setEnvel.Exit;
+  if EditElemSet <> nil then EditElemSet.Exit;
+  if setEnvel <> nil then setEnvel.Exit;
   if startsel<>nil then startsel.Exit;
 end;
 
@@ -189,7 +189,6 @@ begin
 {
  comparison of Variable vs. Variable_save probably not necessary,
  because any change should cause a change of an element.
-// for i:=0 to High(Variable) do writeln(diagfil, Variable[i].exp,' ',Variable_save[i].exp);
  if we want to save the parameters, we overwrite the safety copy of variables with actual values,
  because Close will write the safety copy to the true Variable.
 }
@@ -348,7 +347,7 @@ begin
   if  (t<0) then t:=(screen.height-h) div 2;
   setBounds( l,t,w,h);
   tablewidth:=twidth;
-  FormSize;
+//  FormSize;
 
   bts:=TBitmap.create;
 
@@ -439,17 +438,20 @@ end;
 {-----------------------------------------------------------------}
 
 procedure Toptic.ComPlot;
-//common part of MakePlot and PrintPlot;
+//common part of MakePlot (and PrintPlot -- does not exist anymore);
 var
   i, j, jcod, pixhor: integer;
   s, fx1, fx2, fy1, fypos: Real;
   col: TColor;
 begin
-
+  {
+  //??? we already set pw.canvas.font in Init; pw.Font is irrelevant.
   with pw.Font do begin
     Size:=fonts; Name:=fontn; Color:=fontc;
   end;
+  }
   pixhor:=pw.width;
+
   vp.Clear (clWhite);
   s:=0.0;
   for i:=1 to Glob.NLatt do begin
@@ -463,8 +465,6 @@ begin
   vp.SetRangeY(0,0); //--> forces pixel scale: px=x
 
   //  FAxPlot(smin,smax,0,1,5,1,clBlack,'');
-
-
   fy1:=dyband*dyscale;
   s:=0.0;
   vp.SetStyle(psSolid);  vp.SetThick(1);
@@ -497,7 +497,6 @@ begin
     end; {if }
     s:=s+Ella[j].l;
   end; {for}
-
 end;
 
 //-----------------------------------------------------------------
@@ -508,10 +507,8 @@ var
   s, fx1, fx2: Real;
 begin
   dyscale:=1;
-
   vp.SetMargin(xoff, xtop, yoff, ytop);
   vp.SetRange(0,1,0,-1);
-
   ComPlot;
 
 // prepare for mouse operations:
@@ -561,7 +558,6 @@ begin
   ythckfind:=vp.GetPy(dyband+dythick);
 
 // save element line to bitmap to restore after mouse actions
-
 //  bts:=tBitmap.create; //this was created on init already
   bts.height:=ytop; bts.width:=pw.width-xoff-xtop;
   pwrect := Rect(xoff,pw.height-ytop,pw.width-xtop,pw.height);
@@ -848,45 +844,46 @@ end;
 procedure Toptic.buleftedgeClick(Sender: TObject);
 begin
   smid:=swidth/2;
-  MakePlot;
+pw.Invalidate(); //  MakePlot;
 end;
 
 procedure Toptic.buleftClick(Sender: TObject);
 begin
   smid:=smid-swidth/3;
-  MakePlot;
+  pw.Invalidate(); //  MakePlot;
+
 end;
 
 procedure Toptic.buzoominClick(Sender: TObject);
 begin
   Inc(Zoomfac);
   if Zoomfac > maxZoomfac then Zoomfac:=MaxZoomfac;
-  MakePlot;
+  pw.Invalidate(); //  MakePlot;
 end;
 
 procedure Toptic.buzoomoutClick(Sender: TObject);
 begin
   Dec(Zoomfac);
   if Zoomfac < 0 then Zoomfac:=0;
-  MakePlot;
+  pw.Invalidate(); //  MakePlot;
 end;
 
 procedure Toptic.bufullviewClick(Sender: TObject);
 begin
   Zoomfac:=0;
-  MakePlot;
+  pw.Invalidate(); //  MakePlot;
 end;
 
 procedure Toptic.burightClick(Sender: TObject);
 begin
   smid:=smid+swidth/3;
-  MakePlot;
+  pw.Invalidate(); //  MakePlot;
 end;
 
 procedure Toptic.burightedgeClick(Sender: TObject);
 begin
   smid:=sfull-swidth/2;
-  MakePlot;
+  pw.Invalidate(); //  MakePlot;
 end;
 
 procedure Toptic.buyupClick(Sender: TObject);

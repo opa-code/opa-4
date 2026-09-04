@@ -174,18 +174,18 @@ var
   cfac, j, ip, ips: integer;
   np: NameListpt;
   cal: CalibrationType;
+  outstr:string;
 
 begin
   ps :=nil;
   for j:=1 to Glob.NElla do with Ella[j] do begin
-    if diag(2) then writeln (diagfil,nam,'------------------------------------------------------');
+    if diag(2) then OpaLog(0,nam+'------------------------------------------------------');
     np:=nl;
     while np<>nil do begin
       cal:=Calibration[np.typeindex];
 // if original element has zero length, kv = kv*L, use cal.leng to get kv
 // if element length not equal calibration length, adjust gradient to keep kv*L constant:
-
-      write(diagfil, nam,' | ', cal.leng:8:3,' | ', l:8:3);
+      outstr:=nam+' | '+ftos(cal.leng,8,3)+' | '+ftos(l,8,3);
       if cod=cbend then begin
 //use curvature for bends instead of k value
         kv:=phi/cal.leng;
@@ -199,11 +199,12 @@ begin
       if cal.tlin <> 0 then begin
         cur:=getIfromk(cal,kv*cfac);
         fac:=getdkdIfac (cal,cur);
-            if diag(2) then writeln(diagfil,' | ', np.realname,' | ', getkval(j,0):8:3,' | ',kv:8:3,' | ', cur:8:3);
+        outstr:=outstr+' | '+ np.realname+' | '+ftos(getkval(j,0),8,3)+' | '+ftos(kv,8,3)+' | '+ftos(cur,8,3);
       end else begin
         cur:=0;
-            if diag(2) then writeln(diagfil,' | ', np.realname,' | ', getkval(j,0):8:3,' | ',kv:8:3,' | ERROR (tlin=0)');
+        outstr:=outstr+' | '+ np.realname+' | '+ftos(getkval(j,0),8,3)+' | '+ftos(kv,8,3)+' | ERROR (tlin=0)';
       end;
+      if diag(2) then OpaLog(0,outstr);
       ips:=-1;
       for ip:=0 to high(ps) do if ps[ip].name=np^.psname then ips:=ip;
 //power supply not yet registered: create list entry
@@ -239,19 +240,19 @@ begin
 
 {
   for ip:=0 to high(ps) do begin
-    write(diagfil, ps[ip].name); for j:=length(ps[ip].name) to 15 do write(diagfil,' ');
-    write(diagfil,' ',ps[ip].n:3,'  ', ps[ip].cavg:8:3, ' ', ps[ip].cmin:8:3, ' ', ps[ip].cmax:8:3);
-    if (abs(ps[ip].cmin-ps[ip].cavg)>ceps) or (abs(ps[ip].cmax-ps[ip].cavg)>ceps) then writeln(diagfil, ' ! ') else writeln(diagfil);
+    write(ps[ip].name); for j:=length(ps[ip].name) to 15 do write(' ');
+    write(' ',ps[ip].n:3,'  ', ps[ip].cavg:8:3, ' ', ps[ip].cmin:8:3, ' ', ps[ip].cmax:8:3);
+    if (abs(ps[ip].cmin-ps[ip].cavg)>ceps) or (abs(ps[ip].cmax-ps[ip].cavg)>ceps) then writeln(' ! ') else writeln;
   end;
 
   for ip:=0 to high(ps) do begin
-    write(diagfil,ps[ip].name+' ');
+    write(ps[ip].name+' ');
   end;
-  writeln(diagfil);
+  writeln
   for ip:=0 to high(ps) do begin
-    write(diagfil,ps[ip].cavg:12:4);
+    write(ps[ip].cavg:12:4);
   end;
-  writeln(diagfil);
+  writeln;
 }
 
 end;
