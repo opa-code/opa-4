@@ -491,9 +491,9 @@ object startsel: Tstartsel
     ParentFont = False
   end
   object But_propper: TButton
-    Left = 224
+    Left = 232
     Height = 22
-    Top = 40
+    Top = 39
     Width = 23
     Caption = 'pp'
     OnClick = But_propperClick

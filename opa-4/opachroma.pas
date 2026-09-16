@@ -235,7 +235,7 @@ begin
   end;
 
 // assign the vector diagram plot to screen, get canvas
-//*  VDiag.assignscreen;
+//*  VDiag.openPlot;
 
 //check the boxes according to previous settings
 //CAREFUL: this launches checkbox events!

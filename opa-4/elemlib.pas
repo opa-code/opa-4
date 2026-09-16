@@ -58,7 +58,7 @@ procedure XBwrite      ( elemName: ElemStr; snap:integer; mode: shortint);
 
 //procedure OpReadN (Op: OpvalType; var siga, sigb, cc, amat, bmat: Matrix_2; var D, O: Vektor_4);
 //procedure OpWriteN (var Op: OpvalType; siga, sigb, cc, amat, bmat: Matrix_2; D, O: Vektor_4; s:real);
-procedure OpPrintDiag (Op: OpvalType);
+//procedure OpPrintDiag (Op: OpvalType);
 //procedure Tmat(M: matrix_5; Elen: double);
 //procedure Tmat0(M0: matrix_5);
 //procedure MisVector(M: matrix_5; dx, dy: real; mode:shortint);
@@ -662,13 +662,12 @@ begin
   pathy2:= y0*y0*t633 + yp0*yp0*t644 + y0*yp0*t634;
   pathlength:=pathx1+pathx2+pathd2+pathy2;
 {
-writeln(diagfil,'R ', r61, r62, r65, ' -> ',pathx1);
-writeln(diagfil,'T ',t611,t622,t612, ' -> ',pathx2);
-writeln(diagfil,'T ',t615,t625,t655, ' -> ',pathd2);
-writeln(diagfil,'T ',t633,t644,t634, ' -> ',pathy2);
-writeln(diagfil,'X ',x0,xp0,y0,yp0,d);
-writeln(diagfil,'P ',pathx1+pathx2+pathd2+pathy2);
-writeln(diagfil);
+writeln('R ', r61, r62, r65, ' -> ',pathx1);
+writeln('T ',t611,t622,t612, ' -> ',pathx2);
+writeln('T ',t615,t625,t655, ' -> ',pathd2);
+writeln('T ',t633,t644,t634, ' -> ',pathy2);
+writeln('X ',x0,xp0,y0,yp0,d);
+writeln('P ',pathx1+pathx2+pathd2+pathy2);
 }
 end;
 
@@ -959,18 +958,18 @@ begin
 end;
 
 {------------------------------------------------------------------------------}
-
+{
 procedure OpPrintDiag (Op: OpvalType);
-// print opval to diag file, for testing only
+// print opval, for testing only
 begin
   with Op do begin
-    writeln(diagfil,'Opval spos, x, x'', y, y'' ',spos, orb[1], orb[2], orb[3], orb[4]);
-    writeln(diagfil,'beta, alfa ', beta, alfa, betb, alfb);
-    writeln(diagfil,'cc matrix  ', cmat[1,1], cmat[1,2], cmat[2,1], cmat[2,2]);
-    writeln(diagfil);
+    writeln('Opval spos, x, x'', y, y'' ',spos, orb[1], orb[2], orb[3], orb[4]);
+    writeln('beta, alfa ', beta, alfa, betb, alfb);
+    writeln('cc matrix  ', cmat[1,1], cmat[1,2], cmat[2,1], cmat[2,2]);
+    writeln;
   end;
 end;
-
+}
 {-------------------------------------------------------------------------}
 
 procedure Tmat(M: matrix_5; Elen: double);
@@ -2111,7 +2110,7 @@ var
           Sim1:=PowI(Si,mpol-2);
           b1l:=amp*Si*Sim1; //  A*sin^(m-1);
           b2l:=amp*(mpol-1)*Sim1*Cos(arg)*z; // local gradient = A *(m-1) sin^(m-2)*cos*pi/2/xoffset;
-//          writeln(diagfil, 'kicker',kickmax, xoffset, time, tau, '|', amp, b1l, b2l, Orbit1[1]);
+//          writeln('kicker',kickmax, xoffset, time, tau, '|', amp, b1l, b2l, Orbit1[1]);
         end else begin
           b1l:=0; b2l:=0;
         end;

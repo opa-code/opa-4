@@ -37,20 +37,18 @@ type
     freeze: boolean;
 
     motherform: TForm;
-    markbox, markenable:boolean;
-    xMouseDown, yMouseDown, xMouseUp, yMouseUp, xMousePrev, yMousePrev: integer;
+    markbox, markenable :boolean;
+    xMouseDown, yMouseDown, xMouseUp, yMouseUp, xMouseMov, yMouseMov: integer;
 
   public
     plot: VPlot;
+    newplotrange: boolean;
 
-    procedure assignScreen;
+    procedure openPlot;
+    procedure closePlot;
+
     function getPaintBox: TPaintBox;
 
-//    procedure beginMetaPlot (fac: integer);
-//    procedure endMetaPlot (metaname: string);
-
-//    procedure beginPrintPlot;
-//    procedure endPrintPlot;
 
     procedure forceMarginX(xu, xo: integer);
     procedure forceMarginY(yu, yo: integer);
@@ -63,6 +61,8 @@ type
 
     procedure GetPlotPos(var xl, yt, xw, yh: integer);
     function  GetRange (var x1,y1, x2,y2: real): boolean;
+    function  GetIRange (var x1,y1, x2,y2: integer): boolean;
+    procedure Resetmarkbox; //temp
 
 
     procedure PassEditHandleX(xedithandle: TEdit; wx, dx: integer);
@@ -80,30 +80,26 @@ const
   clLightYellow=$0088eeff;
 
 
-  // initialization: set range and axis
-
-// called on construction
-  procedure TFigure.assignScreen;
+  procedure TFigure.openPlot;
   begin
+    FreeAndNil(plot); //in case it still exists
     chandle:=p.Canvas;
-    plot:=VPlot.Create(chandle);
+    plot:=VPlot.Create(chandle);   //calls vgraph constructor
     marginXfixed:=false; marginYfixed:=false;
   end;
+
+
+  procedure TFigure.closePlot;
+  begin
+    FreeAndNil(plot); //calls vgraph destructor
+  end;
+
 
   function TFigure.getPaintBox: TPaintBox;
   begin
     getPaintBox:=p;
   end;
 
-{  procedure TFigure.beginMetaPlot (fac: integer);
-  begin
-    //replaced by PS_plot in vgraph
-  end;
-
-  procedure TFigure.endMetaPlot (metaname: string);
-  begin
-  end;
-}
 
 // force fixed margins, no autoscaling by Init and Axis
 // to be called BEFORE Init!
@@ -179,11 +175,12 @@ const
     if xaxismode > 0 then plot.Axis(2*xaxismode-1, clBlack, xaxistitle); // 1,2->1,3
     if yaxismode > 0 then plot.Axis(2*yaxismode,   clBlack, yaxistitle); // 1,2 ->2,4
     markenable:=false;
+    newplotrange:=true;
   end;
 
   procedure TFigure.enableMark;
   begin
-    markenable:=True;
+    markenable:=True; //presently July 2026 only used by opageometry
   end;
 
   // set figure size (after resize of parent), GUI only
@@ -228,8 +225,10 @@ begin
   Inc(yt,p.top + top);
 end;
 
-// on mouse click freeze or unfreeze edit fields
+// on mouse down freeze or unfreeze edit fields --> opatrackp
+// on mouse move/up show dragging region and update plot via invalidate --> opageometry
 // change color to indicate freeze status
+
 procedure TFigure.pMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -256,10 +255,9 @@ procedure TFigure.pMouseMove(Sender: TObject; Shift: TShiftState; X,
 begin
   markbox:=markbox and (ssLeft in Shift);
   if markbox then begin
-    plot.IRectangle(XMouseDown,YMouseDown,XMousePrev,YMousePrev);
-    plot.IRectangle(XMouseDown,YMouseDown,X,Y);
+    xMouseMov:=x; yMouseMov:=y;
+    p.Invalidate(); //force geoppaint in opageometry to be executed
   end;
-  XMousePrev:=X; YMousePrev:=Y;
 
   if not freeze then begin
     if xedit<>nil then xedit.text:=USnumber(FloattoStrF(plot.getx(x),fffixed,xeditwid,xeditdec));
@@ -267,12 +265,6 @@ begin
   end;
 end;
 
-{
-if the form, where this figure is embedded, has been assigned,
-the repaint proc of the form is called to adjust the plot to
-the area marked by the mouse...
---> no, better only repaint the figure.
-}
 procedure TFigure.pMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -280,17 +272,26 @@ begin
     if (mbLeft = Button) and markbox then
     if (abs(x-xMouseDown)>mindist) and (abs(y-yMouseDown)>mindist) then begin
       xMouseUp:=x; yMouseUp:=y;
- //     motherform.repaint; //this was enabled before
-      self.repaint; // better only repaint myself, otherwise a 2nd event is launched by form paint (?) 6.2.20
-      markbox:=false;
+      newplotrange:=true;
+      p.Invalidate;
     end;
   end;
 end;
 
+function TFigure.GetIRange (var x1,y1, x2,y2: integer): boolean;
+begin
+  if markbox then begin
+  // return mouseBox in screen coords  while moving
+    x1:=xMouseDown; y1:=yMouseDown;  x2:=xMouseMov;  y2:=yMouseMov;
+  end;
+  getIRange:=markbox;
+end;
+
+
 function TFigure.GetRange (var x1,y1, x2,y2: real): boolean;
 begin
   if markbox then begin
-  // return mouseBox
+  // return mouseBox in plot coords after moving to set new region
     x1:=plot.getx(xMouseDown); y1:=plot.gety(yMouseDown);
     x2:=plot.getx(xMouseUp  ); y2:=plot.gety(yMouseUp  );
   end else begin
@@ -298,6 +299,11 @@ begin
     plot.getrange(x1,y1,x2,y2);
   end;
   getrange:=markbox;
+end;
+
+procedure TFigure.ResetMarkbox;
+begin
+  markbox:=false;
 end;
 
 procedure TFigure.unfreezeEdit;

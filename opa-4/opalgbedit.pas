@@ -79,6 +79,7 @@ type
     procedure chkbetminClick(Sender: TObject);
     procedure chkbfimaxClick(Sender: TObject);
     procedure chkpolwidClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure FormPaint(Sender: TObject);
     procedure butrunClick(Sender: TObject);
@@ -148,7 +149,7 @@ begin
   labdislfo.Caption:=caplabdislfo[sbm];
 
   fig_HANDLE:=fig;
-  fig.assignScreen;
+  fig.openPlot;
   fig.setsize(256,16,353,290);
 
   BName:='LGB';
@@ -381,6 +382,11 @@ end;
 procedure TLGBEdit.chkpolwidClick(Sender: TObject);
 begin
   Edpolwid.Enabled:=chkpolwid.Checked;
+end;
+
+procedure TLGBEdit.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  fig.closePlot;
 end;
 
 

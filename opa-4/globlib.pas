@@ -4,6 +4,7 @@ unit globlib;
 INTERFACE
 
 uses
+  LazFileUtils,
   sysutils, stdctrls, graphics, mathlib, menus, dialogs, controls, comauxlib;
 
 //------------------------------------------------------------------------------
@@ -378,7 +379,7 @@ Var      //global, public variables
   DefFile     : string;
 
   //file names
-  OPA_dir, work_dir: string;
+  config_dir, OPA_dir, work_dir: string;
   FileName: String;
   LastUsedFiles: array[1..maxLastUsedFiles] of String;
   countLastUsedFiles:integer;
@@ -401,7 +402,6 @@ Var      //global, public variables
   diaglevel: integer;
   OPALogBuffer: string;
   //==> diag file to be removed , all goes to OPALog (or to terminal via writeln)
-  diagfil : text;
 
   //public variables, used by many units
   SPosition, PathDiff: double;
@@ -542,7 +542,7 @@ procedure OPALog(typ: integer; messageText: string);
 const
   cutter='$$$';
   maxtyp=6;
-  styp: array[0..maxtyp] of string[7] =('[INFO] ','[ERRO] ','[WARN] ','------ ','[DLV1] ','[DLV2] ','[DLV3] ');
+  styp: array[0..maxtyp] of string[7] =('','[ERRO] ','[WARN] ','------ ','[DLV1] ','[DLV2] ','[DLV3] ');
 var
   line: string;
   ind,icut:integer;
@@ -1278,7 +1278,7 @@ begin
   reset(df);
   {$I+}
   if IOResult=0 then begin
-    OPALog(0,'read settings from |>'+def_file);
+    OPALog(0,'reading user settings from |>'+def_file);
     while not EOF(df) do begin
  //   read a line, split at delimiters, read strings
       readln(df,line);
@@ -1291,11 +1291,11 @@ begin
           try Val(test, x, err) except end;
           if err=0 then Def[idef].val:=x;
 //          writeln('def read: idef, nam, val:',idef, def[idef].nam, def[idef].val);
-        end else OPALog(2,'no data in settings file '+name+', use default values.');
+        end else OPALog(2,'no data in settings file |>'+work_dir+OPA_def_name+'|>--> using defaults.');
       end;
     end;
     closeFile(df);
-  end else OPALog(2,'settings file '+name+' not found, use default values.') ;
+  end else OPALog(2,'couldn''t find settings file |>'+work_dir+OPA_def_name+'|>--> using defaults.') ;
 end;
 
 procedure GlobDefReadFile;
@@ -1305,13 +1305,13 @@ var
   gf: textfile;
   x: real;
 begin
-  gdef_file:= opa_dir+OPA_glob_name;
+  gdef_file:= config_dir+OPA_glob_name;
   assignFile(gf, gdef_file);
   {$I-}
   reset(gf);
   {$I+}
   if IOResult=0 then begin
-    OPALog(0,'Read global settings from |>'+gdef_file);
+    OPALog(0,'reading global settings from |>'+gdef_file);
     while not EOF(gf) do begin
  //   read a line, split at delimiters, read strings
       readln(gf,line);
@@ -1323,11 +1323,11 @@ begin
           test:=Copy(line,i2+3,length(line)-i2-2);
           try Val(test, x, err) except end;
           if err=0 then GlobDef[idef].val:=x;
-        end else OPALog(2,'no data in global settings '+name+', use default.');
+        end else OPALog(2,'no data in global settings |>'+name+'|>--> using defaults.');
       end;
     end;
     closeFile(gf);
-  end else OPALog(2,'global settings file '+gdef_file+' not found.') ;
+  end else OPALog(2,'couldn''t find global settings file |>'+gdef_file+'|>--> using defaults.') ;
 end;
 
 // (public) save Defaults to a file
@@ -1347,9 +1347,9 @@ begin
       writeln(df, line);
     end;
     closeFile(df);
-    OPALog(0,' Wrote settings to '+work_dir);
+    OPALog(0,'User settings saved to |>'+work_dir+OPA_def_name);
   end else begin
-  OPALog(2,' could not write parameter file to '+work_dir);
+  OPALog(2,'couldn''t write settings file to |>'+work_dir+OPA_def_name);
   end;
 end;
 
@@ -1359,7 +1359,7 @@ var
   line: string;
   gf: textfile;
 begin
-  assignFile(gf,opa_dir+OPA_glob_name);
+  assignFile(gf,config_dir+OPA_glob_name);
   {$I-}
   rewrite(gf);
   {$I+}
@@ -1420,26 +1420,44 @@ procedure Inipath;
 var
   f: TextFile;
   IniFileName, name, FullFileName: string;
-begin
-  IniFileName:=OPA_inipath_name;
-  FullFileName:=ExpandFileName(IniFileName);
-  OPA_dir:=Copy(FullFileName, 1, Pos(IniFileName, FullFileName)-1);
-  work_dir:=OPA_dir;
 
-// writeln('inipath');
-  OPALog(0,'OPA home directory is|>'+OPA_dir);
-  GlobDefReadFile; // do this here before opening and first call to diagfil
+
+  function GetOPADataDir: string;
+  //from chatgpt: set default dir for user data op-system independently:
+  //create it if is does not exist
+  begin
+    Result := IncludeTrailingPathDelimiter(GetUserDir) + 'opadata';
+    Result := IncludeTrailingPathDelimiter(Result);
+    if not DirectoryExistsUTF8(Result) then
+    ForceDirectoriesUTF8(Result);
+  end;
+
+begin
+  //set or create the configuration dir to save opa4_inipath.ini and opa4_glob.ini
+  config_dir:=GetAppConfigDirUTF8(False, True);
+
+  IniFileName:=config_dir+OPA_inipath_name;
+
+  OPA_Dir:= ExpandFileName('');
+
+  OPALog(0,'program code  directory: |>'+OPA_dir);
+  OPALog(0,'configuration directory: |>'+config_dir);
+
+
+  GlobDefReadFile; // do this here before opening a
 
 //  ShowConsole(GlobDefGet('console'));
-
 //  if GlobDefGet('console')=1 then begin
 //    AssignFile(diagfil,'');
 //    OPALog(0,'Writing output to console');
 //  end else begin
+{ diag file removed, all goes to OpaLog or to console (in develpment only), Aug.2026
     AssignFile(diagfil,OPA_dir+'diagopa.txt');
     OPALog(0,'Writing output to |>'+OPA_dir+'diagopa.txt');
 //  end;
   rewrite(diagfil);
+}
+
   diaglevel:=GlobDefGet('diaglev');
   if diaglevel < 0 then diaglevel:=0; if diaglevel>3 then diaglevel:=3;
 
@@ -1457,9 +1475,11 @@ begin
       end;
     end;
     closeFile(f);
-    if (countLastUsedFiles>0) then work_dir:=ExtractFilePath(LastUsedFiles[1]);
-  end;
-  OPALog(0,'OPA working directory is |>'+work_dir);
+    if (countLastUsedFiles>0) then begin
+      work_dir:=ExtractFilePath(LastUsedFiles[1]);
+    end;
+  end else work_dir:=  GetOPADataDir;
+  OPALog(0,'Present user  directory: |>'+work_dir);
 end;
 
 {------------------------------------------------------------------------------}

@@ -92,6 +92,7 @@ var
   procedure ShowPenalty;
   procedure MakePlot (NoRescale: boolean);
   procedure Calculate;
+  procedure PreCalc;
   procedure PostCalc;
   procedure FullCalc;
   procedure CalcPenalty;
@@ -296,8 +297,8 @@ begin
 {save on-momentum tunes and betas}
   qx0:=beam.Qa*Glob.NPer; qy0:=beam.Qb*Glob.NPer;
   bx0:=Glob.Op0.beta; ax0:=-Glob.Op0.alfa; {???? negative?}
-  if status.Periodic then begin
-{if a periodic solution exists, then show the tune diagram and draw the chromatic
+  if (status.Periodic) and Want_periodic then begin
+{if a periodic solution exists and we want to see it, then show the tune diagram and draw the chromatic
  footprint if it had been calculated previously}
     TunePlot_HANDLE.Diagram(qx0,qy0);
     if status.chromas then with snapsave do begin
@@ -328,7 +329,6 @@ var
 begin
   np:=Npoints div 2;
   noper:=true;
-
   for jm0p:=-1 to 1  do begin // -1, 0, 1
     for i:=abs(jm0p) to np*abs(jm0p) do begin // 1..np, 0..0, 1..np
       ja:=np+jm0p*i;   //  np-1..0,  np,   np+1..2*np
@@ -370,7 +370,6 @@ x = eta.dp, so set it to LinDisp, which is equal to glob.eta0
       end;
       if valid[ja] then begin
         OptInit; UseSext:=True;
-//write(diagfil, 'dpp =',dpp:14:9);
         AllocOpval;  MomMode:=False; ncurves:=0;
         LINOP(0,0,latmode,dpp);
         qx:=Beam.Qa; qy:=Beam.Qb;
@@ -419,6 +418,8 @@ begin
   butfit_HANDLE.enabled:=true;
   if Want_periodic then begin
     TunePlot.Refresh;
+    if status.chromas then with snapsave do
+      TunePlot_HANDLE.AddChromLine(chromx, chromy, cx2, cy2, cx3, cy3, Range*0.01);
     for i:=0 to npoints-1 do if valid[i] then
     TunePlot_HANDLE.AddTunePoint(result[i,0], result[i,1], dp[i]/100.0, Range/100.0, false);
     TunePlot_HANDLE.AddTunePoint(Beam.Qa, Beam.Qb, 0, Range/100.0, false);

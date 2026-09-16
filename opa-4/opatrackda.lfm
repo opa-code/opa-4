@@ -1,10 +1,10 @@
 object trackDA: TtrackDA
   Left = 416
-  Height = 346
+  Height = 463
   Top = 70
   Width = 864
   Caption = 'Dynamic Aperture Tracking'
-  ClientHeight = 346
+  ClientHeight = 463
   ClientWidth = 864
   Color = clBtnFace
   Font.Color = clWindowText

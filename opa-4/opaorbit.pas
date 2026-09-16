@@ -213,11 +213,11 @@ begin
   oimode:=oco_inj_mode;
 
 //  plotox.passFormHandle(self);
-  plotox.assignScreen;
+  plotox.openPlot;
 //  plotoy.passFormHandle(self);
-  plotoy.assignScreen;
+  plotoy.openPlot;
 //  plotw.PassFormHandle(self);
-  plotw.assignScreen;
+  plotw.openPlot;
   setOrbitHandle(self);
 
   if oimode=0 then begin
@@ -302,6 +302,7 @@ begin
   ButMonAbs.Caption:='include BPM';
   Edkickturns.Text:=InttoStr(nturns);
 
+  keepmaxval:=chkKeepMax.checked;
   if StartSel= nil then StartSel:=TStartSel.Create(Application); //ist niemals nil, warum nicht? 26.10.2020
   StartSel.Load (oimode+1{+10}, self); {1,2 for oco, inj}
 //  StartSel.ShowModal;
@@ -340,6 +341,9 @@ begin
     if knobF <> nil then knobF.free;
   end;
   OrbitClose;
+  plotox.closePlot;
+  plotoy.closePlot;
+  plotw.closePlot;
   if Startsel<>nil then Startsel.Exit;
 end;
 

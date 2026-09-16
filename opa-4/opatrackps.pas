@@ -196,10 +196,10 @@ begin
     Cells[1,0]:='Guess'; Cells[2,0]:='Tune'; Cells[3,0]:='Amp.'
   end;
 
-  psx.assignScreen;
-  psy.assignScreen;
-  ftx.assignScreen;
-  fty.assignScreen;
+  psx.openPlot;
+  psy.openPlot;
+  ftx.openPlot;
+  fty.openPlot;
 
 // tell the figures into which fields to write data
   psx.passEditHandleX(edixini,  edwid, eddec);
@@ -433,6 +433,10 @@ end;
 
 procedure Ttrackp.Exit;
 begin
+  psx.closePlot;
+  psy.closePlot;
+  ftx.closePlot;
+  fty.closePlot;
   tuneplothandle.close;
   dqx:=nil; dqy:=nil; tjx:=nil; tjy:=nil;
   TrackExit;
@@ -578,7 +582,6 @@ var
 begin
   kturns:=0;
   repeat
-//writeln(diagfil, kturns, '  ', xtrack[1], ' ', xtrack[2], ' ', xtrack[3], ' ', xtrack[4], ' ', xtrack[5], ' ', nphi_sy);
     inc(kturns);
     if TrackMode6 then Lost:=Oneturn_S(xtrack) else Lost:=Oneturn(xtrack);
     savePStrackData(kturns, xtrack);
@@ -1096,10 +1099,10 @@ begin
     end;
 
 {
-    if status.tuneshifts then writeln(diagfil, snapsave.qxx, snapsave.qxy, snapsave.qyy);
+    if status.tuneshifts then writeln(snapsave.qxx, snapsave.qxy, snapsave.qyy);
     for ico:=0 to 2 do for k:=0 to ntush do begin
       iq:=ico*(ntush+1)+k;
-      writeln(diagfil, ico,' ',k,' ',iq,' ', tjx[iq],tjy[iq],dqx[iq],dqy[iq], dqx[nq+iq], dqy[nq+iq]);
+      writeln(ico,' ',k,' ',iq,' ', tjx[iq],tjy[iq],dqx[iq],dqy[iq], dqx[nq+iq], dqy[nq+iq]);
     end;
 }
 

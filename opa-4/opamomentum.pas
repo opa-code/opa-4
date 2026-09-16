@@ -112,7 +112,7 @@ var
   rbpm: TRadioButton;
   cbpm: TCheckBox;
 begin
-  fig.assignScreen;
+//  fig.openPlot;
 //dynamically create my radio buttons and check boxes
   for i:=0 to nPlotMode-1 do begin
     rbpm :=TRadioButton (FindComponent( 'rbpm_'+IntToStr(i)));
@@ -216,7 +216,7 @@ end;
 
 procedure Tmomentum.Start(TP: TtunePlot);
 var
-//  rbpm: TRadioButton;
+  rbpm: TRadioButton;
 //  cbpm: TCheckBox;
   i, k: integer;
 begin
@@ -227,7 +227,7 @@ begin
   Labpentot_HANDLE:= Labpentot;
   Fig_HANDLE:=Fig;
 
-  fig.assignScreen;
+  fig.openPlot;
   Nsteps  :=IDefget('tshift/steps');
   Range   :=FDefget('tshift/range');
   left    :=IDefGet('tshift/lef'); if left<0 then left:=50;
@@ -243,6 +243,9 @@ begin
   clientheight  :=IDefGet('tshift/hei');
   if (clientheight<0) or (clientheight>screen.height) then clientheight:=550;
 
+  //check radio button for current plotmode
+  rbpm :=TRadioButton (FindComponent( 'rbpm_'+IntToStr(PlotMode)));
+  rbpm.Checked:=true;
 
   EdRange.text:=FtoS(range,5,2);
   EdSteps.text:=InttoStr(NSteps);
@@ -268,8 +271,9 @@ begin
   MomFitDefaults (false); // read defaults for fit params
   MomResize;
   Powellstatus:=0;
+  PreCalc; // set tune diag in case we start from periodic
 //  FullCalc; // no calc at start, want to set params first
-  opaLog(0,'momentum calculation: start done');
+  opaLog(0,'momentum calculation: start done'); // plotmode='+inttostr(plotmode)+' '+inttostr(ires1[plotmode])+' '+inttostr(ires2[plotmode]));
 end;
 //---------------------- resize --------------------------
 
@@ -384,6 +388,7 @@ begin
   end;
   dp:=nil; result:=nil; resop_targ:=nil;
   tuneplot_HANDLE.close;
+  fig.closePlot;
 end;
 
 // - - -  for buttons - - -
@@ -544,8 +549,8 @@ end;
 procedure Tmomentum.chkperClick(Sender: TObject);
 begin
   Want_periodic:=chkPer.Checked;
+  Precalc;
 end;
-
 // run time assigned handler for check boxes to include result in optimizer
 procedure Tmomentum.cbCheck(Sender:TObject);
 var

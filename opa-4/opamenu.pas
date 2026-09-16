@@ -20,6 +20,7 @@ type
 
   { TMenuForm }
 
+
   TMenuForm = class(TForm)
     ButLogPrt: TButton;
     ButLogClr: TButton;
@@ -482,30 +483,6 @@ end;
 
 
 
-//show or hide console --> overdone to do this at runtime and incompatible with Linux
-//to get the console
-//in Windows: modify (uncomment 3 lines) in opa.lpr
-//in Linux: select in Laz IDE View->Debug Windows->terminal console
-{
-procedure TMenuForm.tm_consoleClick(Sender: TObject);
-begin
-  if GlobDefGet('console')=1 then begin // console was visible --> Hide and direct output to file
-    ShowConsole(0);
-    closeFile(diagfil);
-    AssignFile(diagfil,OPA_dir+'diagopa.txt');
-    rewrite(diagfil);
-    tm_console.caption:='show console';
-    GlobDefSet('console',0);
-  end else begin // console was invisble --> Show and direct output to console
-    ShowConsole(1);
-    closeFile(diagfil);
-    AssignFile(diagfil,'');
-    rewrite(diagfil);
-    tm_console.caption:='hide console';
-    GlobDefSet('console',1);
-  end;
-end;
-}
 
 
 procedure TMenuForm.tm_diClick(Sender: TObject);
@@ -552,7 +529,7 @@ begin
   for i:=1 to countLastUsedFiles do writeln(f,LastUsedFiles[i]);
   closeFile(f);
   //close the diagnostics file
-  CloseFile(diagfil);
+//  CloseFile(diagfil); //removed, Aug 2026
   GlobDefSet('diaglev',diaglevel);
   GlobDefWriteFile;
 //  Free; not needed?
@@ -845,7 +822,9 @@ end;
 // lattice geometry and export
 procedure TmenuForm.ds_geoClick(Sender: TObject);
 begin
-  if Geometry=nil then Geometry:=TGeometry.Create(Application);
+  if Geometry=nil then begin
+    Geometry:=TGeometry.Create(Application);
+  end;
   Geometry.Start;
   Geometry.Show;
 end;

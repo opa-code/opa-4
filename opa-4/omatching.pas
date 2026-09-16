@@ -20,6 +20,9 @@ uses
   comfigureframe;
 
 type
+
+  { TMatch }
+
   TMatch = class(TForm)
     inipoint: TComboBox;
     Label1: TLabel;
@@ -133,6 +136,7 @@ type
     edfnam: TEdit;
     cbxIncBends: TCheckBox;
     perbut: TButton;
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure inipointChange(Sender: TObject);
     procedure matpointChange(Sender: TObject);
     procedure midpointChange(Sender: TObject);
@@ -419,7 +423,7 @@ for i:=0 to midpoint.Items.Count-1 do writeln(i,' ',midpoint.Items[i]);
   {OpticCalc}
 
   ScanFig.parent:=panfig;
-  ScanFig.assignScreen;
+  ScanFig.openPlot;
   ScanFig.setsize(10,10,panfig.width-20, 300);
 end;
 
@@ -686,6 +690,11 @@ begin
   ReLoadMid;
 end;
 
+procedure TMatch.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  Scanfig.closePlot;
+end;
+
 procedure TMatch.matpointChange(Sender: TObject);
 begin
   defknob:=false;
@@ -818,12 +827,9 @@ begin
   {read all the edit fields:}
   for k:=1 to nselect do begin
     i:=funcs[k];
-//writeln(diagfil,'ed_'+IntToStr(i));
     ed  :=TEdit(FindComponent('ed_'+IntToStr(i)));
     val:=funcval[i]*permultune[i];
-//writeln(diagfil,funcval[i]);
     if TEReadVal(ed,val,7,4) then funcval[i]:=val/permultune[i];
-//writeln(diagfil, val);
   end;
   if TEReadVal(edsteps, val, 4, 0) then
     MaxIt:=Round(val);
@@ -903,14 +909,11 @@ Var      i, j : word;
 begin
   for j:=1 to Glob.NElla do Ella_Eval(j);
   if ModeFlag >0 then begin
-// writeln(diagfil,'.modeflag,match,persymfail:',modeflag,' ',matchflag, persymfail);
     OptInit;
     for i:=1 to Glob.NLatt do Lattel (i, j, 0, 0.0);
 //  status.betas:=True;
     if ModeFlag=1 then Periodic(persymfail) else {2} Symmetric(persymfail);
     MatchFlag:=persymfail;
-//writeln(diagfil,'*modeflag,match,persymfail:',modeflag,' ',matchflag, persymfail);
-
   end;
 end;
 
@@ -940,7 +943,6 @@ begin
     ddPrec:=1.0;
     if nselect>1 then  begin
                               { Berechnung der Empfindlichkeits-Matrix }
-//writeln(diagfil,'--- 1');
       PerSymCalc;
       FI:=MatchValues(iposini, iposmat, iposmid);
       F1:=FI;
@@ -948,7 +950,6 @@ begin
         dQ:=dE*Abs(Mgetkval(knobs[p]));
         if dQ=0 then dQ:=dE;
         MPutKval(Mgetkval(knobs[p])+dQ, knobs[p]);
-//writeln(diagfil,'--- 2 ',p);
         PerSymCalc;
         FI:=MatchValues(iposini, iposmat, iposmid);
         for j:=1 to nselect do begin
@@ -956,14 +957,6 @@ begin
         end;
         MPutKval(MGetKval(knobs[p])-dQ,knobs[p]);
       end;
-{
-writeln(diagfil,'------------------------------');
-      for j:=1 to nselect do begin
-        for p:=1 to nactive do write(diagfil,' ',EM[j,p]:8);
-        writeln(diagfil);
-      end;
-writeln(diagfil,'------------------------------');
-}
                                { Ermittlung der empfindlichsten Elemente }
 
 {counting DOWN because intermed funcs are listed last, and may have
@@ -1029,7 +1022,6 @@ zeros in sens.matrix from quads BEHIND the intermed point!}
       end;
     end
     else begin
-//writeln(diagfil,'--- 3');
       PerSymCalc;
       FI:=MatchValues(iposini, iposmat, iposmid);
       FF1:=FI[funcs[1]];
@@ -1037,7 +1029,6 @@ zeros in sens.matrix from quads BEHIND the intermed point!}
         dQ:=dE*Abs(MGetKval(knobs[p]));
         if dQ=0 then dQ:=dE;
         MPutKval(MGetKval(knobs[p])+dQ,knobs[p]);
-//writeln(diagfil,'--- 4 ',p);
         PerSymCalc;
         FI:=MatchValues(iposini, iposmat, iposmid);
         XX[1,p]:=(FI[funcs[1]]-FF1)/dQ;
@@ -1102,7 +1093,6 @@ var
   {Uebernahme der Bestwerte unabh. von Erfolg der Iteration: (as 010992) }
   for i:=1 to nactive do MPutKval(BestKvalues[i],knobs[i]);
 
-// writeln(diagfil,'--- end');
 // keep persym status since it may (will?) recover when setting back to best values:
   Persymfailed:=PerSymfail;
   PerSymCalc;
@@ -1155,7 +1145,6 @@ begin
   for i:=1 to length(knarrhandle) do begin
     with knarrhandle[i-1] do begin
       for j:=1 to nactive do begin
-//writeln(diagfil, getella, ' ',getvar, ' ',knobs[j],' ',j);
         if (getella=knobs[j]) or (getvar =knobs[j] mod 1000) then KUpdate(MGetkval(knobs[j]),false);
       end;
 {      for j:=1 to nknobs do if (Tag>0) and (Tag=knobs[j]) then begin

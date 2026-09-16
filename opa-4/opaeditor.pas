@@ -70,8 +70,9 @@ begin
 
   with glob do begin
     rot_inv:=ChkGloRI.Checked;
+    setlength(text,length(MemCom.text));
     text:=MemCom.text;
-    for i:=0 to Length(text)-1 do begin
+    for i:=1 to high(text) do begin
       if text[i]='{' then text[i]:=' ';
       if text[i]='}' then text[i]:=' ';
     end;

@@ -21,6 +21,7 @@ type
   TGeometry = class(TForm)
     butmatch: TButton;
     butreset: TButton;
+    buteps: TButton;
     geo: TFigure;
     Butex: TButton;
     ButZoomFull: TBitBtn;
@@ -44,9 +45,11 @@ type
     rbinifin: TRadioButton;
     rbfinini: TRadioButton;
     butgoal: TButton;
+    procedure butepsClick(Sender: TObject);
     procedure butresetClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormPaint(Sender: TObject);
+//    procedure FormPaint(Sender: TObject);
     procedure FormResize(Sender: TObject);
 //    procedure ButRedoClick(Sender: TObject);
     procedure ButZoomFullClick(Sender: TObject);
@@ -56,6 +59,7 @@ type
     procedure ButRightClick(Sender: TObject);
     procedure ButUpClick(Sender: TObject);
     procedure ButDownClick(Sender: TObject);
+//    procedure FormShow(Sender: TObject);
     procedure geopPaint(Sender: TObject);    //called by OnPaint event of geo.p
     procedure chkOrbitClick(Sender: TObject);
     procedure chkAspratClick(Sender: TObject);
@@ -131,7 +135,14 @@ procedure TGeometry.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   if edvar <> nil then edvar :=nil;
   if labvar <> nil then labvar :=nil;
+  geo.closeplot; //only free vplot, because this is created again
   GeoClose;
+end;
+
+procedure TGeometry.FormPaint(Sender: TObject);
+begin
+  if geo.newplotrange then MakePlot;
+  geo.plot.btmshow;
 end;
 
 
@@ -145,7 +156,8 @@ begin
   GeoInit;    //will set ngeovar
 
   geo.passFormHandle(self);
-  geo.assignScreen;
+  geo.openPlot;
+  geo.plot.setCanvasBitmap; //plot to bitmap
   left    :=IDefGet('tgeom/lef'); if left<0 then left:=50;
   top     :=IDefGet('tgeom/top'); if top< 0 then top:=50;
   clientwidth   :=IDefGet('tgeom/wid');
@@ -270,7 +282,8 @@ begin
   xmid:=xcenter; xwidth:=xfullwidth;
   ymid:=ycenter; ywidth:=yfullwidth;
   Sposition:=0.0;
-  MakePlot;
+  MakePlot;       //req'd to set proper plot range on restart
+  geo.newplotrange:=true;
 end;
 
 
@@ -318,7 +331,7 @@ begin
   butwid:=(gridwid-2*margin) div 3;
   dist:=butwid+margin;
   buthgt:=24;
-//  ButWMF.setbounds(margin,ypos, butwid,buthgt);
+  Buteps.setbounds(margin,ypos, butwid,buthgt);
   ButList.setbounds(margin+dist,ypos, butwid,buthgt);
   ButRead.setbounds(margin+2*dist,ypos, butwid,buthgt);
   ypos:=ypos+buthgt+margin;
@@ -370,22 +383,14 @@ begin
   with GridParam do  for i:=0 to NParam-1 do Cells[1,i]:=FtoS(Param[i],ParamWid[i], ParamDec[i]);
 //call zoom function to calculate plot range
   Zoom;
-  geo.plot.SetDefaultDragPen;
+  geo.plot.SetDefaultDrawPen;
   geo.Init(xmin, ymin, xmax, ymax, 1, 1, 'X[m]', 'Y[m]', 3, chkAsprat.Checked);
   geo.EnableMark;
-
 
   for i:=0 to High(FPoly) do  with FPoly[i] do begin
     geo.plot.Polygon(ptx, pty, isp, npp, c, cf);
   end;
 
-{
-  for i:=0 to High(face) do with face[i] do begin
-    geo.plot.setColor(dimcol(clblack, col,0.5));
-    geo.plot.moveto(vpt[ist+npt][1],vpt[ist+npt][2]);
-    for k:=1 to npt do geo.Plot.LineTo(vpt[ist+k][1],vpt[ist+k][2]);
-  end;
-}
   geo.plot.setStyle(psSolid);
   geo.plot.setThick(1);
   if chkOrbit.Checked then begin
@@ -403,19 +408,28 @@ begin
       geo.plot.Symbol(vm[1],vm[2]);
     end;
   end;
+//  geo.plot.btmcopy;
+//  geo.plot.btmshow;
+  geo.newplotrange:=false; // --> geoppaint will show the bitmap
+  geo.Invalidate(); // --> force geoopaint to be called
 end;
 
-
+{
 procedure TGeometry.FormPaint(Sender: TObject);
+var
+  xmin, ymin, xmax, ymax: integer;
 begin
-//  opamessage(0, 'geo received formpaint event');
-  MakePlot;
+  writeln('geo received formpaint event');
+//  MakePlot;
+  geo.plot.btmshow;
+//  if geo.getIRange(xmin,ymin,xmax,ymax) then geo.plot.IRectangle(xmin, ymin, xmax, ymax);
 end;
+}
 
 procedure TGeometry.FormResize(Sender: TObject);
 begin
   ResizeAll;
-//  MakePlot;
+  MakePlot;
 end;
 
 procedure TGeometry.GridParamKeyPress(Sender: TObject; var Key: Char);
@@ -457,11 +471,12 @@ begin
     xwidth:=abs(axmax-axmin); ywidth:=abs(aymax-aymin);
     xmid:=(axmin+axmax)/2; ymid:=(aymin+aymax)/2;
     FindSpos;
-  end; //else no change of width & mid
+  end;
   xmin:=xmid-xwidth/2;
   xmax:=xmid+xwidth/2;
   ymin:=ymid-ywidth/2;
   ymax:=ymid+ywidth/2;
+  geo.resetmarkbox; //new, reset markbox when done
 end;
 
 procedure TGeometry.RenewPlot;
@@ -530,8 +545,12 @@ begin
 end;
 
 procedure TGeometry.butlistClick(Sender: TObject);
+var
+  fresult:string;
 begin
-  WriteGeoFiles;
+  WriteGeoFiles (fresult);
+  if length(fresult)>0 then MessageDlg('Geometry data written to '+fresult, MtInformation, [mbOK],0)
+  else MessageDlg('Writing geometry files failed', MtError, [mbOk],0);
 end;
 
 
@@ -546,8 +565,15 @@ begin
 end;
 
 procedure TGeometry.geopPaint(Sender: TObject);
+var
+  x1, x2, y1, y2: integer;
 begin
-  MakePlot; // this was disabled before 6.2.20, see change in comfigure pMouseUp
+//create a new plot in bitmap if range has changed.
+//then show bitmap in any case.
+//overplot on screen by dragging rectangle if mouse is moving (getIrange true)
+  if geo.newplotrange then MakePlot;
+  geo.plot.btmshow;
+  if geo.getIRange(x1,y1,x2,y2) then geo.plot.IRectangle(x1,y1,x2,y2);
 end;
 
 procedure TGeometry.ButReadClick(Sender: TObject);
@@ -792,18 +818,13 @@ end;
 
 
 {improvised geo matching
- 4.8.2020
-so far it works.
 to be checked:
 - reverse matching from final, does not work properly
 - test more DoFs
 what could be added:
 - show iter, penalty etc.
-- reset button if it was successful but I don't like the solution
 - filtering of wvec
 - ! only allow primary variable to be used (plain values)
- 30.4.2026
-- should be disentangled with procs ini/step/term in georblib
 } //
 procedure TGeometry.butmatchClick(Sender: TObject);
 
@@ -876,6 +897,24 @@ begin
   CalcFaces;
   SetDrawMode(0);
   butreset.enabled:=false;
+end;
+
+procedure TGeometry.butepsClick(Sender: TObject);
+var
+  errmsg, epsfile: string;
+begin
+  epsfile:=ExtractFileName(FileName);
+  epsfile:=work_dir+Copy(epsfile,0,Pos('.',epsfile)-1);
+  epsfile:=epsfile+'_geo.eps';
+  geo.plot.PS_start(epsfile,OPAversion, errmsg);
+  if length(errmsg)>0 then begin
+    MessageDlg('PS export failed: '+errmsg, MtError, [mbOK],0);
+  end else begin
+    MakePlot;
+    geo.plot.PS_stop;
+    MessageDlg('Graphics exported to '+epsfile, MtInformation, [mbOK],0);
+    MakePlot;
+  end;
 end;
 
 

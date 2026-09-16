@@ -6,6 +6,7 @@ object Figure: TFigure
   ClientHeight = 159
   ClientWidth = 177
   Color = clGray
+  LCLVersion = '2.2.0.4'
   ParentBackground = False
   ParentColor = False
   TabOrder = 0

@@ -25,7 +25,7 @@ unit tracklib;
 interface
 
 uses
-  Dialogs, globlib, linoplib, elemlib, mathlib;
+  Dialogs, globlib, linoplib, elemlib, mathlib, comauxlib;
 
 const
   minturns=16;
@@ -137,8 +137,8 @@ begin
     sinphisyn:=Beam.U0*1e3/snapsave.voltrf[0];
     phisyn:=ArcSin(sinphisyn);
     lambda:=snapsave.lambdaRF;
-//    for i:=0 to 4 do writeln(diagfil, '         ',i,' ',dvoltrf[i], snapsave.voltrf[i]);
-//    writeln(diagfil, sinphisyn, phisyn, lambda, snapsave.rfaccm, snapsave.rfaccp);
+//    for i:=0 to 4 do writeln('         ',i,' ',dvoltrf[i], snapsave.voltrf[i]);
+//    writeln(sinphisyn, phisyn, lambda, snapsave.rfaccm, snapsave.rfaccp);
   end;
 
 end;
@@ -177,7 +177,7 @@ var
     ClosedOrbit(nop, 0, geodpp[ipp].dpp);
     if nop then begin
       geodpp[ipp].perstat:=2;
-      for k:=0 to 4 do Glob.Op0.orb[k]:=LinDisp[k]*geodpp[ipp].dpp;
+      for k:=1 to 4 do Glob.Op0.orb[k]:=LinDisp[k]*geodpp[ipp].dpp;
     end else begin
       geodpp[ipp].xorb:=Glob.Op0.orb[1];
       geodpp[ipp].yorb:=Glob.Op0.orb[3];
@@ -219,7 +219,7 @@ begin
   for i:=np0+1 to np-1 do Nextdpp(i);
   for i:=1 to 5 do OrbToOp(VecNul4, Glob.Op0); // reset orbit to zero
   Nextdpp(np0); // otherwise undefined status afterwards
-//  for i:=0 to np-1 do with geodpp[i] do writeln(diagfil,i,dpp,' ',perstat,' ',xorb,xamp,yamp);
+//  for i:=0 to np-1 do with geodpp[i] do writeln(i,dpp,' ',perstat,' ',xorb,xamp,yamp);
 end;
 
 
@@ -306,7 +306,7 @@ begin
     if sqampk<sqampkmin then sqampkmin:=sqampk;
   end;
   AmpKappa:=sqr(sqampkmin);
-//  writeln(diagfil, 'kappa=',kappa, '  ampx=', ampKappa*(1-kappa), '   ampy=',ampKappa*kappa);
+//  writeln('kappa=',kappa, '  ampx=', ampKappa*(1-kappa), '   ampy=',ampKappa*kappa);
 end;
 
 {assumes that off energy closed orbit was found and stored in glob,.orbit0}
@@ -400,7 +400,7 @@ Var
 //writeln('appendtmat: high, nord, k, sposprev, spos, sleng', High(tmat):4,' ',nord:4, ' ',kl:12:3, ' ',sposprev:12:6, ' ',spos:12:6, ' ', sleng:12:6);
       sposprev:=spos;
     end;
-//writeln(diagfil, MisalignVector[1],MisalignVector[2],MisalignVector[3],MisalignVector[4]);
+//writeln(MisalignVector[1],MisalignVector[2],MisalignVector[3],MisalignVector[4]);
     TransferMatrix0:=Rotation_Matrix(-rot);
     MisalignVector:=VecNul4;
   end;
@@ -503,7 +503,6 @@ Var
   end;
 
 begin
-//writeln(diagfil,'*********************** tracklib *****************************');
   icotm:=0;
   Tmat:=nil;
   itmstart:=-1;
@@ -519,19 +518,19 @@ begin
 //first check if we hit the element EXIT... BUT exclude zero length elements!
       if abs(spos+l-startpos)< l*seps then begin
         sendflag:=true;
-        if diag(3) then writeln(diagfil,'TrackLib/TrackingMatrix: sendflag! i j nam, l, starpos, spos',i:4, j:4, ' ', nam, l, startpos, spos);
+//      writeln('TrackLib/TrackingMatrix: sendflag! i j nam, l, starpos, spos',i:4, j:4, ' ', nam, l, startpos, spos);
 //..else check if we are inside an element:
       end else if (startpos-spos)*(startpos-(spos+l)) < 0  then begin
         smidflag:=true;
         dl1:=startpos-spos; dl2:=spos+l-startpos;
-        if diag(3) then writeln(diagfil,'TrackLib/TrackingMatrix: smidflag! i j nam, l, starpos, spos',i:4, j:4, ' ', nam, l, startpos, spos);
+//      writeln('TrackLib/TrackingMatrix: smidflag! i j nam, l, starpos, spos',i:4, j:4, ' ', nam, l, startpos, spos);
       end;
 
       inv:=Lattice[i].inv;
       sway:=Lattice[i].dx; heave:=Lattice[i].dy; roll:=0;
-//      writeln(diagfil, i,' > ', sway, heave, ella[j].nam);
+//      writeln( i,' > ', sway, heave, ella[j].nam);
 
-//writeln(diagfil,'Latt =', i, ', nam = ',nam,', cod = ', cod,' flags ',sendflag, smidflag);
+//      writeln('Latt =', i, ', nam = ',nam,', cod = ', cod,' flags ',sendflag, smidflag);
       case cod of
 
         cdrif : if smidflag then DriftCut(spos,l,ax,ay) else begin DriftSpace(l,latmode); sumlen:=sumlen+l; end;
@@ -636,7 +635,7 @@ begin
                  Driftspace(l/2,latmode); sumlen:=sumlen+l/2;
                  appendTmat(mpol,amp/(1+dpp), inv*rot, ax,ay, j);
                  Driftspace(l/2,latmode); sumlen:=sumlen+l/2;
-//writeln(diagfil, 'apendtmat', amp, spos, sposprev);
+//writeln('apendtmat', amp, spos, sposprev);
                end
 
         else if smidflag then Driftcut(spos,l,ax,ay) else begin
@@ -661,28 +660,29 @@ begin
   appendTmat(0,0, 0,Ella[j].ax, Ella[j].ay,0);
 //  NTcell:=High(Tmat);
   TimeRevol:=spos/speed_of_light; 
-//  spos:=0; for i:= 0 to High(Tmat) do spos:=sposprev+Tmat[i].time*speed_of_light; writeln(diagfil,'test spos = ', spos);
+//  spos:=0; for i:= 0 to High(Tmat) do spos:=sposprev+Tmat[i].time*speed_of_light; writeln('test spos = ', spos);
   iTMstartPosition:=itmstart;
-
-  if diag(3) then begin
-     writeln(diagfil, 'TrackLib/TrackingMatrix: itmstart, icot, s:',itmstart:10,icotm:10, startpos:12:6);
+{
+//  if diag(3) then begin
+     writeln('TrackLib/TrackingMatrix: itmstart, icot, s:',itmstart:10,icotm:10, startpos:12:6);
      for i:=0 to High(Tmat) do with Tmat[i] do begin
-       writeln(diagfil, 'Tmat ', i ,' ----------------------------------------');
+       writeln('Tmat ', i ,' ----------------------------------------');
        PrintMat5(M);
-       writeln(diagfil,nord,' ',kl,' ', apx, ' ', apy, ' ',jkick, sleng);
+       writeln(nord,' ',kl,' ', apx, ' ', apy, ' ',jkick, sleng);
      end;
   end;
-
+}
+{
   if diag(3) then begin
     tmp:=MatUni5;
     for i:=0 to High(Tmat) do with Tmat[i] do tmp:=MatMul5(M,tmp);
-    writeln(diagfil, 'tracklib product Tmat:');
+    writeln('tracklib product Tmat:');
     PrintMat5(tmp);
-    writeln(diagfil,'orbit start x, xp, dpp =', Glob.Op0.orb[1], Glob.Op0.orb[2], dpp);
+    writeln('orbit start x, xp, dpp =', Glob.Op0.orb[1], Glob.Op0.orb[2], dpp);
     tmpvec:=Lintra54(tmp,Glob.Op0.orb,dpp);
-    writeln(diagfil,'orbit end   x, xp      =', tmpvec[1], tmpvec[2]);
+    writeln('orbit end   x, xp      =', tmpvec[1], tmpvec[2]);
   end;
-
+}
 end;
 
 {------------------------------------------------------------------------}
@@ -891,7 +891,7 @@ begin
       Inc(itm);
     until termtm or (itm>High(TMat));
     if not termtm then begin
-      writeln(' tmat not found: stest stm ',stest:15:9,' ', stm:15:9);
+      OpaLog(2,' tmat not found: stest stm '+ftos(stest,15,9)+ftos(stm,15,9));
       itm:=High(TMat); //maybe only due to round off, so set to last TMAT even if not correct
     end;
 
@@ -997,7 +997,7 @@ begin
   end else begin //jk kicker, time dependent
 
     with Ella[jk] do begin
- //     writeln(diagfil, 'TMatKick ',jk,' ', ella[jk].nam, timetracked, delay, tau);
+ //     writeln('TMatKick ',jk,' ', ella[jk].nam, timetracked, delay, tau);
       if abs(TimeTracked-delay)<tau/2 then begin
         kick:=kl*cos(Pi*(TimeTracked-delay)/tau);
         if mpol>1 then begin
@@ -1006,7 +1006,7 @@ begin
             complexKick:=c_sca(c_pow(c_get(X[1],X[3]),mpol-1),kick);
             X[2]:=X[2]-complexKick.re;
             X[4]:=X[4]+complexKick.im;
-//            writeln(diagfil, kl, timetracked, delay, tau, kick,  complexKick.re);
+//            writeln(kl, timetracked, delay, tau, kick,  complexKick.re);
           end else begin // xoff <>0 ; sinusoidal kicker [sin(pi*x/(2*xo))]^(mpol-1)
 
 // check calculations!
@@ -1034,7 +1034,7 @@ begin
           end; //sinusoidal
         end else begin //dipole
           X[2]:=X[2]+kick/1000;
-//          writeln(diagfil,'kick', timetracked, kick);
+//          writeln('kick', timetracked, kick);
         end;
       end; //time
     end; // with
@@ -1053,17 +1053,17 @@ begin
   iper:=0;
   repeat
     ii:=iTMstartPosition;
-//    writeln(diagfil, 'oneturn trackstart at ', ii);
+//    writeln('oneturn trackstart at ', ii);
     repeat
       Inc(ii);
 //      LinTra (5, XX2, Tmat[ii].M, XX1);
-//writeln(diagfil, 'calling Tmat index ',ii);
+//writeln('calling Tmat index ',ii);
       XX2:=LinTra5 (Tmat[ii].M, XX1);
       TimeTracked:=TimeTracked+Tmat[ii].time;
       for k:=1 to 4 do XX2[k]:=Tmat[ii].S[k]+XX2[k]; // add misal vec
-//writeln(diagfil, ii,' misvec ',tmat[ii].s[1],tmat[ii].s[2],tmat[ii].s[3],tmat[ii].s[4]);
+//writeln(ii,' misvec ',tmat[ii].s[1],tmat[ii].s[2],tmat[ii].s[3],tmat[ii].s[4]);
       TMatKick(XX2, TMat[ii].nord, TMat[ii].kl, TMat[ii].jkick);
-//writeln(diagfil, ii,' tmakic ',xx2[1], xx2[2], xx2[3], xx2[4], xx2[5]);
+//writeln(ii,' tmakic ',xx2[1], xx2[2], xx2[3], xx2[4], xx2[5]);
       if UseElAper
         then Lost:= (sqr(XX2[1]/Tmat[ii].apx)+sqr(XX2[3]/Tmat[ii].apy))>1
         else Lost:= (sqr(XX2[1]/aperXglobal) +sqr(XX2[3]/aperYglobal))>1;
@@ -1074,7 +1074,7 @@ begin
     until (ii=iTMstartPosition) or Lost;
     Inc(iper);
   until (iper=Glob.NPer) or Lost;
-//  writeln(diagfil, ' oneturn ',xx2[1], xx2[2], xx2[3], xx2[4], xx2[5]);
+//  writeln(' oneturn ',xx2[1], xx2[2], xx2[3], xx2[4], xx2[5]);
   OneTurn:=Lost;
 end;
 

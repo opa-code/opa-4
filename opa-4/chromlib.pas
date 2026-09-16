@@ -770,7 +770,7 @@ begin
                    sclom1[k]*PowI(SigNa2[1,1],(iom1[k,0]+iom1[k,1]) div 2)*PowI(SigNb2[1,1],(iom1[k,2]+iom1[k,3]) div 2),
                    2*Pi*((iom1[k,0]-iom1[k,1])*Beam.Qa+(iom1[k,2]-iom1[k,3])*Beam.Qb)));
               end;
-//              writeln(diagfil,'octufam ',noc,' ',n,' ',b4l, b4L0, signa2[1,1],signb2[1,1],Beam.Qa, Beam.Qb);
+//              writeln('octufam ',noc,' ',n,' ',b4l, b4L0, signa2[1,1],signb2[1,1],Beam.Qa, Beam.Qb);
               Inc(n);
             end;
           end;
@@ -826,9 +826,9 @@ begin
   for i:=0 to High(SexFam) do UpdateSexFam(i, getSexKval(SexFam[i].jel));
   setlength(SVector,Length(Sextupol));
 
-{  writeln(diagfil,'Sextupoles ------------------------------------------------------');
+{  writeln('Sextupoles ------------------------------------------------------');
   for i:=0 to high(Sextupol) do with Sextupol[i] do begin
-    writeln(diagfil,i:5, ifam:4, Ella[SexFam[ifam].jel].nam, sexfam[ifam].ml:10:2, sexfam[ifam].ml0:10:2, sqr(sbx)/2:10:3, sqr(sby)/2:10:3, mux/2/pi:10:3, muy/2/pi:10:3);
+    writeln(i:5, ifam:4, Ella[SexFam[ifam].jel].nam, sexfam[ifam].ml:10:2, sexfam[ifam].ml0:10:2, sqr(sbx)/2:10:3, sqr(sby)/2:10:3, mux/2/pi:10:3, muy/2/pi:10:3);
   end;
 }
   Qx_reference:=Beam.Qa;
@@ -980,7 +980,6 @@ var
 
 begin
   UseSext:=True;
-//writeln(diagfil,'----chromdiff---------------------------------------------------');
   for k:=0 to 3 do begin
     latmode:=do_twiss;
     Glob.dpp:=dppnumdiff*(2*k-3)/3;
@@ -991,7 +990,6 @@ begin
     if dumflag then opaLog(1,'Periodic solution lost for dpp='+Ftos(Glob.dpp*100,8,5)+'%'); // no catch yet
     OptInit;
     latmode:=do_twiss+do_lpath;
-//writeln(diagfil,'******************** ',glob.dpp,' *******************');
     for i:=1 to Glob.NLatt do Lattel (i, j, latmode, Glob.dpp);
     vx[k]:=Beam.Qa-Qx_reference; vy[k]:=Beam.Qb-Qy_reference;
     lp[k]:=PathDiff;
@@ -1004,7 +1002,6 @@ begin
       cy[k]:=cy[k]+cd_matrix[k,i]*vy[i];
       path_al[k]:=path_al[k]+cd_matrix[k,i]*lp[i];
     end;
-//writeln(diagfil, k, 'order  Cx, Cy, Alpha : ', cx[k], cy[k], path_al[k]);
   end;
 { force order 0 to be zero, because using larger dppnumdiff may result in a fit which
   gives better results for higher orders but shifts order 0, however this shift is
@@ -1577,145 +1574,6 @@ begin
     for k:=15 to 22 do om1[k]:=c_mul(om1pre[k], PerFac1(nper,iom1[k,0],iom1[k,1],iom1[k,2],iom1[k,3]));
   end;
 
- {******************************************************
-
-
-writeln(diagfil);
-writeln(diagfil,'Sextupoles 1st order: mode, re, im, abs, phase');
-
-  for k:=0 to 9 do begin
-    tmp:=c_get(0,0);
-    for i:=0 to High(SexFam) do tmp:=c_add(tmp, c_sca(SM1pre[i,k], SexFam[i].ml));
-    tt[10+k]:=tmp;
-    writeln(diagfil,hamcap[k],c_re(tmp),'  ', c_im(tmp),'  ',  c_abs(tmp),'  ',  c_ang(tmp));
-  end;
-
-writeln(diagfil);
-writeln(diagfil,'p=1 modes: quadrupole contributions: mode, re, im, abs, phase');
-  tmp:=H2QxPre;
-    writeln(diagfil,hamcap[7],c_re(tmp),'  ', c_im(tmp),'  ',  c_abs(tmp),'  ',  c_ang(tmp));
-  tmp:=H2Qypre;
-    writeln(diagfil,hamcap[8],c_re(tmp),'  ', c_im(tmp),'  ',  c_abs(tmp),'  ',  c_ang(tmp));
-  tmp:=HQxPpre;
-    writeln(diagfil,hamcap[9],c_re(tmp),'  ', c_im(tmp),'  ',  c_abs(tmp),'  ',  c_ang(tmp));
-
-writeln(diagfil);
-writeln(diagfil,'p=1 modes: quadrupole plus sextupole: mode, re, im, abs, phase');
-  tmp:=c_add(tt[17], H2QxPre);
-    writeln(diagfil,hamcap[7],c_re(tmp),'  ', c_im(tmp),'  ',  c_abs(tmp),'  ',  c_ang(tmp));
-  tmp:=c_add(tt[18], H2Qypre);
-    writeln(diagfil,hamcap[8],c_re(tmp),'  ', c_im(tmp),'  ',  c_abs(tmp),'  ',  c_ang(tmp));
-  tmp:=c_add(tt[19], HQxPpre);
-    writeln(diagfil,hamcap[9],c_re(tmp),'  ', c_im(tmp),'  ',  c_abs(tmp),'  ',  c_ang(tmp));
-
-writeln(diagfil);
-writeln(diagfil,'Sextupoles 2nd order, single: index, mode, re, im, abs, phase');
-
-  for k:=15 to 22 do tt[k]:=c_get(0,0);
-  for i2:=0 to 17 do begin
-    tmp:=c_get(0,0);
-    for i:=0 to High(SexFam) do for j:=0 to High(SexFam) do tmp:=c_add(tmp, c_sca(Sm2dif[i*Length(SexFam)+j, i2],SexFam[i].ml*SexFam[j].ml) );
-    k:=ism2[i2,0];
-    tt[k]:=c_add(tt[k], tmp);
-    writeln(diagfil, i2:3,'  ', hamcap[k], '  ', c_re(tmp),'  ',  c_im(tmp),'  ',  c_abs(tmp),'  ',  c_ang(tmp));
-  end;
-
-writeln(diagfil);
-writeln(diagfil,'Sextupoles 2nd order: mode, re, im, abs, phase');
-
-  for k:=15 to 22 do  writeln(diagfil, hamcap[k], '  ', c_re(tt[k]),'  ',  c_im(tt[k]),'  ',  c_abs(tt[k]),'  ',  c_ang(tt[k]));
-
-writeln(diagfil);
-writeln(diagfil,'Octupoles 1st order: mode, re, im, abs, phase');
-
-  for k:=15 to 22 do begin
-    tmp:=c_get(0,0);
-    for i:=0 to High(OctuFam) do tmp:=c_add(tmp, c_sca(octuFam[i].om1pre[k], octuFam[i].b4L));
-    writeln(diagfil, hamcap[k], '  ', c_re(tmp),'  ',  c_im(tmp),'  ',  c_abs(tmp),'  ',  c_ang(tmp));
-  end;
-
-  writeln(diagfil);
-writeln(diagfil,'Sextupoles 2nd order + Octupoles 1st order: mode, re, im, abs, phase');
-
-  for k:=15 to 22 do begin
-    tmp:=c_get(0,0);
-    for i:=0 to High(OctuFam) do tmp:=c_add(tmp, c_sca(octuFam[i].om1pre[k], octuFam[i].b4L));
-    tmp:=c_add(tmp, tt[k]);
-    writeln(diagfil, hamcap[k], '  ', c_re(tmp),'  ',  c_im(tmp),'  ',  c_abs(tmp),'  ',  c_ang(tmp));
-  end;
-
-}
-  
-{******************************************************
-  alt?
-
-writeln(diagfil);
-writeln(diagfil,'Sextupoles 1st order: mode, re, im, abs, phase');
-
-  for k:=0 to 9 do begin
-    tmp:=c_get(0,0);
-    for i:=0 to High(SexFam) do tmp:=c_add(tmp, c_sca(SM1pre[i,k], SexFam[i].ml));
-    tt[10+k]:=tmp;
-    writeln(diagfil,ftos(c_re(tmp),15,4));
-  end;
-writeln(diagfil);
-  for k:=0 to 9 do begin
-    tmp:=c_get(0,0);
-    for i:=0 to High(SexFam) do tmp:=c_add(tmp, c_sca(SM1pre[i,k], SexFam[i].ml));
-    tt[10+k]:=tmp;
-    writeln(diagfil,ftos(c_im(tmp),15,4));
-  end;
-
-writeln(diagfil);
-writeln(diagfil,'p=1 modes: quadrupole contributions: re, im');
-  tmp:=H2QxPre; writeln(diagfil,ftos(c_re(tmp),15,4));
-  tmp:=H2Qypre; writeln(diagfil,ftos(c_re(tmp),15,4));
-  tmp:=HQxPpre; writeln(diagfil,ftos(c_re(tmp),15,4));
-writeln(diagfil);
-  tmp:=H2QxPre; writeln(diagfil,ftos(c_im(tmp),15,4));
-  tmp:=H2Qypre; writeln(diagfil,ftos(c_im(tmp),15,4));
-  tmp:=HQxPpre; writeln(diagfil,ftos(c_im(tmp),15,4));
-
-writeln(diagfil);
-writeln(diagfil,'p=1 modes: quadrupole plus sextupole: re, im');
-  tmp:=c_add(tt[17], H2QxPre);writeln(diagfil,ftos(c_re(tmp),15,4));
-  tmp:=c_add(tt[18], H2Qypre);writeln(diagfil,ftos(c_re(tmp),15,4));
-  tmp:=c_add(tt[19], HQxPpre);writeln(diagfil,ftos(c_re(tmp),15,4));
-writeln(diagfil);
-  tmp:=c_add(tt[17], H2QxPre);writeln(diagfil,ftos(c_im(tmp),15,4));
-  tmp:=c_add(tt[18], H2Qypre);writeln(diagfil,ftos(c_im(tmp),15,4));
-  tmp:=c_add(tt[19], HQxPpre);writeln(diagfil,ftos(c_im(tmp),15,4));
-
-  for k:=15 to 22 do tt[k]:=c_get(0,0);
-  for i2:=0 to 17 do begin
-    tmp:=c_get(0,0);
-    for i:=0 to High(SexFam) do for j:=0 to High(SexFam) do tmp:=c_add(tmp, c_sca(Sm2dif[i*Length(SexFam)+j, i2],SexFam[i].ml*SexFam[j].ml) );
-    k:=ism2[i2,0];
-    tt[k]:=c_add(tt[k], tmp);
-  end;
-
-writeln(diagfil);
-writeln(diagfil,'Sextupoles 2nd order: re, im ');
-
-  for k:=15 to 22 do  writeln(diagfil, ftos(c_re(tt[k]),14,5));
-writeln(diagfil);
-  for k:=15 to 22 do  writeln(diagfil, ftos(c_im(tt[k]),14,5));
-
-writeln(diagfil);
-writeln(diagfil,'Octupoles 1st order: mode, re, im, abs, phase');
-
-  for k:=15 to 22 do begin
-    tmp:=c_get(0,0);
-    for i:=0 to High(OctuFam) do tmp:=c_add(tmp, c_sca(octuFam[i].om1pre[k], octuFam[i].b4L));
-    writeln(diagfil, ftos(c_re(tmp),14,5));
-  end;
-writeln(diagfil);
-  for k:=15 to 22 do begin
-    tmp:=c_get(0,0);
-    for i:=0 to High(OctuFam) do tmp:=c_add(tmp, c_sca(octuFam[i].om1pre[k], octuFam[i].b4L));
-    writeln(diagfil, ftos(c_im(tmp),14,5));
-  end;
-}
 
 end;
 

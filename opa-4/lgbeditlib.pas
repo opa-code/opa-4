@@ -220,16 +220,10 @@ var
   dphi, phin: double;
   phis: array of double;
 begin
-//writeln(diagfil,'old curvatures');
-//for i:=0 to nsl-1 do write(diagfil,hs[i]:8:4); writeln(diagfil);
   dphi:=phi/nsl;
   setlength(phis, nsl+1);
   phis[0]:=0;
   for i:=1 to nsl do phis[i]:=phis[i-1]+hs[i-1]*ds[i-1];
-//writeln(diagfil,'old angles phis');
-//for i:=0 to nsl-1 do write(diagfil,phis[i]*degrad:8:4); writeln(diagfil);
-//writeln(diagfil,'old positions');
-//for i:=0 to nsl do write(diagfil,ss[i]:8:4); writeln(diagfil);
   for i:=1 to nsl-1 do begin
     phin:=i*dphi;
     for k:=1 to nsl-1 do if (phin-phis[k])*(phin-phis[k-1])<0 then begin
@@ -243,12 +237,6 @@ begin
     ds[i]:=ss[i+1]-ss[i];
     hs[i]:=dphi/ds[i];
   end;
-//writeln(diagfil,'new curvatures');
-//for i:=0 to nsl-1 do write(diagfil,hs[i]:8:4); writeln(diagfil);
-//writeln(diagfil,'new distances');
-//for i:=0 to nsl-1 do write(diagfil,ds[i]:8:4); writeln(diagfil);
-//writeln(diagfil,'new positions');
-//for i:=0 to nsl do write(diagfil,ss[i]:8:4); writeln(diagfil);
 end;
 
 procedure MakePlot;
@@ -330,10 +318,6 @@ begin
         setcolor(clRed); setThick(3);
         moveto(ss[0],betas[0]);  for i:=1 to nsl do LineTo(ss[i],betas[i]);
       end;
-//writeln(diagfil,'makeplot positions');
-//for i:=0 to nsl do write(diagfil,ss[i]:8:4); writeln(diagfil);
-//writeln(diagfil,'makeplot betas');
-//for i:=0 to nsl do write(diagfil,betas[i]:8:4); writeln(diagfil);
     end;
   end;
 end;
@@ -390,7 +374,6 @@ begin
         if setkbmax then begin
 //          if hs[ib] > 0.5*hsmax then kbmax:=(hsmax-hs[ib])/polwid else kbmax:=hs[ib]/polwid ;
           if hs[ib] > 0.5*hsmax then kbmax:=(hsmax-hs[ib])/polwid else kbmax:=hs[ib]/polwid*(hs[ib]/(0.5*hsmax));
-//          writeln(diagfil, hsmax, hs[ib], polwid, kbmax);
           kb_exp :=New(Elem_Exp_pt);
           kb_exp^:=FtoS(kbmax,10,6)+'*'+kbvarnam;
           kb:=kbmax;
@@ -460,7 +443,6 @@ begin
   ivarfnd:=-1;
   for i:=0 to High(Variable) do begin
     if (Pos(UpperCase(bn+'kpw'),UpperCase(Variable[i].nam))=1) then ivarfnd:=i;
-//    writeln(diagfil,bn+'kpw', '|', Variable[i].nam,'|', i,'|',ivarfnd,'|',Pos(UpperCase(bn+'kpw'),UpperCase(Variable[i].nam)));
   end;
   if (ivarfnd <> -1) then begin
     Variable[ivarfnd]:=Variable[High(Variable)];

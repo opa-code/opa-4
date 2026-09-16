@@ -38,7 +38,7 @@ type
     CH_Handle: array[0..nCHamilton-1] of TCHam;
     LabPen_handle: TLabel;
 //    osvd_act_handle: TCheckBox;
-    procedure PlotBar;
+//    procedure PlotBar;
   public
     procedure Init(i: integer; lp:TLabel);
     procedure Brothers(ch: array of TCHam);
@@ -115,6 +115,11 @@ begin
   mysetColor(MyColor);
   LabPen_handle:=lp;
   OctuPole_Handles:=nil;
+  with PanBar.Canvas do begin
+    brush.color:=clBlack;
+    pen.color:=PlotColor;
+    pen.mode:=pmCopy; //pmXor;
+  end;
 end;
 
 procedure TCHam.Brothers(ch: array of TCHam);
@@ -170,7 +175,8 @@ begin
   EdTarg.Font.Size  :=fs;
   EdWeight.Font.Size:=fs;
   PanBarHmid:=h div 2;
-  PlotBar;
+  PanBar.Canvas.pen.width:=PanBarHmid;
+  PanBar.Invalidate(); //PlotBar;
 end;
 
 //--------------------------------------------------------------------
@@ -199,27 +205,25 @@ end;
 procedure TCHam.UpDateHam;
 begin
   LabVal.Caption:=FtoS( HamShow[iham],7,2);
-  PlotBar;
+  PanBar.Invalidate(); //PlotBar;
 end;
 
 //--------------------------------------------------------------------
 
-procedure TCHam.PlotBar;
+{procedure TCHam.PlotBar;
 begin
   plotr:=Abs(HamAbs[iham]/valmax);
   if plotr>1 then plotr:=1.05;
   plotr:=plotr*PanBar.width;
   with PanBar.Canvas do begin
-//    writeln('plotbar ', iham,' ',plotr);
     MoveTo(-PanBarHmid,PanBarHmid);
     LineTo(round(oldplotr)-PanBarHmid, PanBarHmid);
     MoveTo(-PanBarHmid,PanBarHmid);
     LineTo(round(   plotr)-PanBarHmid, PanBarHmid);
-//    Show;
   end;
   oldplotr:=plotr;
-
 end;
+}
 
 //--------------------------------------------------------------------
 
@@ -229,11 +233,11 @@ begin
   if plotr>1 then oldplotr:=1.05;
   plotr:=plotr*PanBar.width;
   with PanBar.Canvas do begin
-    brush.color:=clBlack;
+//    brush.color:=clBlack;
     FillRect(Rect(0,0,width,height));
-    pen.color:=PlotColor;
-    pen.mode:=pmXor;
-    pen.width:=PanBarHmid;
+//    pen.color:=PlotColor;
+//    pen.mode:=pmCopy; //pmXor;
+//    pen.width:=PanBarHmid;
     MoveTo(-PanBarHmid,PanBarHmid);
     LineTo(round(   plotr)-PanBarHmid, PanBarHmid);
   end;
@@ -279,7 +283,7 @@ begin
   UpDateHam;
   for i:=0 to nCHamilton-1 do begin
     CH_Handle[i].SetValmax(HamAbsMax);
-    CH_Handle[i].PlotBar;
+    CH_Handle[i].Invalidate(); //PlotBar;
   end;
   if osvd_enable then begin
     Oct_svdcmp(true);
@@ -365,7 +369,7 @@ begin
       p:=Penalty;
       for i:=0 to nCHamilton-1 do begin
         CH_Handle[i].SetValmax(HamAbsMax);
-        CH_Handle[i].PlotBar;
+        CH_Handle[i].Invalidate(); //PlotBar;
       end;
     end;
     TDiagPlot;

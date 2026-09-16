@@ -12,7 +12,6 @@ object tuneplot: Ttuneplot
   Font.Name = 'MS Sans Serif'
   OnClose = FormClose
   OnCreate = FormCreate
-  OnPaint = FormPaint
   OnResize = FormResize
   LCLVersion = '2.2.0.4'
   object LabOrd: TLabel

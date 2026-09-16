@@ -70,7 +70,7 @@ var
   xv        : real;
   copyflag  : boolean;
   icode,  {errvcode,} i, k, kt, i2, i3, i4, i8: integer;
-  ilin: word;
+  ilin: integer;
   errint, nord_tmp: integer;
   keywfound, varfound: boolean;
   erreval, isexp: boolean;
@@ -116,11 +116,15 @@ begin
         else if gpar = 'ALLOCATION' then begin
           allocationFile:=work_dir+sval; allocationFlag:=true;
           if (Pos('.dat',allocationFile)=0) and (Pos('.DAT',allocationFile)=0)
-          then allocationFile:=allocationFile+'.dat';
+          then allocationFile:=allocationFile+'.DAT';
+          allocationFile:=Lowercase(allocationFile);
+//          writeln(allocationfile);
         end else if gpar = 'CALIBRATION' then begin
           calibrationFile:=work_dir+sval; calibrationFlag:=true;
           if (Pos('.dat',calibrationFile)=0) and (Pos('.DAT',calibrationFile)=0)
-          then calibrationFile:=calibrationFile+'.dat';
+          then calibrationFile:=Lowercase(calibrationFile)+'.DAT';
+          calibrationFile:=Lowercase(calibrationFile);
+//          writeln(calibrationfile);
         end else begin
           keywfound:=false;
           for i:=1 to nglobkeyw do begin
@@ -201,8 +205,6 @@ begin
       for k:=1 to Length(line) do
         if line[k]=',' then setlength(tok,length(tok)+1)
         else if line[k]<>' ' then tok[high(tok)]:=tok[high(tok)]+line[k];
-
-//      for k:=0 to high(tok) do write(diagfil, tok[k], ' | '); writeln(diagfil);
 
       icode:=99;
       for i:=0 to NElemKind+2 do if Pos(elemkeyw[i],tok[0])=1 then icode:=i;
@@ -1166,8 +1168,6 @@ begin
 // part 1: find the segment containing inverted bends or segments
   if latcode in nobendinv then begin
     nbinv:=   length(binvlist) ;
-//    writeln(diagfil,nbinv,' bends to be inverted: ');
-//    for j:=0 to High(binvlist) do writeln(diagfil, 'inverted bend '+binvlist[j]+'.');
 
     for i:=1 to Glob.NSegm do begin //0 or 1 ???
       p:=segm[i].ini;
@@ -1180,7 +1180,6 @@ begin
         p:=p^.nex;
       end;
     end;
-//    for j:=nbinv to High(binvlist) do writeln(diagfil, 'inverted segments '+binvlist[j]+'.');
   end;
 // end part 1
 
@@ -1334,7 +1333,6 @@ procedure madseqconvert(seqfile: string; var TextBuffer: pointer);
     inlin, s, seqline: string;
     tfIn: textfile;
     ifol, icom, i, k: integer;
-//    mlin: TstringList;
     chpt: CharBufpt;
     firstchar: boolean;
     ich: integer;
@@ -1440,7 +1438,6 @@ procedure madseqconvert(seqfile: string; var TextBuffer: pointer);
       inlin:='rtod='+ftos(degrad,12,8)+';';
       for ich:=1 to Length(inlin) do begin
         chpt:=AppendChar(chpt,inlin[ich]);
-//        write(diagfil, chpt.ch);
         if firstchar then begin
           TextBuffer:=chpt;
           firstchar:=false;
@@ -1555,7 +1552,6 @@ procedure madconvert(madfile: string; var TextBuffer: pointer);
     inlin, s: string;
     tfIn: textfile;
     ifol, icom: integer;
-//    mlin: TstringList;
     chpt: CharBufpt;
     firstchar: boolean;
     ich: integer;
@@ -1566,7 +1562,6 @@ procedure madconvert(madfile: string; var TextBuffer: pointer);
     try
       reset(tfIn);
       // Keep reading lines until the end of the file is reached
-//      mlin:=TStringList.Create;
       New(chpt);
       chpt.nex:=nil;
       firstchar:=true;
@@ -1609,18 +1604,13 @@ procedure madconvert(madfile: string; var TextBuffer: pointer);
               end;
             end;
             if inlin[high(inlin)]<>';' then inlin:=inlin+';';
-//            writeln(diagfil);
             for ich:=1 to Length(inlin) do begin
               chpt:=AppendChar(chpt,inlin[ich]);
             end;
-//            mlin.add(inlin);
-//            writeln(diagfil, inttostr(mlin.Count)+' '+mlin[mlin.Count-1]);
           end;
           inlin:='';
         end;
       end;
-
-//      mlin.Free;
       CloseFile(tfIn);
     except
       on E: EInOutError do
@@ -1638,7 +1628,6 @@ procedure lteconvert(ltefile: string; var TextBuffer: pointer);
     stmp: array of string;
     tfIn: textfile;
     ifol, icom: integer;
-//    mlin: TstringList;
     chpt: CharBufpt;
     firstchar: boolean;
     i,isto, ipop, ich, valcode, ival, iord: integer;
@@ -1650,14 +1639,12 @@ procedure lteconvert(ltefile: string; var TextBuffer: pointer);
     try
       reset(tfIn);
       // Keep reading lines until the end of the file is reached
-//      mlin:=TStringList.Create;
       New(chpt);
       chpt.nex:=nil;
       firstchar:=true;
       inlin:='rtod='+ftos(degrad,12,8)+';';
       for ich:=1 to Length(inlin) do begin
         chpt:=AppendChar(chpt,inlin[ich]);
-//        write(diagfil, chpt.ch);
         if firstchar then begin
           TextBuffer:=chpt;
           firstchar:=false;
@@ -1747,19 +1734,13 @@ procedure lteconvert(ltefile: string; var TextBuffer: pointer);
               end
             end;
             if inlin[high(inlin)]<>';' then inlin:=inlin+';';
-//            writeln(diagfil);
             for ich:=1 to Length(inlin) do begin
               chpt:=AppendChar(chpt,inlin[ich]);
-//              write(diagfil, chpt.ch);
             end;
-//            mlin.add(inlin);
-//            writeln(diagfil, inttostr(mlin.Count)+' '+mlin[mlin.Count-1]);
           end;
           inlin:='';
         end;
       end;
-
-//      mlin.Free;
       CloseFile(tfIn);
     except
       on E: EInOutError do
